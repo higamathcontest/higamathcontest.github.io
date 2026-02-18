@@ -94,6 +94,15 @@ main {
   flex: 1;
 }
 
+main a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+main a:hover {
+  color: var(--cyan);
+}
+
 /* ====== Card ====== */
 .card {
   padding: 2rem;
