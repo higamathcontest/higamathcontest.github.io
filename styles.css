@@ -88,6 +88,32 @@ nav a:hover {
   border-bottom: 1px solid var(--cyan);
 }
 
+/* ====== Footer ====== */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  border-top: 1px solid var(--border);
+  background: var(--bg-sub);
+}
+
+/* ====== LP-only ====== */
+header.landing-header,
+footer.landing-footer {
+  background-color: transparent;
+}
+
+footer.landing-footer {
+  border-top: none;
+}
+
+header.landing-header h1,
+header.landing-header a {
+  color: var(--black);
+}
+
 /* ====== Main ====== */
 main {
   padding: 2rem 1.5rem;
@@ -128,13 +154,3 @@ main a:hover {
   padding: 0.5rem 0;
 }
 
-/* ====== Footer ====== */
-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  border-top: 1px solid var(--border);
-  background: var(--bg-sub);
-}
