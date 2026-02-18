@@ -138,3 +138,103 @@ footer {
   border-top: 1px solid var(--border);
   background: var(--bg-sub);
 }
+
+/* ====== tools ====== */
+.tool-tabs{
+  display:flex;
+  gap:12px;
+  padding:12px;
+  border-radius:18px;
+  background: rgba(0,0,0,.06);
+  border: 1px solid rgba(0,0,0,.12);
+  overflow-x:auto;
+}
+
+.tool-tab{
+  border: 0;
+  cursor: pointer;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: transparent;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: .7;
+  transition: opacity .15s ease, transform .15s ease, background .15s ease;
+}
+.tool-tab:hover{ opacity: .95; transform: translateY(-1px); }
+
+/* 選択中タブ */
+.tool-tab.active{
+  opacity: 1;
+  background: rgba(0,0,0,.10);
+}
+
+/* 表示領域 */
+.tool-panel-wrap{
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(255,255,255,.8);
+  min-height: 220px;
+}
+
+/* パネル切り替え */
+.tool-panel{ display:none; }
+.tool-panel.active{ display:block; }
+
+
+
+/*素数表　*/
+
+.prime-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.prime-table tbody {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0px;
+  padding: 0px;
+}
+
+.prime-table tr {
+  display: contents;
+}
+
+.prime-table td {
+  flex: 1 0 clamp(44px, 6.5vw, 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  border: 0px;
+  outline: 1px solid rgba(0,0,0,0.15);
+  outline-offset: -1px;
+  background: #fff;
+  user-select: none;
+}
+/*　ホバー　いらんくね
+.prime-table td:hover {
+  background: rgba(0,0,0,0.04);
+}
+*/
+
+@media (min-width: 992px) {
+  .prime-table td {
+    height: 36px;
+    flex-basis: clamp(42px, 4.2vw, 64px);
+  }
+}
+
+@media (max-width: 600px) {
+  .prime-table td {
+    height: 44px;
+    flex-basis: clamp(52px, 12vw, 80px);
+    font-size: 1rem;
+  }
+}
