@@ -107,10 +107,6 @@ main a {
   text-decoration: underline;
 }
 
-main a:hover {
-  color: var(--cyan);
-}
-
 /* ====== Card ====== */
 .card {
   padding: 2rem;
@@ -312,4 +308,24 @@ body.landing::before {
               radial-gradient(circle at 50% 75%, #bfefff 0%, transparent 60%);
 
   opacity: 0.8;
+}
+
+/* ====== ContestInfo ====== */
+
+.contest-info {
+  margin: 2rem;
+}
+
+.contest-info a {
+  text-decoration: none;
+}
+
+.contest-details {
+  padding: 1.5rem;
+  border: 1.5px dotted var(--black);
+}
+
+.contest-details h3,
+.contest-details p {
+  margin: 0.25rem 0;
 }
