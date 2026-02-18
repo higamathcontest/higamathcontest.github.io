@@ -107,10 +107,6 @@ main a {
   text-decoration: underline;
 }
 
-main a:hover {
-  color: var(--cyan);
-}
-
 /* ====== Card ====== */
 .card {
   padding: 2rem;
@@ -143,8 +139,7 @@ footer {
   font-size: 0.8rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
-  border-top: 1px solid var(--border);
-  background: var(--bg-sub);
+  background: transparent;
 }
 
 /* ====== tools ====== */
@@ -246,8 +241,96 @@ footer {
     font-size: 1rem;
   }
 }
-  background-color: transparent;
+
+.prime-table td{
+  position: relative;
+  padding-top: 10px;
 }
+
+.prime-table td::before{
+  content: "#" attr(data-i);
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  font-size: 0.62rem;
+  line-height: 1;
+  color: rgba(0,0,0,0.45);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+
+/* power table */
+.power-wrap{ display: grid; gap: 12px; }
+.power-bases{
+  display:flex;
+  gap:10px;
+  padding:10px;
+  border-radius:18px;
+  background: rgba(0,0,0,.06);
+  border: 1px solid rgba(0,0,0,.12);
+  overflow-x:auto;
+}
+.power-base-btn{
+  border:0;
+  cursor:pointer;
+  padding:10px 14px;
+  border-radius:14px;
+  background: transparent;
+  font-weight:700;
+  white-space:nowrap;
+  opacity:.7;
+  transition: opacity .15s ease, transform .15s ease, background .15s ease;
+}
+.power-reset:hover{ opacity: 1; }
+.power-hint{ margin: 0; font-size: .82rem; color: rgba(0,0,0,.55); }
+.power-table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+.power-table-wrap{
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: #fff;
+  overflow-x: auto;
+  overflow-y: visible;
+  max-height: none;
+}
+
+.power-table th, .power-table td{
+  border-bottom: 1px solid rgba(0,0,0,.10);
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+.power-table thead th{
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,.98);
+  backdrop-filter: blur(6px);
+  z-index: 2;
+  font-size: .85rem;
+  letter-spacing: .03em;
+  color: rgba(0,0,0,.70);
+}
+.power-table .col-n{ width: 70px; text-align: right; }
+.power-table .col-digits{ width: 90px; text-align: right; }
+.power-table td.col-n, .power-table td.col-digits{ text-align: right; font-weight: 700; }
+.power-val{
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: auto;
+}
+.power-row:hover{ background: rgba(0,0,0,.03); }
+
+.power-base-btn.active{
+  opacity: 1;
+  background: rgba(0,0,0,.12);
+  
+}
+
 
 footer a {
   color: var(--cyan);
@@ -314,4 +397,24 @@ body.landing::before {
               radial-gradient(circle at 50% 75%, #bfefff 0%, transparent 60%);
 
   opacity: 0.8;
+}
+
+/* ====== ContestInfo ====== */
+
+.contest-info {
+  margin: 2rem;
+}
+
+.contest-info a {
+  text-decoration: none;
+}
+
+.contest-details {
+  padding: 1.5rem;
+  border: 1.5px dotted var(--black);
+}
+
+.contest-details h3,
+.contest-details p {
+  margin: 0.25rem 0;
 }
