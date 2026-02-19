@@ -16,7 +16,7 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
     - 学年  を保存。
     user_id（PK、自動生成）を持つ Record を INSERT し、それぞれ
     - username
-    - grade
+    - grade<br>
     に保存。 
     - Teams で告知する HiGA Key を入力する Input 欄を配置。database/contest-settings を参照して判定。
     - 規約同意の旨の確認のための Checkbox を配置する。
