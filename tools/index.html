@@ -25,48 +25,22 @@
   </header>
 
   <main>
+  <div class="card tool-tabs-wrap">
+    <h2>ツール</h2>
+    <!-- 見出し -->
+    <div class="tool-tabs" role="tablist" aria-label="ツール切り替え">
+      <button class="tool-tab active" role="tab" aria-selected="true" data-target="prime">素数表</button>
+      <button class="tool-tab" role="tab" aria-selected="false" data-target="power">累乗表</button>
+    </div>
 
-      <h2>ツール</h2>
-<div class="tool-tabs-wrap">
+    <!-- 表示領域 -->
+    <div class="tool-panel-wrap">
 
-  <!-- 見出し -->
-  <div class="tool-tabs" role="tablist" aria-label="ツール切り替え">
-    <button class="tool-tab active" role="tab" aria-selected="true" data-target="calc">電卓</button>
-    <button class="tool-tab" role="tab" aria-selected="false" data-target="prime">素数表</button>
-    <button class="tool-tab" role="tab" aria-selected="false" data-target="power">累乗表</button>
-  </div>
-
-  <!-- 表示領域 -->
-  <div class="tool-panel-wrap">
-    <!-- 電卓　要検討 -->
-    <section class="tool-panel active" role="tabpanel" id="calc">
-      <div id="calculator">
-    
-        <input type="text" id="display" name="display">
-        <button onclick="inputNumber('1')">1</button>
-        <button onclick="inputNumber('2')">2</button>
-        <button onclick="inputNumber('3')">3</button>
-        <button onclick="inputOperator('+')">+</button>
-        <button onclick="inputNumber('4')">4</button>
-        <button onclick="inputNumber('5')">5</button>
-        <button onclick="inputNumber('6')">6</button>
-        <button onclick="inputOperator('-')">-</button>
-        <button onclick="inputNumber('7')">7</button>
-        <button onclick="inputNumber('8')">8</button>
-        <button onclick="inputNumber('9')">9</button>
-        <button onclick="inputOperator('*')">*</button>
-        <button onclick="inputNumber('0')">0</button>
-        <button onclick="clearDisplay()">C</button>
-        <button type="button" onclick="calculateResult()">=</button>
-        <button onclick="inputOperator('/')">/</button>
-      </div>
-      
-
-
-    </section>
-    <!-- 素数表 -->
-    <section class="tool-panel" role="tabpanel" id="prime">
-      <table class="prime-table">
+      <!-- 素数表 -->
+      <section class="tool-panel active" role="tabpanel" id="prime">
+        <table class="prime-table">
+          <tbody>
+            <tr>
               <tbody>
                 <tr>
                   <td>2</td>
@@ -1303,52 +1277,47 @@
                   <td>10007</td>
                 </tr>
               </tbody>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 累乗表 -->
+      <section class="tool-panel" role="tabpanel" id="power">
+        <div class="power-wrap">
+
+          <!-- 基数選ぶ -->
+          <div class="power-bases" aria-label="基数の選択"></div>
+
+          <!-- 設定（指数の最大） -->
+          <div class="power-controls" aria-label="表示設定">
+            <label class="power-control">
+              <span>指数の最大</span>
+              <input id="power-max-exp" type="number" min="5" max="200" step="1" value="30">
+            </label>
+            <button class="power-reset" type="button" id="power-reset">リセット</button>
+            <p class="power-hint">基数と指数の最大値を変更できます。</p>
+          </div>
+
+          <div class="power-table-wrap">
+            <table class="power-table" aria-label="累乗表">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-n">n</th>
+                  <th scope="col" class="col-val"><span id="power-head">a^n</span></th>
+                  <th scope="col" class="col-digits">桁数</th>
+                </tr>
+              </thead>
+              <tbody id="power-body"></tbody>
             </table>
-    </section>
+          </div>
 
+        </div>
+      </section>
 
-
-<!-- 累乗表 -->
-<section class="tool-panel" role="tabpanel" id="power">
-  <div class="power-wrap">
-
-    <!-- 基数選ぶ -->
-    <div class="power-bases" aria-label="基数の選択"></div>
-
-    <!-- 設定（指数の最大） -->
-    <div class="power-controls" aria-label="表示設定">
-      <label class="power-control">
-        <span>指数の最大</span>
-        <input id="power-max-exp" type="number" min="5" max="200" step="1" value="30">
-      </label>
-      <button class="power-reset" type="button" id="power-reset">リセット</button>
-      <p class="power-hint">基数と指数の最大値を変更できます。</p>
     </div>
-
-    <div class="power-table-wrap">
-      <table class="power-table" aria-label="累乗表">
-        <thead>
-          <tr>
-            <th scope="col" class="col-n">n</th>
-            <th scope="col" class="col-val"><span id="power-head">a^n</span></th>
-            <th scope="col" class="col-digits">桁数</th>
-          </tr>
-        </thead>
-        <tbody id="power-body"></tbody>
-      </table>
-    </div>
-
   </div>
-</section>
-
-
-
-</div>
-</div>
-
-
-</div>
-  </main>
+</main>
 
   <footer>
     © HiGA Math Contest
