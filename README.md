@@ -13,16 +13,16 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
 
 1. 参加登録(/register)にて、
     - ユーザー名
-    - 学年  を保存。
-    user_id（PK、自動生成）を持つ Record を INSERT し、それぞれ
+    - 学年<br>
+    を保存。user_id（PK、自動生成）を持つ Record を INSERT し、それぞれ<br>
     - username
     - grade<br>
     に保存。 
     - Teams で告知する HiGA Key を入力する Input 欄を配置。database/contest-settings を参照して判定。
-    - 規約同意の旨の確認のための Checkbox を配置する。
+    - 規約同意の旨の確認のための Checkbox を配置する。<br>
     を保存する
 
-2. user_id は、ブラウザの localStorage にも保存。user_id (localStorage) => user_id(database) => user_id(それぞれのtable) => 様々な情報。usernameの役割は表示名のみ。
+2. user_id は、ブラウザの localStorage にも保存。<br>user_id (localStorage) => user_id(database) => user_id(それぞれのtable) => 様々な情報。<br>usernameの役割は表示名のみ。
 
 3. database は以下の内容を保存する。（重要）
 
@@ -31,7 +31,7 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
         - username：ユーザー名 Unique 制約
         - grade：学年
         - score：合計スコア
-        - penalty：ペナルティ数
+        - penalty：ペナルティ数<br>
         内部識別はuser_id
         
     - ② Problems：問題（公開）
@@ -40,7 +40,7 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
         - field：分野（A, N, C, G）
         - content：問題（status == running で公開）*
         - correct：正解（絶対に隠す）
-        - explanation：解説（status == finished で公開）
+        - explanation：解説（status == finished で公開）<br>
         *TeX表記を含む。JSで取得→innerHTMLで挿入→MathJaxでレンダリングで実現可能。
 
     - ③ Submissions：回答提出
