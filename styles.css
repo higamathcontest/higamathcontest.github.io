@@ -496,3 +496,340 @@ body.register-bg::before {
 .contest-details p {
   margin: 0.25rem 0;
 }
+
+
+/* contest problems */
+
+/* ===== Contest Grid ===== */
+
+/* 最後の列以外に縦線 */
+.contest-col:not(:last-child)::after{
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  right: -8px;
+  width: 1px;
+  background: rgba(0,0,0,0.12);
+}
+
+.contest-grid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.contest-col{
+  padding: 14px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  position: relative;
+}
+
+.contest-col h3{
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  letter-spacing: 0.2px;
+}
+
+.contest-links{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.contest-links a{
+  position: relative; /* ← 超重要 */
+  display: block;
+  padding: 10px 52px 10px 12px; /* ← 右に余白を作る */
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+
+.contest-links a:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.95);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 980px){
+  .contest-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px){
+  .contest-grid{ grid-template-columns: 1fr; }
+}
+
+
+/* 点数のやつ */
+.score{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  white-space: nowrap;
+}
+
+/*以下問題のページのデザイン*/
+body.problem-bg{
+  background: #ffffff;
+}
+
+.problem-header{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.back-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.problem-meta{
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.problem-title{
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+
+.problem-sub{
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+
+.problem-sub .pts{
+  font-weight: 800;
+}
+
+.problem-wrap{
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 16px 18px 24px;
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+
+
+.panel{
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(6px);
+  padding: 14px;
+}
+
+.panel h2{
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.calc-panel{ grid-column: 1; grid-row: 1; }
+.statement-panel{ grid-column: 2; grid-row: 1; }
+.submit-panel{ grid-column: 1 / -1; grid-row: 2; }
+
+/*問題文のとこ*/
+.statement{
+  line-height: 1.7;
+}
+
+.statement-box{
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(0,0,0,0.18);
+  background: rgba(255,255,255,0.7);
+}
+
+/* 電卓OMCパクリ */
+.calc-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.calc-icon{
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,0.10);
+  background:#fff;
+  font-size:20px;
+}
+
+.calc-title{ margin:0; font-size:1.2rem; }
+.calc-sub{ margin:4px 0 0; opacity:.7; font-size:.9rem; }
+
+.calc-shell{
+
+  border-radius:18px;
+  background:#fff;
+  padding:14px;
+}
+
+.calc-display{
+  width:100%;
+  height:56px;
+  border-radius:0px;
+  border:1px solid rgba(0,0,0,0.12);
+  padding:0 14px;
+  font-size:1.6rem;
+  text-align:right;
+  font-variant-numeric: tabular-nums;
+  outline:none;
+}
+
+.calc-grid5{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap:0;
+}
+
+.calc-btn{
+  height:56px;
+  border:none;
+  border-radius:0;
+  background:transparent;
+
+  font-size:1.25rem;
+  font-weight:700;
+  color:rgba(0,0,0,0.60);
+
+  cursor:pointer;
+  user-select:none;
+
+  transition: background .12s ease, transform .12s ease, color .12s ease;
+
+  border-right: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.calc-btn[data-num]{
+  color: rgba(0,0,0,0.68);
+}
+
+.calc-btn:nth-child(5n){
+  border-right:none;
+}
+
+.calc-btn:nth-last-child(-n+5){
+  border-bottom:none;
+}
+
+.calc-btn:active{
+  background: rgba(0,0,0,0.06);
+  transform: translateY(1px);
+}
+
+.calc-btn.is-last{
+  background: rgba(0,0,0,0.07);
+  color: rgba(0,0,0,0.78);
+}
+
+.calc-btn.op{
+  background: transparent;
+}
+
+.calc-btn.op.is-active{
+  background: rgba(0,0,0,0.10);
+  color: rgba(0,0,0,0.78);
+}
+
+.calc-btn.eq{
+  background: transparent;
+  color: rgba(0,0,0,0.68);
+  font-weight:700;
+}
+
+.calc-btn:focus-visible{
+  outline: 3px solid rgba(120,160,255,0.55);
+  outline-offset: 2px;
+}
+
+.calc-hint{
+  margin:12px 2px 0;
+  font-size:.85rem;
+  opacity:.7;
+}
+
+.submit-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.submit-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 700;
+}
+
+.answer-embed{
+  width: 100%;
+  height: 520px;
+  border: none;
+  border-radius: 14px;
+  background: #fff;
+}
+
+@media (max-width: 900px){
+  .problem-wrap{
+    grid-template-columns: 1fr;
+  }
+  .calc-panel{ grid-column: 1; grid-row: 1; }
+  .statement-panel{ grid-column: 1; grid-row: 2; }
+  .submit-panel{ grid-column: 1; grid-row: 3; }
+}
+.panel{
+  border: none;
+}
+
+/*以上問題のページのデザイン*/
