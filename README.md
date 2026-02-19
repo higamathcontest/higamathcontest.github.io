@@ -13,8 +13,7 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
 
 1. 参加登録(/register)にて、
     - ユーザー名
-    - 学年
-    を保存。
+    - 学年  を保存。
     user_id（PK、自動生成）を持つ Record を INSERT し、それぞれ
     - username
     - grade
