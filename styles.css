@@ -380,7 +380,14 @@ footer a {
 }
 
 /* ====== TOP Animated Gradient Background ====== */
-body.landing {
+
+body.landing,
+body.overview-bg,
+body.rules-bg,
+body.tool-bg,
+body.contest-bg,
+body.ranking-bg,
+body.register-bg{
   position: relative;
   overflow-x: hidden;
   background: #ffffff;
@@ -391,12 +398,83 @@ body.landing::before {
   position: fixed;
   inset: -50%;
   z-index: -1;
-
-  background: radial-gradient(circle at 30% 30%, #c8f3d4 0%, transparent 60%),
-              radial-gradient(circle at 70% 40%, #cfe7ff 0%, transparent 60%),
-              radial-gradient(circle at 50% 75%, #bfefff 0%, transparent 60%);
-
   opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #c8f3d4 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #cfe7ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #bfefff 0%, transparent 60%);
+}
+
+body.overview-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #c2f1df 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #c7ddff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #b4e7ff 0%, transparent 60%);
+}
+
+body.rules-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #d1eef1 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #d7d6ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #b8d8ff 0%, transparent 60%);
+}
+
+body.tool-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #dbe6ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #e6d9ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #c9d6ff 0%, transparent 60%);
+}
+
+body.contest-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #e2e8ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #efe6ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #f7d9e7 0%, transparent 60%);
+}
+
+body.ranking-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #e9e3ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #f3edff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #fbe3ea 0%, transparent 60%);
+}
+
+body.register-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #f7ecff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #fff0e3 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #ffe3ee 0%, transparent 60%);
 }
 
 /* ====== ContestInfo ====== */
