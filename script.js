@@ -1,5 +1,5 @@
 /* ===============================
-    （/tools）ツール全体
+   （/tools）ツール全体
 =============================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -35,9 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
   =============================== */
 
   const primeCells = document.querySelectorAll(".prime-table td");
-
   primeCells.forEach((td, i) => {
-    td.dataset.i = i + 1;   // ← ここで #番号 を付与
+    td.dataset.i = i + 1;
   });
 
 
@@ -68,8 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
       value *= b;
       const str = value.toString();
 
-        const tr = document.createElement("tr");
-
+      const tr = document.createElement("tr");
       tr.innerHTML = `
         <td class="col-n">${n}</td>
         <td class="power-val" data-copy="${str}">${str}</td>
@@ -78,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       tbody.appendChild(tr);
     }
-
   }
 
   function setActiveBaseButton() {
@@ -105,26 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setActiveBaseButton();
         buildTable(currentBase);
       });
-    }
 
-    function buildBaseButtons() {
-      basesEl.innerHTML = "";
-      for (let a = baseMin; a <= baseMax; a++) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "power-base-btn";
-        btn.textContent = String(a);
-        btn.dataset.base = String(a);
-
-        btn.addEventListener("click", () => {
-          currentBase = a;
-          setActiveBaseButton();
-          buildTable(currentBase, getMaxExp()); // ← maxExpInputが無くてもOK
-        });
-
-        basesEl.appendChild(btn);
-      }
-      setActiveBaseButton();
+      basesEl.appendChild(btn);
     }
 
     setActiveBaseButton();
@@ -136,9 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
 /* ===============================
 (/contest/..)電卓
+=============================== */
 
 function inputNumber(number) {
           var display = document.getElementById('display');
