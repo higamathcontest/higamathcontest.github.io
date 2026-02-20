@@ -197,6 +197,34 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnOrNull) btnOrNull.classList.add("is-active");
   };
 
+  // ===== copy button (left-top icon) =====
+const copyBtn = document.getElementById("calc-copy");
+
+copyBtn?.addEventListener("click", async () => {
+  const text = display.value;
+  let ok = false;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    ok = true;
+  } catch {
+    try {
+      // fallback
+      display.focus();
+      display.select();
+      ok = document.execCommand("copy");
+    } catch {}
+  }
+
+  if (!ok) return;
+
+  // ✓ に一瞬変化
+  copyBtn.classList.add("is-copied");
+  setTimeout(() => copyBtn.classList.remove("is-copied"), 900);
+});
+
+
+
   // 最後に押したボタン
   const setLastPressed = (btnOrNull) => {
     document
@@ -541,5 +569,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setDisplay(entry);
 });
-
 //以上電卓

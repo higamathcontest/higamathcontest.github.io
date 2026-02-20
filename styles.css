@@ -484,7 +484,16 @@ body.register-bg::before {
 }
 
 .contest-info a {
+  position: relative;
+  display: block;
   text-decoration: none;
+  color: inherit;
+  transition: transform .12s ease, box-shadow .60s ease, background .12s ease;
+}
+
+.contest-info a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
 }
 
 .contest-details {
@@ -542,9 +551,9 @@ body.register-bg::before {
 }
 
 .contest-links a{
-  position: relative; /* ← 超重要 */
+  position: relative;
   display: block;
-  padding: 10px 52px 10px 12px; /* ← 右に余白を作る */
+  padding: 10px 52px 10px 12px;
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
@@ -738,6 +747,7 @@ body.problem-bg{
   text-align:right;
   font-variant-numeric: tabular-nums;
   outline:none;
+  padding-left: 36px; /* 左上アイコンの余白 */
 }
 
 .calc-grid5{
@@ -813,6 +823,53 @@ body.problem-bg{
   font-size:.85rem;
   opacity:.7;
 }
+
+/* ===== display copy button ===== */
+
+.calc-display-wrap{
+  position: relative;
+}
+
+.calc-copy-btn{
+  position: absolute;
+  top: 6px;
+  left: 6px;
+
+  border: none;
+  background: transparent;
+  padding: 4px;
+  cursor: pointer;
+
+  color: #666;
+  opacity: 0.75;
+  transition: all .15s ease;
+}
+
+.calc-copy-btn:hover{
+  opacity: 1;
+  color: #111;
+  transform: scale(1.08);
+}
+
+.calc-copy-btn:active{
+  transform: scale(0.95);
+}
+
+/* アイコン切替 */
+
+.icon-check{
+  display: none;
+  color: #16a34a;
+}
+
+.calc-copy-btn.is-copied .icon-copy{
+  display: none;
+}
+
+.calc-copy-btn.is-copied .icon-check{
+  display: block;
+}
+
 
 .submit-actions{
   display: flex;
