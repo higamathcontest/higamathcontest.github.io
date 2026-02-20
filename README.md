@@ -1,5 +1,5 @@
 # higamathcontest.github.io
-HiGA Math Contest を円滑に運営するための特設サイトです。
+HiGA Math Contest を円滑に運営するための特設サイトです。<br>
 開発者によるメモ書きとかしている
 
 
@@ -38,6 +38,7 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
         - problem_id (uuid) Primary Key
         - score：点数
         - field：分野（A, N, C, G）
+        - problem_number：分野別番号
         - content：問題（status == running で公開）*
         - correct：正解（絶対に隠す）
         - explanation：解説（status == finished で公開）<br>
@@ -100,3 +101,4 @@ HiGA Math Contest を円滑に運営するための特設サイトです。
 ルール・概要・規約をどのページに置くか、少し散らばり気味では？
 運営を脅かすようなサイバー的侵入・破壊の厳禁を記載。
 複数アカウント所持の厳禁
+ハンバーガーメニュー

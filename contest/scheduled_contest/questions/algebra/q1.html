@@ -10,7 +10,7 @@
 
 <body class="problem-bg">
   <header class="problem-header">
-    <a class="back-btn" href="/contest/index.html">← 戻る</a>
+    <a class="back-btn" href="/contest/scheduled_contest/index.html">← 戻る</a>
     <div class="problem-meta">
       <div class="problem-title">代数　Algebra - Problem 1</div>
       <div class="problem-sub">Points: <span class="pts">100</span></div>
@@ -19,16 +19,35 @@
 
   <main class="problem-wrap">
     <!-- 左：電卓 -->
-    <section class="panel calc-panel">
+  <section class="panel calc-panel">
   <div class="calc-head">
     <div>
       <h2 class="calc-title">電卓</h2>
       <p class="calc-sub">有効桁数15桁。キーボード対応。</p>
     </div>
   </div>
-
+  
   <div class="calc-shell" aria-label="calculator">
-    <input id="calc-display" class="calc-display" value="0" readonly aria-label="display">
+
+  <div class="calc-display-wrap">
+  <input id="calc-display" class="calc-display" value="0" readonly aria-label="display">
+  <button id="calc-copy" class="calc-copy-btn" aria-label="Copy">
+    <!-- copy icon -->
+    <svg class="icon-copy" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <rect x="9" y="9" width="11" height="11" rx="2"
+            fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <rect x="4" y="4" width="11" height="11" rx="2"
+            fill="none" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+
+    <!-- check icon -->
+    <svg class="icon-check" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <polyline points="5 13 10 18 19 7"
+        fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
 
     <div class="calc-grid5">
       <button class="calc-btn" data-act="sqrt">√</button>

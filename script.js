@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       value *= b;
       const str = value.toString();
 
-      const tr = document.createElement("tr");
+        const tr = document.createElement("tr");
 
       tr.innerHTML = `
         <td class="col-n">${n}</td>
@@ -105,8 +105,26 @@ document.addEventListener("DOMContentLoaded", () => {
         setActiveBaseButton();
         buildTable(currentBase);
       });
+    }
 
-      basesEl.appendChild(btn);
+    function buildBaseButtons() {
+      basesEl.innerHTML = "";
+      for (let a = baseMin; a <= baseMax; a++) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "power-base-btn";
+        btn.textContent = String(a);
+        btn.dataset.base = String(a);
+
+        btn.addEventListener("click", () => {
+          currentBase = a;
+          setActiveBaseButton();
+          buildTable(currentBase, getMaxExp()); // ← maxExpInputが無くてもOK
+        });
+
+        basesEl.appendChild(btn);
+      }
+      setActiveBaseButton();
     }
 
     setActiveBaseButton();
@@ -121,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* ===============================
 (/contest/..)電卓
-=============================== */
 
 function inputNumber(number) {
           var display = document.getElementById('display');
@@ -159,8 +176,6 @@ function inputNumber(number) {
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("calc-display");
   if (!display) return;
-
-  // ===== UI helper =====
   const setActiveOpButton = (btnOrNull) => {
     document
       .querySelectorAll(".calc-btn.op.is-active")
@@ -168,7 +183,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnOrNull) btnOrNull.classList.add("is-active");
   };
 
-  // 最後に押したボタン（灰色で残す）
+  // ===== copy button (left-top icon) =====
+const copyBtn = document.getElementById("calc-copy");
+
+copyBtn?.addEventListener("click", async () => {
+  const text = display.value;
+  let ok = false;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    ok = true;
+  } catch {
+    try {
+      // fallback
+      display.focus();
+      display.select();
+      ok = document.execCommand("copy");
+    } catch {}
+  }
+
+  if (!ok) return;
+
+  // ✓ に一瞬変化
+  copyBtn.classList.add("is-copied");
+  setTimeout(() => copyBtn.classList.remove("is-copied"), 900);
+});
+
+
+
+  // 最後に押したボタン
   const setLastPressed = (btnOrNull) => {
     document
       .querySelectorAll(".calc-btn.is-last")
@@ -176,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnOrNull) btnOrNull.classList.add("is-last");
   };
 
-  // キーボード入力でも該当ボタンを光らせるための検索
+  // キーボード入力用
   const findOpButton = (op) =>
     document.querySelector(`.calc-btn.op[data-op="${CSS.escape(op)}"]`);
   const findNumButton = (ch) =>
@@ -184,7 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const findActButton = (act) =>
     document.querySelector(`.calc-btn[data-act="${CSS.escape(act)}"]`);
 
-  // ===== state =====
   let entry = "0";
   let stored = null;
   let pendingOp = null;
@@ -259,9 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const inputDigit = (ch) => {
-    // 数字を入力したら「演算子選択中」は解除（電卓っぽい）
     setActiveOpButton(null);
-
     if (justEvaluated) {
       entry = "0";
       justEvaluated = false;
@@ -427,7 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = e.target.closest("button");
     if (!btn) return;
 
-    setLastPressed(btn); // ←最後に押したボタンを灰色で残す
+    setLastPressed(btn); //灰色で残す
 
     if (btn.dataset.num != null) {
       inputDigit(btn.dataset.num);
@@ -435,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (btn.dataset.op) {
-      setActiveOpButton(btn); // ←演算子は青で残す
+      setActiveOpButton(btn);
       pressOp(btn.dataset.op);
       return;
     }
@@ -515,5 +555,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setDisplay(entry);
 });
-
 //以上電卓
