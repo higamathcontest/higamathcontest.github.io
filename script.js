@@ -136,9 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
 /* ===============================
-(/contest/..)電卓
+    （/tools）ツール全体
+=============================== */
 
 function inputNumber(number) {
           var display = document.getElementById('display');
