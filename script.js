@@ -1,5 +1,145 @@
+/* ===============================
+    （/tools）ツール全体
+=============================== */
 
-//電卓
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===============================
+     タブ切替
+  =============================== */
+
+  const tabs = document.querySelectorAll(".tool-tab");
+  const panels = document.querySelectorAll(".tool-panel");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+
+      tabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+
+      panels.forEach(p => p.classList.remove("active"));
+
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+
+      const target = document.getElementById(tab.dataset.target);
+      if (target) target.classList.add("active");
+    });
+  });
+
+
+  /* ===============================
+     素数ナンバリング
+  =============================== */
+
+  const primeCells = document.querySelectorAll(".prime-table td");
+
+  primeCells.forEach((td, i) => {
+    td.dataset.i = i + 1;   // ← ここで #番号 を付与
+  });
+
+
+  /* ===============================
+     累乗表ツール
+  =============================== */
+
+  const head = document.getElementById("power-head");
+  const tbody = document.getElementById("power-body");
+  const basesEl = document.querySelector(".power-bases");
+
+  if (!head || !tbody || !basesEl) return;
+
+  const MAX_EXP = 100;
+  const BASE_MIN = 2;
+  const BASE_MAX = 20;
+
+  let currentBase = 2;
+
+  function buildTable(base) {
+    head.innerHTML = `${base}<sup>n</sup>`;
+    tbody.innerHTML = "";
+
+    let value = 1n;
+    const b = BigInt(base);
+
+    for (let n = 1; n <= MAX_EXP; n++) {
+      value *= b;
+      const str = value.toString();
+
+        const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td class="col-n">${n}</td>
+        <td class="power-val" data-copy="${str}">${str}</td>
+        <td class="col-digits">${str.length}</td>
+      `;
+
+      tbody.appendChild(tr);
+    }
+
+  }
+
+  function setActiveBaseButton() {
+    basesEl.querySelectorAll(".power-base-btn").forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        Number(btn.dataset.base) === currentBase
+      );
+    });
+  }
+
+  function buildBaseButtons() {
+    basesEl.innerHTML = "";
+
+    for (let a = BASE_MIN; a <= BASE_MAX; a++) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "power-base-btn";
+      btn.textContent = a;
+      btn.dataset.base = a;
+
+      btn.addEventListener("click", () => {
+        currentBase = a;
+        setActiveBaseButton();
+        buildTable(currentBase);
+      });
+    }
+
+    function buildBaseButtons() {
+      basesEl.innerHTML = "";
+      for (let a = baseMin; a <= baseMax; a++) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "power-base-btn";
+        btn.textContent = String(a);
+        btn.dataset.base = String(a);
+
+        btn.addEventListener("click", () => {
+          currentBase = a;
+          setActiveBaseButton();
+          buildTable(currentBase, getMaxExp()); // ← maxExpInputが無くてもOK
+        });
+
+        basesEl.appendChild(btn);
+      }
+      setActiveBaseButton();
+    }
+
+    setActiveBaseButton();
+  }
+
+  /* 初期化 */
+  buildBaseButtons();
+  buildTable(currentBase);
+
+});
+
+
+/* ===============================
+(/contest/..)電卓
+
 function inputNumber(number) {
           var display = document.getElementById('display');
           display.value += number;
@@ -32,161 +172,7 @@ function inputNumber(number) {
           document.getElementById('calculation-result').innerText = ''; 
       }
 
-//素数表
-  document.addEventListener("DOMContentLoaded", () => {
-    const primePanel = document.getElementById("prime");
-    if (!primePanel) return;
-
-    const cells = primePanel.querySelectorAll("td");
-    cells.forEach((td, idx) => {
-      td.setAttribute("data-i", String(idx + 1));
-    });
-  });
-
-//累乗表
-document.addEventListener("DOMContentLoaded", () => {
-  /* =========================
-     Power table (a^n)
-  ========================= */
-  const baseMin = 2;
-  const baseMax = 20;
-  const defaultBase = 2;
-  const defaultMaxExp = 30;
-
-  const basesEl = document.querySelector("#power .power-bases");
-  const tbody = document.getElementById("power-body");
-  const head = document.getElementById("power-head");
-
-  // これらは「存在すれば使う」扱い（UIを消しても落ちない）
-  const maxExpInput = document.getElementById("power-max-exp");
-  const resetBtn = document.getElementById("power-reset");
-
-  // power セクションが無いページでは何もしない
-  if (basesEl && tbody && head) {
-    let currentBase = defaultBase;
-
-    function clampMaxExp(v) {
-      if (Number.isNaN(v)) return defaultMaxExp;
-      return Math.max(5, Math.min(200, v));
-    }
-
-    function getMaxExp() {
-      if (!maxExpInput) return defaultMaxExp;
-      return clampMaxExp(parseInt(maxExpInput.value, 10));
-    }
-
-    // BigInt で a^n（オーバーフローしない）
-    function buildTable(a, maxExp) {
-      head.textContent = `${a}^n`;
-      tbody.innerHTML = "";
-
-      let val = 1n;
-      const base = BigInt(a);
-
-      for (let n = 1; n <= maxExp; n++) {
-        val *= base;
-        const s = val.toString();
-
-        const tr = document.createElement("tr");
-
-        const tdN = document.createElement("td");
-        tdN.className = "col-n";
-        tdN.textContent = String(n);
-
-        const tdV = document.createElement("td");
-        tdV.className = "power-val";
-        tdV.textContent = s;
-
-        const tdD = document.createElement("td");
-        tdD.className = "col-digits";
-        tdD.textContent = String(s.length);
-
-        tr.append(tdN, tdV, tdD);
-        tbody.appendChild(tr);
-      }
-    }
-
-    function setActiveBaseButton() {
-      basesEl.querySelectorAll(".power-base-btn").forEach((btn) => {
-        btn.classList.toggle("active", Number(btn.dataset.base) === currentBase);
-      });
-    }
-
-    function buildBaseButtons() {
-      basesEl.innerHTML = "";
-      for (let a = baseMin; a <= baseMax; a++) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "power-base-btn";
-        btn.textContent = String(a);
-        btn.dataset.base = String(a);
-
-        btn.addEventListener("click", () => {
-          currentBase = a;
-          setActiveBaseButton();
-          buildTable(currentBase, getMaxExp()); // ← maxExpInputが無くてもOK
-        });
-
-        basesEl.appendChild(btn);
-      }
-      setActiveBaseButton();
-    }
-
-    // 入力変更（UIがある場合だけ）
-    if (maxExpInput) {
-      maxExpInput.addEventListener("input", () => {
-        const maxExp = getMaxExp();
-        maxExpInput.value = String(maxExp);
-        buildTable(currentBase, maxExp);
-      });
-    }
-
-    // リセット（UIがある場合だけ）
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () => {
-        currentBase = defaultBase;
-        if (maxExpInput) maxExpInput.value = String(defaultMaxExp);
-        setActiveBaseButton();
-        buildTable(currentBase, defaultMaxExp);
-      });
-    }
-
-    // 初期化
-    buildBaseButtons();
-    buildTable(currentBase, getMaxExp());
-  }
-
-  /* =========================
-     Tool tabs
-  ========================= */
-  const tabs = document.querySelectorAll(".tool-tab");
-  const panels = document.querySelectorAll(".tool-panel");
-
-  if (tabs.length && panels.length) {
-    tabs.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        // タブの見た目
-        tabs.forEach((b) => {
-          b.classList.remove("active");
-          b.setAttribute("aria-selected", "false");
-        });
-        btn.classList.add("active");
-        btn.setAttribute("aria-selected", "true");
-
-        // 表示領域切り替え
-        const targetId = btn.dataset.target;
-        panels.forEach((p) => p.classList.remove("active"));
-
-        const target = document.getElementById(targetId);
-        if (target) target.classList.add("active");
-      });
-    });
-  }
-});
-
-
-
-//以下電卓
+// ===== Calculator (5x5, 15 sig digits, keyboard, memory) =====
 document.addEventListener("DOMContentLoaded", () => {
   const display = document.getElementById("calc-display");
   if (!display) return;
