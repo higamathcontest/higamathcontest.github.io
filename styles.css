@@ -602,16 +602,38 @@ body.problem-bg{
 }
 
 .back-btn{
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.12);
-  background: #fff;
   text-decoration: none;
-  color: inherit;
+  color: var(--black);
   white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  
+}
+
+.back-btn::after{
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 1px;
+  background: var(--black);
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.back-btn:hover::after{
+  transform: scaleX(1);
 }
 
 .problem-meta{
