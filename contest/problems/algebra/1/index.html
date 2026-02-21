@@ -10,27 +10,34 @@
 
 <body class="problem-bg">
   <header class="problem-header">
-    <a class="back-btn" href="/contest/scheduled_contest/index.html">← 戻る</a>
+    <a class="back-btn" href="/contest/problems/">← 戻る</a>
     <div class="problem-meta">
-      <div class="problem-title">代数　Algebra - Problem 1</div>
+      <div class="problem-title">代数 Algebra - Problem 1</div>
       <div class="problem-sub">Points: <span class="pts">100</span></div>
     </div>
   </header>
 
   <main class="problem-wrap">
     
+    <!-- Calculator -->
     <my-calculator></my-calculator>
 
-    <!-- 右：問題 -->
+    <!-- Problems -->
     <section class="panel statement-panel">
       <h2>問題</h2>
-
+      <p>
+        問題をここに表示。supabaseから取得
+      </p>
     </section>
 
-    <!-- 回答フォーム -->
+    <!-- Form -->
     <section class="panel submit-panel">
-      <h2>回答フォーム　埋めるなら埋める</h2>
+      <h2>解答</h2>
+      <form id="answer-form">
+        <input type="text" name="answer" placeholder="ここに回答を入力" required>
+        <button type="submit">提出</button>
     </section>
+
   </main>
 
   <footer class="problem-footer">

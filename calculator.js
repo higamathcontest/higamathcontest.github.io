@@ -6,7 +6,7 @@ class MyCalculator extends HTMLElement {
 <style>
 :host {
   display: block;
-  max-width: 360px;
+  max-width: 100%;
   font-family: sans-serif;
 }
 
@@ -17,15 +17,8 @@ class MyCalculator extends HTMLElement {
   gap: 12px;
   margin-bottom: 12px;
 }
-.calc-title { margin: 0; font-size: 1.2rem; }
-.calc-sub   { margin: 4px 0 0; opacity: .7; font-size: .9rem; }
-
-/* --- shell --- */
-.calc-shell {
-  border-radius: 18px;
-  background: #fff;
-  padding: 14px;
-}
+.calc-title { margin: 0; font-size: 1.05rem; }
+.calc-sub   { margin: 4px 0 0; opacity: .7; font-size: .7rem; }
 
 /* --- display --- */
 .calc-display-wrap { position: relative; }
@@ -149,10 +142,6 @@ class MyCalculator extends HTMLElement {
     <button class="calc-btn eq" data-act="eq">=</button>
     <button class="calc-btn op" data-op="+">+</button>
   </div>
-
-  <p class="calc-hint">
-    キー：0-9 / . / + - * / / Enter= / Backspace=1文字消す / Esc=AC
-  </p>
 </div>
 `;
   }
