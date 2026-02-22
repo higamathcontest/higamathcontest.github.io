@@ -8,6 +8,8 @@
   <!-- 共通CSSを読み込む -->
   <link rel="stylesheet" href="/styles.css">
   <script src="/script.js" defer></script>
+  <script type="module" src="/signup.js"></script>
+  <script type="module" src="/supabase-client.js"></script>  
 </head>
 
 <body class="register-bg">
@@ -26,18 +28,23 @@
       <a href="/rules">ルール</a>
       <a href="/tools">ツール</a>
       <a href="/contest">コンテスト</a>
-      <a href="/ranking">順位表</a>
-      <a class="here" href="/register">参加登録</a>
+      <a href="/contest/account" id="username">...</a>
     </nav>
 
     <div class="overlay" id="overlay"></div>
   </header>
 
   <main>
+
+    <nav class="contest-subnav">
+        <a href="/contest/problems/">問題</a>
+        <a href="/contest/ranking/">順位表</a>
+    </nav>
+
     <div class="card">
-      <h2>参加登録</h2>
+      <h2>アカウント設定</h2>
       <p>
-        登録用Form...
+        usernameの変更と、アカウントの削除ができます。
       </p>
     </div>
   </main>

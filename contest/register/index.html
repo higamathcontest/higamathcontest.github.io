@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>参加登録 / ログイン | HiGA Math Contest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 共通CSSを読み込む -->
+  <link rel="stylesheet" href="/styles.css">
+
+  <!--
+    読み込み順序（重要）:
+    1. supabase-client.js → window.supabase を生成
+    2. register.js        → window.supabase を使ってフォーム処理
+    3. signup.js          → window.supabase を使ってナビ反映
+    type="module" にすることで自動 defer + ESM が使える。
+  -->
+  <script type="module" src="/supabase-client.js"></script>
+  <script type="module" src="register.js"></script>
+  <script type="module" src="/signup.js"></script>
+
+  <style>
+    /* タブ切り替えUI */
+    .tab-buttons {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #888;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .tab-btn.active {
+      color: #333;
+      border-bottom-color: #4f8ef7;
+      font-weight: bold;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="register-bg">
+  <header>
+    <h1><a href="/">HiGA Math Contest</a></h1>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <a href="/">トップ</a>
+      <a href="/overview">概要</a>
+      <a href="/rules">ルール</a>
+      <a href="/tools">ツール</a>
+      <a href="/contest">コンテスト</a>
+      <a href="/contest/account" id="nav-username">...</a>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+  </header>
+
+  <main>
+
+    <!-- タブ切り替えボタン -->
+    <div class="tab-buttons">
+      <button class="tab-btn active" data-tab="register">新規登録</button>
+      <button class="tab-btn" data-tab="login">ログイン</button>
+    </div>
+
+    <!-- ① 新規登録フォーム -->
+    <div class="tab-panel active" id="tab-register">
+      <form id="register-form">
+        <input type="text" id="register-username" placeholder="ユーザー名" required />
+
+        <select id="grade" required>
+          <option value="">学年を選択</option>
+          <option value="G7">G7</option>
+          <option value="G8">G8</option>
+          <option value="G9">G9</option>
+          <option value="G10">G10</option>
+          <option value="G11">G11</option>
+          <option value="G12">G12</option>
+        </select>
+
+        <input type="password" id="password" placeholder="パスワード" required />
+        <input type="password" id="password-confirm" placeholder="パスワード（確認）" required />
+
+        <input type="text" id="higa_key" placeholder="HiGA Key" required />
+
+        <label>
+          <input type="checkbox" id="agree" required />
+          規約に同意します
+        </label>
+
+        <button type="submit">登録</button>
+      </form>
+
+      <p id="register-error" class="error-msg"></p>
+    </div>
+
+    <!-- ② ログインフォーム（既存アカウント用） -->
+    <div class="tab-panel" id="tab-login">
+      <form id="login-form">
+        <input type="text" id="login-username" placeholder="ユーザー名" required />
+        <input type="password" id="login-password" placeholder="パスワード" required />
+        <button type="submit">ログイン</button>
+      </form>
+
+      <p id="login-error" class="error-msg"></p>
+    </div>
+
+  </main>
+
+  <footer>
+    © HiGA Math Contest
+  </footer>
+
+  <script>
+    // タブ切り替えスクリプト
+    const tabBtns = document.querySelectorAll(".tab-btn")
+    const tabPanels = document.querySelectorAll(".tab-panel")
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"))
+        tabPanels.forEach(p => p.classList.remove("active"))
+
+        btn.classList.add("active")
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active")
+      })
+    })
+
+    // URLパラメータ ?tab=login でログインタブを直接開く
+    const params = new URLSearchParams(location.search)
+    if (params.get("tab") === "login") {
+      document.querySelector('[data-tab="login"]').click()
+    }
+  </script>
+</body>
+</html>

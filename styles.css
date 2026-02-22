@@ -849,4 +849,5 @@ body.problem-bg{
 
 /*以上問題のページのデザイン*/
 
-
+/* ====== Username 表示 ====== */
+#nav-username { text-transform: none; }
