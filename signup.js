@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!session) {
       usernameLink.textContent = "ログイン"
-      usernameLink.href = "/contest/register?tab=login"
+      usernameLink.href = "/contest/account?tab=login"
       return
     }
 

@@ -2,26 +2,93 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>参加登録 | HiGA Math Contest</title>
+  <title>アカウント | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 共通CSSを読み込む -->
   <link rel="stylesheet" href="/styles.css">
   <script src="/script.js" defer></script>
+
+  <!-- 読み込み順序: supabase-client → account.js → signup.js -->
+  <script type="module" src="/supabase-client.js"></script>
+  <script type="module" src="account.js"></script>
   <script type="module" src="/signup.js"></script>
-  <script type="module" src="/supabase-client.js"></script>  
+
+  <style>
+    .tab-buttons {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #ddd;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #888;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn.active {
+      color: #333;
+      border-bottom-color: #4f8ef7;
+      font-weight: bold;
+    }
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    #account-section {
+      display: none;
+    }
+    #auth-section {
+      display: none;
+    }
+    .danger-zone {
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 1px solid #e74c3c;
+      border-radius: 6px;
+    }
+    .danger-zone h3 {
+      color: #e74c3c;
+      margin-bottom: 0.5rem;
+    }
+    .btn-danger {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+    .current-username {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .success-msg {
+      color: #27ae60;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 
 <body class="register-bg">
   <header>
     <h1><a href="/">HiGA Math Contest</a></h1>
-
     <button class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
     <nav id="nav">
       <a href="/">トップ</a>
       <a href="/overview">概要</a>
@@ -30,28 +97,110 @@
       <a href="/contest">コンテスト</a>
       <a href="/contest/account" id="nav-username">...</a>
     </nav>
-
     <div class="overlay" id="overlay"></div>
   </header>
 
   <main>
-
     <nav class="contest-subnav">
-        <a href="/contest/problems/">問題</a>
-        <a href="/contest/ranking/">順位表</a>
+      <a href="/contest/problems/">問題</a>
+      <a href="/contest/ranking/">順位表</a>
     </nav>
 
-    <div class="card">
-      <h2>アカウント設定</h2>
-      <p>
-        usernameの変更と、アカウントの削除ができます。
-      </p>
+    <!-- ════════════════════════════════
+         未ログイン：新規登録 / ログイン
+         ════════════════════════════════ -->
+    <div id="auth-section">
+      <div class="tab-buttons">
+        <button class="tab-btn active" data-tab="register">新規登録</button>
+        <button class="tab-btn" data-tab="login">ログイン</button>
+      </div>
+
+      <!-- 新規登録 -->
+      <div class="tab-panel active" id="tab-register">
+        <form id="register-form">
+          <input type="text" id="register-username" placeholder="ユーザー名" required />
+          <select id="grade" required>
+            <option value="">学年を選択</option>
+            <option value="G7">G7</option>
+            <option value="G8">G8</option>
+            <option value="G9">G9</option>
+            <option value="G10">G10</option>
+            <option value="G11">G11</option>
+            <option value="G12">G12</option>
+          </select>
+          <input type="password" id="password" placeholder="パスワード" required />
+          <input type="password" id="password-confirm" placeholder="パスワード（確認）" required />
+          <input type="text" id="higa_key" placeholder="HiGA Key" required />
+          <label>
+            <input type="checkbox" id="agree" required />
+            規約に同意します
+          </label>
+          <button type="submit">登録</button>
+        </form>
+        <p id="register-error" class="error-msg"></p>
+      </div>
+
+      <!-- ログイン -->
+      <div class="tab-panel" id="tab-login">
+        <form id="login-form">
+          <input type="text" id="login-username" placeholder="ユーザー名" required />
+          <input type="password" id="login-password" placeholder="パスワード" required />
+          <button type="submit">ログイン</button>
+        </form>
+        <p id="login-error" class="error-msg"></p>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════
+         ログイン済み：アカウント設定
+         ════════════════════════════════ -->
+    <div id="account-section">
+      <div class="card">
+        <h2>アカウント設定</h2>
+
+        <!-- ユーザー名変更 -->
+        <p class="current-username">現在のユーザー名：<strong id="current-username-display">...</strong></p>
+        <form id="username-form">
+          <input type="text" id="new-username" placeholder="新しいユーザー名" required />
+          <button type="submit">ユーザー名を変更</button>
+        </form>
+        <p id="username-error" class="error-msg"></p>
+        <p id="username-success" class="success-msg"></p>
+
+        <!-- ログアウト -->
+        <div style="margin-top: 1.5rem;">
+          <button id="logout-btn">ログアウト</button>
+        </div>
+
+        <!-- 危険ゾーン：アカウント削除 -->
+        <div class="danger-zone">
+          <h3>アカウントの削除</h3>
+          <p>この操作は取り消せません。提出履歴もすべて削除されます。</p>
+          <button class="btn-danger" id="delete-btn">アカウントを削除する</button>
+          <p id="delete-error" class="error-msg"></p>
+        </div>
+      </div>
     </div>
   </main>
 
-  <footer>
-    © HiGA Math Contest
-  </footer>
+  <footer>© HiGA Math Contest</footer>
 
+  <script>
+    // タブ切り替え
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"))
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"))
+        btn.classList.add("active")
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active")
+      })
+    })
+
+    // ?tab=login で直接ログインタブを開く
+    const params = new URLSearchParams(location.search)
+    if (params.get("tab") === "login") {
+      document.querySelector('[data-tab="login"]').click()
+    }
+  </script>
 </body>
 </html>
