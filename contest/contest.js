@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     // 未ログイン → Register or Login ボタン（白抜き）
     btn.textContent = "Register / Login"
-    btn.href = "/contest/account"
+    btn.href = "/account"
     btn.classList.add("secondary")
   }
 
