@@ -40,7 +40,7 @@
     if (profile) {
       usernameLink.textContent = profile.username
       usernameLink.style.textTransform = "none"
-      usernameLink.href = "/contest/account"
+      usernameLink.href = "/account"
     }
 
   } catch (err) {
