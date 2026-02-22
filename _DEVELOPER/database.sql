@@ -151,3 +151,74 @@ $$;
 
 -- anon（未ログイン）からも呼び出せるようにする（ログイン前に必要なため）
 grant execute on function get_auth_email_by_username(text) to anon, authenticated;
+
+
+
+
+-- ================================================================
+-- コンテスト status 自動管理
+-- ================================================================
+-- 方針：
+--   ① update_contest_status() 関数：now() と start/end_time を比較して
+--      status カラムを before/running/finished に更新する
+--   ② pg_cron で1分ごとに ① を実行（Supabase では標準で有効）
+--   ③ get_contest_status() 関数：クエリ時に動的計算（cron の隙間を埋める）
+--
+-- フロント側は get_contest_status() を呼ぶだけでよい。
+-- ================================================================
+
+
+-- ----------------------------------------------------------------
+-- ② pg_cron で1分ごとに実行
+--    ※ Supabase Dashboard → Database → Extensions → pg_cron が
+--      有効になっていることを確認してから実行する
+-- ----------------------------------------------------------------
+select cron.schedule(
+  'update-contest-status',   -- ジョブ名（重複登録防止のため一意にする）
+  '* * * * *',               -- 毎分実行
+  $$select update_contest_status()$$
+);
+
+
+-- ----------------------------------------------------------------
+-- ③ クエリ時に動的計算する関数（cron の ±1分の誤差を埋める）
+--    フロントは contest_settings を直接 SELECT する代わりに
+--    この関数を呼ぶ → 常にリアルタイムな status が得られる
+-- ----------------------------------------------------------------
+create or replace function get_contest_status()
+returns table (
+  status          text,
+  start_time      timestamp,
+  end_time        timestamp,
+  submission_limit int,
+  penalty_minutes  int
+)
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  return query
+  select
+    case
+      when now() < cs.start_time                        then 'before'
+      when now() between cs.start_time and cs.end_time  then 'running'
+      else                                                   'finished'
+    end as status,
+    cs.start_time,
+    cs.end_time,
+    cs.submission_limit,
+    cs.penalty_minutes
+  from contest_settings cs
+  where cs.id = 1;
+end;
+$$;
+
+-- 誰でも呼べるようにする（higa_key は含めない）
+grant execute on function get_contest_status() to anon, authenticated;
+
+
+-- ----------------------------------------------------------------
+-- ④ 即時反映：この SQL を実行した瞬間に status を正しい値にする
+-- ----------------------------------------------------------------
+select update_contest_status();

@@ -70,16 +70,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (password !== passwordConfirm) return showError("register-error", "パスワードが一致しません")
 
       try {
-        // contest_settings 確認
-        const { data: setting, error: settingError } = await supabase
+        // contest_settings 確認（動的計算関数を使うことで常にリアルタイムな status を取得）
+        const { data: settings, error: settingError } = await supabase
+          .rpc("get_contest_status")
+
+        const setting = settings?.[0]
+        if (settingError || !setting) return showError("register-error", "設定取得エラー: " + (settingError?.message ?? "不明"))
+        if (setting.status !== "before") return showError("register-error", "現在登録期間ではありません")
+
+        // higa_key は get_contest_status() に含めていないため別途取得
+        const { data: keyRow, error: keyError } = await supabase
           .from("contest_settings")
-          .select("status, higa_key")
+          .select("higa_key")
           .eq("id", 1)
           .single()
 
-        if (settingError) return showError("register-error", "設定取得エラー: " + settingError.message)
-        if (setting.status !== "before") return showError("register-error", "現在登録期間ではありません")
-        if (setting.higa_key !== higaKey) return showError("register-error", "HiGA Key が違います")
+        if (keyError) return showError("register-error", "設定取得エラー: " + keyError.message)
+        if (keyRow.higa_key !== higaKey) return showError("register-error", "HiGA Key が違います")
 
         // Auth 登録
         const { data: authData, error: authError } = await supabase.auth.signUp({
