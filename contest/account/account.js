@@ -138,10 +138,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!username || !password) return showError("login-error", "ユーザー名とパスワードを入力してください")
 
       try {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: `${username}@higa.local`,
-          password,
-        })
+        // username → Auth メールを DB 関数で解決する。
+        // Auth 側のメールは登録時から変更しないため、username 変更後も正しく動作する。
+        const { data: email, error: emailError } = await supabase
+          .rpc("get_auth_email_by_username", { p_username: username })
+
+        if (emailError || !email) {
+          return showError("login-error", "ユーザー名またはパスワードが違います")
+        }
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password })
 
         if (error) {
           console.error("[login]", error.message)
@@ -210,16 +216,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           )
         }
 
-        // Auth のメールも更新（ログイン時に username@higa.local を使うため）
-        const { error: authError } = await supabase.auth.updateUser({
-          email: `${newUsername}@higa.local`,
-        })
-
-        if (authError) {
-          // Auth 更新失敗 → profiles を元に戻す
-          await supabase.from("profiles").update({ username: currentUsername }).eq("user_id", userId)
-          return showError("username-error", "Auth 更新エラー: " + authError.message)
-        }
+        // Auth のメールはそのまま（username@higa.local のまま変更しない）。
+        // ログイン時は get_auth_email_by_username() で解決するため問題なし。
 
         // 画面の表示を更新
         const display = document.getElementById("current-username-display")
