@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!session) {
       usernameLink.textContent = "ログイン"
-      usernameLink.href = "/contest/account?tab=login"
+      usernameLink.href = "/account?tab=login"
       return
     }
 
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (profile) {
       usernameLink.textContent = profile.username
-      usernameLink.href = "/contest/account"
+      usernameLink.href = "/account"
     }
 
   } catch (err) {

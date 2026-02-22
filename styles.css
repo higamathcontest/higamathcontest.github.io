@@ -196,7 +196,6 @@ main {
 
 main a {
   color: var(--text);
-  text-decoration: underline;
 }
 
 /* ====== Card ====== */
@@ -983,4 +982,9 @@ body.problem-bg{
   color: #27ae60;
   margin-top: 0.5rem;
   font-size: 0.9rem;
+}
+
+/* ====== contest-subnav ====== */
+.contest-subnav {
+  text-decoration: none;
 }
