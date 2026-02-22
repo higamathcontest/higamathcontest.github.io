@@ -103,3 +103,18 @@ using (true);
 revoke select (correct_answer) on problems from anon, authenticated;
 revoke all on submissions from anon, authenticated;
 revoke all on problems from anon, authenticated;
+
+-- カラムを timestamptz（タイムゾーンあり）に変更
+alter table contest_settings
+  alter column start_time type timestamptz using start_time at time zone 'Asia/Tokyo',
+  alter column end_time   type timestamptz using end_time   at time zone 'Asia/Tokyo';
+
+-- start_time を正しい JST 時刻で入れ直す
+update contest_settings
+set
+  start_time = '2026-06-20 13:00:00+09',
+  end_time   = '2026-06-21 13:00:00+09'
+where id = 1;
+
+-- 即時反映
+select update_contest_status();
