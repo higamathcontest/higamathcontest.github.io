@@ -1,7 +1,8 @@
 // contest.js
 // ログイン状態を確認し、コンテストページのEnterボタンを切り替える。
+// type="module" で読み込まれるため DOMContentLoaded 不要（自動 defer）。
 
-document.addEventListener("DOMContentLoaded", async () => {
+(async () => {
 
   if (!window.supabase) {
     console.error("[contest.js] window.supabase が見つかりません")
@@ -26,4 +27,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   btn.style.visibility = "visible"
-})
+
+})()

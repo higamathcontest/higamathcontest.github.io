@@ -1,8 +1,9 @@
 // signup.js
 // ナビのユーザー名表示を担う。
+// type="module" で読み込まれるため DOMContentLoaded 不要（自動 defer）。
 // window.supabase は supabase-client.js で初期化済みであることを前提とする。
 
-document.addEventListener("DOMContentLoaded", async () => {
+(async () => {
 
   const usernameLink = document.getElementById("nav-username")
   if (!usernameLink) return
@@ -38,10 +39,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (profile) {
       usernameLink.textContent = profile.username
-      usernameLink.href = "/account"
+      usernameLink.style.textTransform = "none"
+      usernameLink.href = "/contest/account"
     }
 
   } catch (err) {
     console.error("[signup.js] 予期しないエラー:", err)
   }
-})
+
+})()
