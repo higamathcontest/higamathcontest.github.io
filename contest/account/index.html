@@ -12,75 +12,6 @@
   <script type="module" src="/supabase-client.js"></script>
   <script type="module" src="account.js"></script>
   <script type="module" src="/signup.js"></script>
-
-  <style>
-    .tab-buttons {
-      display: flex;
-      margin-bottom: 1.5rem;
-      border-bottom: 2px solid #ddd;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      cursor: pointer;
-      font-size: 1rem;
-      color: #888;
-      margin-bottom: -2px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .tab-btn.active {
-      color: #333;
-      border-bottom-color: #4f8ef7;
-      font-weight: bold;
-    }
-    .tab-panel {
-      display: none;
-    }
-    .tab-panel.active {
-      display: block;
-    }
-    #account-section {
-      display: none;
-    }
-    #auth-section {
-      display: none;
-    }
-    .danger-zone {
-      margin-top: 2rem;
-      padding: 1rem;
-      border: 1px solid #e74c3c;
-      border-radius: 6px;
-    }
-    .danger-zone h3 {
-      color: #e74c3c;
-      margin-bottom: 0.5rem;
-    }
-    .btn-danger {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-    .btn-danger:hover {
-      background: #c0392b;
-    }
-    .current-username {
-      color: #555;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-    }
-    .success-msg {
-      color: #27ae60;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-    }
-  </style>
 </head>
 
 <body class="register-bg">
@@ -101,11 +32,7 @@
   </header>
 
   <main>
-    <nav class="contest-subnav">
-      <a href="/contest/problems/">問題</a>
-      <a href="/contest/ranking/">順位表</a>
-    </nav>
-
+    
     <!-- ════════════════════════════════
          未ログイン：新規登録 / ログイン
          ════════════════════════════════ -->

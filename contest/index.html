@@ -4,79 +4,12 @@
   <meta charset="UTF-8">
   <title>コンテスト | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="/styles.css">
   <script src="/script.js" defer></script>
   <!-- 読み込み順序: supabase-client → signup.js → contest.js -->
   <script type="module" src="/supabase-client.js"></script>
   <script type="module" src="/signup.js"></script>
   <script type="module" src="contest.js"></script>
-
-  <style>
-    .contest-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1.5rem;
-    }
-
-    .contest-table thead tr {
-      border-bottom: 2px solid #ddd;
-    }
-
-    .contest-table th {
-      padding: 0.6rem 1rem;
-      text-align: left;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999;
-      font-weight: 600;
-    }
-
-    .contest-table td {
-      padding: 1rem;
-      border-bottom: 1px solid #f0f0f0;
-      vertical-align: middle;
-    }
-
-    .contest-table .col-name {
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
-    .contest-table .col-time,
-    .contest-table .col-duration {
-      color: #555;
-      font-size: 0.95rem;
-    }
-
-    .btn-enter {
-      display: inline-block;
-      padding: 0.5rem 1.2rem;
-      background: #4f8ef7;
-      color: #fff;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: background 0.15s;
-      white-space: nowrap;
-    }
-
-    .btn-enter:hover {
-      background: #2d6fd4;
-    }
-
-    .btn-enter.secondary {
-      background: #fff;
-      color: #4f8ef7;
-      border: 1.5px solid #4f8ef7;
-    }
-
-    .btn-enter.secondary:hover {
-      background: #f0f5ff;
-    }
-  </style>
 </head>
 
 <body class="contest-bg">
@@ -120,7 +53,6 @@
             <td class="col-time">2026/6/20 13:00</td>
             <td class="col-duration">24:00</td>
             <td>
-              <!-- ログイン状態によって contest.js が切り替える。初期は非表示。 -->
               <a id="contest-btn" href="#" class="btn-enter" style="visibility: hidden;"></a>
             </td>
           </tr>

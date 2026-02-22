@@ -851,3 +851,136 @@ body.problem-bg{
 
 /* ====== Username 表示 ====== */
 #nav-username { text-transform: none; }
+
+/* ====== コンテストトップ ====== */
+.contest-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.contest-table thead tr {
+  border-bottom: 2px solid #ddd;
+}
+
+.contest-table th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  font-weight: 600;
+}
+
+.contest-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.contest-table .col-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.contest-table .col-time,
+.contest-table .col-duration {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.btn-enter {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  background: #4f8ef7;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btn-enter:hover {
+  background: #2d6fd4;
+}
+
+.btn-enter.secondary {
+  background: #fff;
+  color: #4f8ef7;
+  border: 1.5px solid #4f8ef7;
+}
+
+.btn-enter.secondary:hover {
+  background: #f0f5ff;
+}
+
+/* ====== アカウント設定　====== */
+.tab-buttons {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #ddd;
+}
+.tab-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: -2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.tab-btn.active {
+  color: #333;
+  border-bottom-color: #4f8ef7;
+  font-weight: bold;
+}
+.tab-panel {
+  display: none;
+}
+.tab-panel.active {
+  display: block;
+}
+#account-section {
+  display: none;
+}
+#auth-section {
+  display: none;
+}
+.danger-zone {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #e74c3c;
+  border-radius: 6px;
+}
+.danger-zone h3 {
+  color: #e74c3c;
+  margin-bottom: 0.5rem;
+}
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.btn-danger:hover {
+  background: #c0392b;
+}
+.current-username {
+  color: #555;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.success-msg {
+  color: #27ae60;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
