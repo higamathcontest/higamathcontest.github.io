@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>順位表 | HiGA Math Contest</title>
+  <title>提出一覧 | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- 共通CSSを読み込む -->
@@ -12,7 +12,7 @@
   <script type="module" src="/supabase-client.js"></script>  
 </head>
 
-<body class="ranking-bg">
+<body class="submission-bg">
   <header>
     <h1><a href="/">HiGA Math Contest</a></h1>
 
@@ -37,13 +37,13 @@
   <main>
     <nav class="contest-subnav">
       <a href="/contest/problems">問題</a>
-      <a href="/contest/submissions">提出</a>
-      <a class="here" href="/contest/ranking">順位表</a>
+      <a class="here" href="/contest/submissions">提出</a>
+      <a href="/contest/ranking">順位表</a>
     </nav>
     <div class="card">
-      <h2>順位表</h2>
+      <h2>提出</h2>
       <p>
-        status == finished後、集計し、結果を掲載
+        提出解答と、時間、その結果を掲載（only user own）
       </p>
     </div>
   </main>

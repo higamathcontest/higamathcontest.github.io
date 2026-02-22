@@ -134,7 +134,7 @@ nav a.here::after {
 
 @media (max-width: 839px) {
 
-  nav {
+  nav#nav {
     position: fixed;
     inset: 0;
     display: flex;
@@ -150,29 +150,29 @@ nav a.here::after {
     z-index: 1000;
   }
 
-  nav.active {
+  nav#nav.active {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
   }
 
-  nav a {
+  nav#nav a {
     font-size: 1.2rem;
     opacity: 0;
     transform: translateY(-10px);
   }
 
-  nav.active a {
+  nav#nav.active a {
     animation: fadeDown 0.5s forwards;
   }
 
-  nav.active a:nth-child(1) { animation-delay: 0.05s; }
-  nav.active a:nth-child(2) { animation-delay: 0.1s; }
-  nav.active a:nth-child(3) { animation-delay: 0.15s; }
-  nav.active a:nth-child(4) { animation-delay: 0.2s; }
-  nav.active a:nth-child(5) { animation-delay: 0.25s; }
-  nav.active a:nth-child(6) { animation-delay: 0.3s; }
-  nav.active a:nth-child(7) { animation-delay: 0.35s; }
+  nav#nav.active a:nth-child(1) { animation-delay: 0.05s; }
+  nav#nav.active a:nth-child(2) { animation-delay: 0.1s; }
+  nav#nav.active a:nth-child(3) { animation-delay: 0.15s; }
+  nav#nav.active a:nth-child(4) { animation-delay: 0.2s; }
+  nav#nav.active a:nth-child(5) { animation-delay: 0.25s; }
+  nav#nav.active a:nth-child(6) { animation-delay: 0.3s; }
+  nav#nav.active a:nth-child(7) { animation-delay: 0.35s; }
 
   @keyframes fadeDown {
     to {
@@ -196,7 +196,6 @@ main {
 
 main a {
   color: var(--text);
-  text-decoration: underline;
 }
 
 /* ====== Card ====== */
@@ -983,4 +982,9 @@ body.problem-bg{
   color: #27ae60;
   margin-top: 0.5rem;
   font-size: 0.9rem;
+}
+
+/* ====== contest-subnav ====== */
+.contest-subnav {
+  text-decoration: none;
 }
