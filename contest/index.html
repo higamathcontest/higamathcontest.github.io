@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <title>コンテスト | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- 共通CSSを読み込む -->
   <link rel="stylesheet" href="/styles.css">
   <script src="/script.js" defer></script>
+  <!-- 読み込み順序: supabase-client → signup.js → contest.js -->
+  <script type="module" src="/supabase-client.js"></script>
+  <script type="module" src="/signup.js"></script>
+  <script type="module" src="contest.js"></script>
 </head>
 
 <body class="contest-bg">
@@ -26,33 +28,38 @@
       <a href="/rules">ルール</a>
       <a href="/tools">ツール</a>
       <a class="here" href="/contest">コンテスト</a>
-      <a href="/ranking">順位表</a>
-      <a href="/register">参加登録</a>
+      <a href="/contest/account" id="nav-username">...</a>
     </nav>
 
     <div class="overlay" id="overlay"></div>
   </header>
 
   <main>
-  <div class="contest-info">
-  <h2>予定されたコンテスト</h2>
+    <div class="contest-info">
+      <h2>予定されたコンテスト</h2>
 
-      <a href="/contest/problems/">
-        <div class="contest-details">
-          <h3>HiGA Math Contest</h3>
-          <p>
-            日時：2026年6月20日(土) 13:00～2026年6月21日(日) 13:00
-          </p>
-          <p>
-            時間：24:00
-          </p>
-          <p>
-            ペナルティ：5分
-        </div>
-      </a>
-
-  </div>
-</main>
+      <table class="contest-table">
+        <thead>
+          <tr>
+            <th>コンテスト名</th>
+            <th>開始時刻</th>
+            <th>制限時間</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-name">HiGA Math Contest</td>
+            <td class="col-time">2026/6/20 13:00</td>
+            <td class="col-duration">24:00</td>
+            <td>
+              <a id="contest-btn" href="#" class="btn-enter" style="visibility: hidden;"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
 
   <footer>
     © HiGA Math Contest

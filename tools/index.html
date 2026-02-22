@@ -8,6 +8,8 @@
   <!-- 共通CSSを読み込む -->
   <link rel="stylesheet" href="/styles.css">
   <script src="/script.js" defer></script>
+  <script type="module" src="/signup.js"></script>
+  <script type="module" src="/supabase-client.js"></script>
 </head>
 
 <body class="tool-bg">
@@ -26,8 +28,7 @@
       <a href="/rules">ルール</a>
       <a class="here" href="/tools">ツール</a>
       <a href="/contest">コンテスト</a>
-      <a href="/ranking">順位表</a>
-      <a href="/register">参加登録</a>
+      <a href="/contest/account" id="nav-username">...</a>
     </nav>
 
     <div class="overlay" id="overlay"></div>
