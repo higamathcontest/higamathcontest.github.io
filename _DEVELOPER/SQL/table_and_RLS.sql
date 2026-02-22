@@ -1,25 +1,3 @@
--- アカウント削除用DB関数
--- クライアントから auth.users を直接削除できないため、
--- security definer 関数を経由して自分自身のアカウントを削除する。
--- profiles と submissions は ON DELETE CASCADE で自動削除される。
-
-create or replace function delete_own_account()
-returns void
-language plpgsql
-security definer
-set search_path = public
-as $$
-begin
-  -- 呼び出し元が自分自身であることを確認してから削除
-  delete from auth.users where id = auth.uid();
-end;
-$$;
-
--- 認証済みユーザーのみ実行可能にする
-revoke execute on function delete_own_account() from anon;
-grant execute on function delete_own_account() to authenticated;
-
-
 create table profiles (
   user_id uuid primary key references auth.users(id) on delete cascade,
   username text unique not null,
@@ -125,29 +103,3 @@ using (true);
 revoke select (correct_answer) on problems from anon, authenticated;
 revoke all on submissions from anon, authenticated;
 revoke all on problems from anon, authenticated;
-
-
--- ログイン時に username → Auth メールアドレスを解決するための関数。
--- security definer により anon でも実行可能（auth.users に直接アクセスさせない）。
--- username から email を返すだけで、パスワードや他の情報は一切返さない。
-
-create or replace function get_auth_email_by_username(p_username text)
-returns text
-language plpgsql
-security definer
-set search_path = public
-as $$
-declare
-  v_email text;
-begin
-  select au.email into v_email
-  from auth.users au
-  join public.profiles p on p.user_id = au.id
-  where p.username = p_username;
-
-  return v_email; -- 存在しない場合は null を返す
-end;
-$$;
-
--- anon（未ログイン）からも呼び出せるようにする（ログイン前に必要なため）
-grant execute on function get_auth_email_by_username(text) to anon, authenticated;
