@@ -2,10 +2,10 @@
 // register.js を置き換える統合ファイル。
 // 未ログイン → 新規登録 / ログイン を表示
 // ログイン済み → アカウント設定（ユーザー名変更・削除）を表示
+// type="module" で読み込まれるため DOMContentLoaded 不要（自動 defer）。
 
-document.addEventListener("DOMContentLoaded", async () => {
+(async () => {
 
-  // ── ヘルパー ────────────────────────────────────────────────────
   function showError(id, msg) {
     const el = document.getElementById(id)
     if (el) { el.textContent = msg }
@@ -35,11 +35,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (session) {
     // ログイン済み → アカウント設定を表示
+    authSection.style.display = "none"
     accountSection.style.display = "block"
     await loadProfile(session.user.id)
   } else {
     // 未ログイン → 登録/ログインフォームを表示
     authSection.style.display = "block"
+    accountSection.style.display = "none"
     initRegisterForm()
     initLoginForm()
   }
@@ -70,23 +72,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (password !== passwordConfirm) return showError("register-error", "パスワードが一致しません")
 
       try {
-        // contest_settings 確認（動的計算関数を使うことで常にリアルタイムな status を取得）
-        const { data: settings, error: settingError } = await supabase
-          .rpc("get_contest_status")
-
-        const setting = settings?.[0]
-        if (settingError || !setting) return showError("register-error", "設定取得エラー: " + (settingError?.message ?? "不明"))
-        if (setting.status !== "before") return showError("register-error", "現在登録期間ではありません")
-
-        // higa_key は get_contest_status() に含めていないため別途取得
-        const { data: keyRow, error: keyError } = await supabase
+        // contest_settings を直接参照（pg_cron が毎分 status を更新している）
+        const { data: setting, error: settingError } = await supabase
           .from("contest_settings")
-          .select("higa_key")
+          .select("status, higa_key")
           .eq("id", 1)
           .single()
 
-        if (keyError) return showError("register-error", "設定取得エラー: " + keyError.message)
-        if (keyRow.higa_key !== higaKey) return showError("register-error", "HiGA Key が違います")
+        if (settingError || !setting) return showError("register-error", "設定取得エラー: " + (settingError?.message ?? "不明"))
+        if (setting.status !== "before") return showError("register-error", "現在登録期間ではありません")
+        if (setting.higa_key !== higaKey) return showError("register-error", "HiGA Key が違います")
 
         // Auth 登録
         const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -292,4 +287,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
   }
 
-})
+
+})()
