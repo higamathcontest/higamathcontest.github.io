@@ -1,3 +1,4 @@
+-- statusは自動で更新される
 -- ① status を更新する関数
 create or replace function update_contest_status()
 returns void
