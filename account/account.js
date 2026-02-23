@@ -80,7 +80,6 @@
           .single()
 
         if (settingError || !setting) return showError("register-error", "設定取得エラー: " + (settingError?.message ?? "不明"))
-        if (setting.status !== "before") return showError("register-error", "現在登録期間ではありません")
         if (setting.higa_key !== higaKey) return showError("register-error", "HiGA Key が違います")
 
         // Auth 登録

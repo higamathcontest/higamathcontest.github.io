@@ -196,6 +196,7 @@ main {
 
 main a {
   color: var(--text);
+  text-decoration: none;
 }
 
 /* ====== Card ====== */
