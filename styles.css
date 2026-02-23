@@ -471,6 +471,8 @@ body.rules-bg,
 body.tool-bg,
 body.contest-bg,
 body.ranking-bg,
+body.submission-bg,
+body.question-bg,
 body.register-bg{
   position: relative;
   overflow-x: hidden;
@@ -559,6 +561,30 @@ body.register-bg::before {
     radial-gradient(circle at 30% 30%, #f7ecff 0%, transparent 60%),
     radial-gradient(circle at 70% 40%, #fff0e3 0%, transparent 60%),
     radial-gradient(circle at 50% 75%, #ffe3ee 0%, transparent 60%);
+}
+
+body.submission-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #e6e6ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #f1eaff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #f9deea 0%, transparent 60%);
+}
+
+body.question-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #efe6ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #fff0f2 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #ffe3ec 0%, transparent 60%);
 }
 
 /* ====== ContestInfo ====== */

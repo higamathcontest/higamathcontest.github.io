@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 共通CSSを読み込む -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/contest/question/styles.css">
+  <script type="module" src="/supabase-client.js"></script>
+  <script type="module" src="/redirect.js"></script> 
+  <script src="/script.js" defer></script>
+  <script type="module" src="/signup.js"></script>
+  <script type="module" src="/contest/question/questionbox.js"></script>
+</head>
+
+<body class="question-bg">
+  <header>
+    <h1><a href="/">HiGA Math Contest</a></h1>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <nav id="nav">
+      <a href="/">トップ</a>
+      <a href="/detail">詳細</a>
+      <a href="/tools">ツール</a>
+      <a class="here" href="/contest">コンテスト</a>
+      <a href="/account" id="nav-username">...</a>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+  </header>
+<main>
+  <nav class="contest-subnav">
+    <a href="/contest/problems">問題</a>
+    <a href="/contest/submissions">提出</a>
+    <a href="/contest/ranking">順位表</a>
+    <a class="here" href="/contest/question">質問</a>
+  </nav>
+
+  <!-- 質問投稿 -->
+  <div class="qa-split">
+  <section class="qa-left">
+    <div class="card">
+      <h2>質問箱</h2>
+
+      <label class="qa-label">タイトル</label>
+      <input id="q-title" placeholder="例：順位表の更新タイミングについて" />
+
+      <label class="qa-label">質問内容</label>
+      <textarea id="q-body" placeholder="質問を書いてください"></textarea>
+
+      <div class="qa-actions">
+        <button id="post-question" type="button" class="qa-btn"><span>送信</span></button>
+        <span id="q-msg" class="muted"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="qa-right">
+    <div class="card">
+      <h3>質問一覧</h3>
+      <div id="question-list" class="qa-list">
+        <p class="muted">読み込み中...</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+  <footer>
+    © HiGA Math Contest
+  </footer>
+
+</body>
+</html>
