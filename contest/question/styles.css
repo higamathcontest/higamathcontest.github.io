@@ -1,0 +1,350 @@
+/* ===== 質問箱：2カラム ===== */
+.qa-split{
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.qa-left{
+  position: sticky;
+  top: 90px;
+}
+
+.qa-list{
+  display: grid;
+  gap: 14px;
+}
+
+/* ===== フォームUI（統一） ===== */
+.qa-label{
+  display:block;
+  margin: 10px 0 6px;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* ★タイトルだけ：指定の見た目（幅340, 高さ42, padding18, border1.5, transparent） */
+#q-title{
+  width: 100%;
+  max-width: 340px;              /* ← 340px固定が良ければ max-width を消して width:340px に */
+  height: 42px;
+  padding: 0 18px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 999px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+#q-title::placeholder{ color: rgba(0,0,0,0.38); }
+
+#q-title:focus{
+  border-color: rgba(0,0,0,0.28);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+/* 本文テキストエリア（同じトーンで） */
+#q-body{
+  width: 100%;
+  min-height: 140px;
+  padding: 12px 16px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 16px;
+  resize: vertical;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+#q-body::placeholder{ color: rgba(0,0,0,0.38); }
+
+#q-body:focus{
+  border-color: rgba(0,0,0,0.28);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+.qa-actions{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.muted{
+  opacity: .7;
+  font-size: .9rem;
+}
+
+/* ===== 一覧（右側） ===== */
+.qa-item{
+  padding: 14px 0;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.qa-head{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.qa-title{
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+.qa-meta{
+  font-size: .85rem;
+  opacity: .7;
+}
+
+.qa-body{
+  margin-top: 8px;
+  line-height: 1.65;
+}
+
+/* 回答カード */
+.qa-answer{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+}
+
+/* ===== 管理者UI ===== */
+.qa-admin{
+  margin-top: 12px;
+  display:grid;
+  gap:8px;
+}
+
+/* 管理者の回答欄も統一 */
+.qa-textarea{
+  width: 100%;
+  min-height: 90px;
+  padding: 12px 16px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 16px;
+  resize: vertical;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.qa-textarea:focus{
+  border-color: rgba(0,0,0,0.28);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
+}
+
+.qa-admin-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+/* danger ボタン */
+button.danger{
+  border: 1px solid rgba(204,0,0,0.55);
+  color: #c00;
+  background: transparent;
+}
+
+/* レスポンシブ */
+@media (max-width: 900px){
+  .qa-split{ grid-template-columns: 1fr; }
+  .qa-left{ position: static; }
+}
+
+/* ====== Question box inputs = Auth inputs と同じ見た目 ====== */
+
+/* タイトル（input） */
+#q-title{
+  width: 340px;
+  height: 42px;
+  padding: 0 18px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 0;              /* auth と同じ */
+}
+
+/* 本文（textarea）は高さだけ違うが、他は同じ */
+#q-body{
+  width: 340px;
+  min-height: 140px;
+  padding: 12px 18px;            /* ここだけ textarea 用 */
+  border: 1.5px solid rgba(0,0,0,0.12);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 0;              /* auth と同じ */
+  resize: vertical;
+}
+
+/* 管理者回答欄も統一（あれば） */
+.qa-textarea{
+  width: 100%;
+  min-height: 90px;
+  padding: 12px 18px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 0;
+  resize: vertical;
+}
+
+/* 余計な “白背景” を消す（あなたの現状CSSがここを白にしてる） */
+.qa-input,
+.qa-textarea{
+  background: transparent !important;
+  border-radius: 0 !important;
+  border: 1.5px solid rgba(0,0,0,0.12) !important;
+  font-size: 14px !important;
+}
+
+@media (max-width: 420px){
+  #q-title, #q-body{ width: 100%; }
+}
+
+/* ===== 質問箱：2カラム（右に一覧） ===== */
+.qa-split{
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+@media (max-width: 900px){
+  .qa-split{ grid-template-columns: 1fr; }
+}
+
+/* ===== 入力：authと同じ＋フォーカスは黒枠のみ ===== */
+#q-title{
+  width: 340px;
+  height: 42px;
+  padding: 0 18px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  background: transparent;
+  font-size: 14px;
+
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+}
+
+#q-body{
+  width: 340px;
+  min-height: 140px;
+  padding: 12px 18px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  background: transparent;
+  font-size: 14px;
+
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  resize: vertical;
+}
+
+/* ★フォーカス時：影なし、枠線だけ黒く */
+#q-title:focus,
+#q-body:focus{
+  border-color: #111418 !important;  /* --black と同値 */
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 管理者回答欄も同じ挙動に */
+.qa-textarea{
+  border: 1.5px solid rgba(0,0,0,0.12);
+  background: transparent;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+}
+
+.qa-textarea:focus{
+  border-color: #111418 !important;
+}
+
+/* スマホでは幅を100%に（340固定がはみ出し防止） */
+@media (max-width: 420px){
+  #q-title, #q-body{ width: 100%; }
+}
+
+/* ====== 質問箱ボタン：authボタン寄せ ====== */
+.qa-btn{
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--black);
+  border-radius: 999px;
+  background: transparent;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+
+  height: 44px;
+  padding: 0 20px;
+  font-size: 0.85rem;
+
+  /* 余計なデフォルトを消す */
+  outline: none;
+}
+
+/* テキストは span に入れる（authと同じ） */
+.qa-btn span{
+  position: relative;
+  z-index: 2;
+  color: var(--black);
+  transition: color 0.4s ease-in-out;
+}
+
+/* スライド背景 */
+.qa-btn::before{
+  position: absolute;
+  z-index: 1;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  content: '';
+  background: var(--black);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease-in-out;
+}
+
+.qa-btn:hover::before{ transform: translateX(0%); }
+.qa-btn:hover span{ color: #fff; }
+
+/* 押した時の感触（任意） */
+.qa-btn:active{ transform: translateY(1px); }
+
+/* ====== danger（削除）だけ赤寄せ ====== */
+.qa-btn.danger{
+  border-color: #e74c3c;
+}
+
+.qa-btn.danger span{
+  color: #e74c3c;
+}
+
+.qa-btn.danger::before{
+  background: #e74c3c;
+}
+
+.qa-btn.danger:hover span{
+  color: #fff;
+}
+
+/* 送信ボタンとメッセージの整列 */
+.qa-actions{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  margin-top: 12px;
+}
