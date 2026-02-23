@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <title>アカウント | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/account/styles.css">
   <script src="/script.js" defer></script>
 
   <!-- 読み込み順序: supabase-client → account.js → signup.js -->
@@ -39,46 +38,62 @@
          未ログイン：新規登録 / ログイン
          ════════════════════════════════ -->
     <div id="auth-section">
-      <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="register">新規登録</button>
-        <button class="tab-btn" data-tab="login">ログイン</button>
-      </div>
+  <div class="auth-wrap" id="auth-wrap">
 
-      <!-- 新規登録 -->
-      <div class="tab-panel active" id="tab-register">
-        <form id="register-form">
-          <input type="text" id="register-username" placeholder="ユーザー名" required />
-          <select id="grade" required>
-            <option value="">学年を選択</option>
-            <option value="G7">G7</option>
-            <option value="G8">G8</option>
-            <option value="G9">G9</option>
-            <option value="G10">G10</option>
-            <option value="G11">G11</option>
-            <option value="G12">G12</option>
-          </select>
-          <input type="password" id="password" placeholder="パスワード" required />
-          <input type="password" id="password-confirm" placeholder="パスワード（確認）" required />
-          <input type="text" id="higa_key" placeholder="HiGA Key" required />
-          <label>
-            <input type="checkbox" id="agree" required />
-            規約に同意します
-          </label>
-          <button type="submit">登録</button>
-        </form>
-        <p id="register-error" class="error-msg"></p>
-      </div>
-
-      <!-- ログイン -->
-      <div class="tab-panel" id="tab-login">
-        <form id="login-form">
-          <input type="text" id="login-username" placeholder="ユーザー名" required />
-          <input type="password" id="login-password" placeholder="パスワード" required />
-          <button type="submit">ログイン</button>
-        </form>
-        <p id="login-error" class="error-msg"></p>
+    <!-- 左右に動くスイッチ板 -->
+    <div class="auth-switch">
+      <div class="auth-switch-inner">
+        <h2 id="switch-title">Welcome Back!</h2>
+        <p id="switch-desc">ログインしてコンテストに参加しよう</p>
+        <button type="button" id="switch-btn">SIGN IN</button>
       </div>
     </div>
+
+    <!-- Register -->
+    <div id="tab-register" class="auth-panel">
+      <div class="form-header">
+        <h2>Create an account</h2>
+        <p>アカウントを作成してコンテストに参加しよう</p>
+      </div>
+      <form id="register-form">
+        <input type="text" id="register-username" placeholder="ユーザー名" required />
+        <select id="grade" required>
+          <option value="">学年を選択</option>
+          <option value="G7">G7</option>
+          <option value="G8">G8</option>
+          <option value="G9">G9</option>
+          <option value="G10">G10</option>
+          <option value="G11">G11</option>
+          <option value="G12">G12</option>
+        </select>
+        <input type="password" id="password" placeholder="パスワード" required />
+        <input type="password" id="password-confirm" placeholder="パスワード（確認）" required />
+        <input type="text" id="higa_key" placeholder="HiGA Key" required />
+        <label class="agree-row">
+          <input type="checkbox" id="agree" required />
+          規約に同意します
+        </label>
+        <button type="submit">登録</button>
+      </form>
+      <p id="register-error" class="error-msg"></p>
+    </div>
+
+    <!-- Login -->
+    <div id="tab-login" class="auth-panel">
+      <div class="form-header">
+        <h2>Sign in</h2>
+        <p>アカウントにログイン</p>
+      </div>
+      <form id="login-form">
+        <input type="text" id="login-username" placeholder="ユーザー名" required />
+        <input type="password" id="login-password" placeholder="パスワード" required />
+        <button type="submit">ログイン</button>
+      </form>
+      <p id="login-error" class="error-msg"></p>
+    </div>
+
+  </div>
+</div>
 
     <!-- ════════════════════════════════
          ログイン済み：アカウント設定
@@ -115,21 +130,41 @@
   <footer>© HiGA Math Contest</footer>
 
   <script>
-    // タブ切り替え
-    document.querySelectorAll(".tab-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"))
-        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"))
-        btn.classList.add("active")
-        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active")
-      })
-    })
+   // CodePen風：左右スライド切替
+document.addEventListener("DOMContentLoaded", () => {
+  const wrap = document.getElementById("auth-wrap");
+  const btn  = document.getElementById("switch-btn");
+  const title = document.getElementById("switch-title");
+  const desc  = document.getElementById("switch-desc");
 
-    // ?tab=login で直接ログインタブを開く
-    const params = new URLSearchParams(location.search)
-    if (params.get("tab") === "login") {
-      document.querySelector('[data-tab="login"]').click()
+  if (!wrap || !btn || !title || !desc) return;
+
+  function render(){
+    const isLogin = wrap.classList.contains("is-login");
+
+    if (isLogin){
+      // ログイン表示中：ボタンは「新規登録へ」
+      title.textContent = "Hello Friend!";
+      desc.textContent  = "新規登録してスタートしよう";
+      btn.textContent   = "SIGN UP";
+    } else {
+      // 登録表示中：ボタンは「ログインへ」
+      title.textContent = "Welcome Back!";
+      desc.textContent  = "ログインしてコンテストに参加しよう";
+      btn.textContent   = "SIGN IN";
     }
+  }
+
+  btn.addEventListener("click", () => {
+    wrap.classList.toggle("is-login");
+    render();
+  });
+
+  // 初期状態（必要なら ?mode=login でログインから開始）
+  const params = new URLSearchParams(location.search);
+  if (params.get("mode") === "login") wrap.classList.add("is-login");
+  render();
+});
   </script>
 </body>
 </html>
