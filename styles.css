@@ -196,6 +196,7 @@ main {
 
 main a {
   color: var(--text);
+  text-decoration: none;
 }
 
 /* ====== Card ====== */
@@ -914,6 +915,12 @@ body.problem-bg{
 
 .btn-enter.secondary:hover {
   background: #f0f5ff;
+}
+
+.btn-enter.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ====== アカウント設定　====== */

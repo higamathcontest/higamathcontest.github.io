@@ -5,6 +5,10 @@ create table profiles (
   score int default 0
 );
 
+ALTER TABLE profiles ADD COLUMN is_admin boolean DEFAULT false;
+-- 自分のアカウントだけ true にする
+UPDATE profiles SET is_admin = true WHERE username = 'your_name';
+
 create table problems (
   id uuid primary key default gen_random_uuid(),
   problem_number int not null,

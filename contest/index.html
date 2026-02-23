@@ -24,8 +24,7 @@
 
     <nav id="nav">
       <a href="/">トップ</a>
-      <a href="/overview">概要</a>
-      <a href="/rules">ルール</a>
+      <a href="/detail">詳細</a>
       <a href="/tools">ツール</a>
       <a class="here" href="/contest">コンテスト</a>
       <a href="/account" id="nav-username">...</a>
@@ -36,6 +35,9 @@
 
   <main>
     <div class="contest-info">
+      <div id="blocked-msg" style="display:none; text-align:center; margin: 2rem auto; max-width: 480px;" class="card">
+      <p>まだ開始されていないため、アクセスできません。</p>
+    </div>
       <h2>予定されたコンテスト</h2>
 
       <table class="contest-table">
@@ -64,6 +66,5 @@
   <footer>
     © HiGA Math Contest
   </footer>
-
 </body>
 </html>
