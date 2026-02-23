@@ -1032,3 +1032,33 @@ body.problem-bg{
 .contest-subnav {
   text-decoration: none;
 }
+
+/* ====== Table of Contents ====== */
+
+.table-of-contents {
+  gap: 1.5rem;
+  padding-left: 3.5rem;
+}
+
+.table-of-contents h3 a {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.table-of-contents h3 a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.table-of-contents h3 a:hover::after {
+  transform: scaleX(1);
+}
