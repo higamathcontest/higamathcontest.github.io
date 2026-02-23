@@ -10,6 +10,17 @@
   const blockedMsg = document.getElementById("blocked-msg")
   if (!btn) return
 
+  // 各文字を <span class="char"> で包んでセットする
+  // → margin-right アニメーションで滑らかな letter-spacing 効果を実現
+  function setBtnText(text) {
+    btn.innerHTML = [...text].map(c =>
+      c === ' '
+        ? '<span class="char" aria-hidden="true">&nbsp;</span>'
+        : `<span class="char" aria-hidden="true">${c}</span>`
+    ).join('')
+    btn.setAttribute('aria-label', text)
+  }
+
   // ① status と セッションを並列取得
   const [
     { data: settings },
@@ -34,13 +45,13 @@
 
     if (status === 'running' || status === 'finished' || isAdmin) {
       // アクティブな Enter ボタン
-      btn.textContent = "Enter"
+      setBtnText("Enter")
       btn.href = "/contest/problems/"
       btn.classList.remove("secondary", "disabled")
       btn.removeAttribute("aria-disabled")
     } else {
       // status === 'before' かつ一般ユーザー：非アクティブ化 & メッセージ表示
-      btn.textContent = "Enter"
+      setBtnText("Enter")
       btn.href = "#"
       btn.classList.add("disabled")
       btn.setAttribute("aria-disabled", "true")
@@ -50,7 +61,7 @@
     }
   } else {
     // 未ログイン → Register / Login（常にアクティブ）
-    btn.textContent = "Create an account / Login"
+    setBtnText("Create an account / Login")
     btn.href = "/account"
     btn.classList.add("secondary")
     btn.classList.remove("disabled")

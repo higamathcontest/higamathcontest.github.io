@@ -852,6 +852,7 @@ body.problem-bg{
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.5rem;
+  table-layout: fixed;
 }
 
 .contest-table thead tr {
@@ -877,37 +878,46 @@ body.problem-bg{
 .contest-table .col-name {
   font-weight: 600;
   font-size: 1rem;
+  width: 12rem;
 }
 
 .contest-table .col-time,
 .contest-table .col-duration {
   color: #555;
   font-size: 0.95rem;
+  width: 9rem;
 }
 
-/* ボタン列を固定幅にして letter-spacing 変化でテーブル幅が変わらないようにする */
+/* ボタン列：はみ出しを隠してセル幅を固定 */
 .contest-table th:last-child,
 .contest-table td:last-child {
-  width: 10rem;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
 }
 
 .btn-enter {
-  display: inline-block;
-  padding: 0.5rem 1.2rem;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
   color: black;
-  border-radius: 4px;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
-  letter-spacing: 0em;
-  transition: letter-spacing 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-align: left;
+  overflow: hidden;
 }
 
-.btn-enter:hover {
-  letter-spacing: 0.1em;
+/* 各文字を包むspan — margin-rightをアニメーション */
+.btn-enter .char {
+  display: inline-block;
+  margin-right: 0;
+  transition: margin-right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 最後の文字はmarginなし */
+.btn-enter:hover .char:not(:last-child) {
+  margin-right: 0.05em;
 }
 
 .btn-enter.secondary {
