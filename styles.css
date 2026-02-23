@@ -893,8 +893,7 @@ body.problem-bg{
 .btn-enter {
   display: inline-block;
   padding: 0.5rem 1.2rem;
-  background: #4f8ef7;
-  color: #fff;
+  color: black;
   border-radius: 4px;
   text-decoration: none;
   font-size: 0.9rem;
@@ -904,7 +903,7 @@ body.problem-bg{
 }
 
 .btn-enter:hover {
-  background: #2d6fd4;
+  letter-spacing: 0.05em;
 }
 
 .btn-enter.secondary {
