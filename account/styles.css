@@ -1144,10 +1144,6 @@ body.problem-bg { background: #ffffff; }
   .auth-wrap.is-login #tab-login    { display: flex; }
 }
 
-
-
-
-
 /* ====== Custom Select (学年) ====== */
 .custom-select {
   position: relative;
