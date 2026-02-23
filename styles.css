@@ -917,6 +917,12 @@ body.problem-bg{
   background: #f0f5ff;
 }
 
+.btn-enter.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* ====== アカウント設定　====== */
 .tab-buttons {
   display: flex;

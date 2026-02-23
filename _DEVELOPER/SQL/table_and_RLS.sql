@@ -5,9 +5,9 @@ create table profiles (
   score int default 0
 );
 
-ALTER TABLE users ADD COLUMN is_admin boolean DEFAULT false;
+ALTER TABLE profiles ADD COLUMN is_admin boolean DEFAULT false;
 -- 自分のアカウントだけ true にする
-UPDATE users SET is_admin = true WHERE username = 'your_name';
+UPDATE profiles SET is_admin = true WHERE username = 'your_name';
 
 create table problems (
   id uuid primary key default gen_random_uuid(),

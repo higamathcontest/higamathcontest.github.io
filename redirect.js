@@ -1,37 +1,48 @@
-import { supabase } from '/supabase-client.js';
+// redirect.js
+// status === 'before' のとき、is_admin でない限り /contest へリダイレクト。
+// type="module" で読み込むこと。
 
-(async () => {
-  // ① contest_settings から status を取得
-  const { data: settings } = await supabase
-    .from('contest_settings')
-    .select('status')
-    .eq('id', 1)
-    .single();
+import { supabase } from '/supabase-client.js'
 
-  const status = settings?.status;
+document.body.style.visibility = 'hidden'
 
-  // before 以外（running / finished）はそのまま通過
-  if (status !== 'before') return;
+;(async () => {
+  try {
+    const { data: settings } = await supabase
+      .from('contest_settings')
+      .select('status')
+      .eq('id', 1)
+      .single()
 
-  // ② before の場合：ログイン中ユーザーの is_admin を確認
-  const { data: { session } } = await supabase.auth.getSession();
+    const status = settings?.status
 
-  if (!session) {
-    // 未ログイン → トップへ
-    location.replace('/');
-    return;
+    if (status !== 'before') {
+      document.body.style.visibility = ''
+      return
+    }
+
+    const { data: { session } } = await supabase.auth.getSession()
+
+    if (!session) {
+      location.replace('/contest')
+      return
+    }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('user_id', session.user.id)
+      .single()
+
+    if (!profile?.is_admin) {
+      location.replace('/contest')
+      return
+    }
+
+    document.body.style.visibility = ''
+
+  } catch (e) {
+    console.error('[redirect.js]', e)
+    document.body.style.visibility = ''
   }
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('user_id', session.user.id)
-    .single();
-
-  if (!profile?.is_admin) {
-    // 一般ユーザー → トップへ
-    location.replace('/');
-  }
-
-  // is_admin === true はそのまま通過
-})();
+})()
