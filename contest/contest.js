@@ -50,7 +50,7 @@
     }
   } else {
     // 未ログイン → Register / Login（常にアクティブ）
-    btn.textContent = "Register / Login"
+    btn.textContent = "Create an account / Login"
     btn.href = "/account"
     btn.classList.add("secondary")
     btn.classList.remove("disabled")
