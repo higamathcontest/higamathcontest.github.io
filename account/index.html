@@ -51,28 +51,37 @@
     <!-- Register -->
     <div id="tab-register" class="auth-panel">
       <div class="form-header">
-        <h2>Create an account</h2>
+        <h2>Sign up</h2>
         <p>アカウントを作成してコンテストに参加しよう</p>
       </div>
       <form id="register-form">
         <input type="text" id="register-username" placeholder="ユーザー名" required />
-        <select id="grade" required>
-          <option value="">学年を選択</option>
-          <option value="G7">G7</option>
-          <option value="G8">G8</option>
-          <option value="G9">G9</option>
-          <option value="G10">G10</option>
-          <option value="G11">G11</option>
-          <option value="G12">G12</option>
-        </select>
+        
+        <div class="custom-select" id="grade-select">
+          <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="custom-select-label">学年を選択</span>
+            <span class="custom-select-arrow"></span>
+          </button>
+          <ul class="custom-select-dropdown" role="listbox">
+            <li class="custom-select-option" data-value="G7">G7</li>
+            <li class="custom-select-option" data-value="G8">G8</li>
+            <li class="custom-select-option" data-value="G9">G9</li>
+            <li class="custom-select-option" data-value="G10">G10</li>
+            <li class="custom-select-option" data-value="G11">G11</li>
+            <li class="custom-select-option" data-value="G12">G12</li>
+          </ul>
+          <!-- バリデーション用の隠しinput -->
+          <input type="hidden" id="grade" name="grade" required />
+        </div>
+
         <input type="password" id="password" placeholder="パスワード" required />
         <input type="password" id="password-confirm" placeholder="パスワード（確認）" required />
-        <input type="text" id="higa_key" placeholder="HiGA Key" required />
+        <input type="text" id="higa_key" placeholder="HiGA KEY" required />
         <label class="agree-row">
           <input type="checkbox" id="agree" required />
-          規約に同意します
+          <a href="/detail#terms">参加規約</a>と<a href="/detail#privacy">プライバシーポリシー</a>に同意します
         </label>
-        <button type="submit">登録</button>
+        <button type="submit"><span>新規登録</span></button>
       </form>
       <p id="register-error" class="error-msg"></p>
     </div>
@@ -81,12 +90,12 @@
     <div id="tab-login" class="auth-panel">
       <div class="form-header">
         <h2>Sign in</h2>
-        <p>アカウントにログイン</p>
+        <p>作成済みのアカウントにログインしよう</p>
       </div>
       <form id="login-form">
         <input type="text" id="login-username" placeholder="ユーザー名" required />
         <input type="password" id="login-password" placeholder="パスワード" required />
-        <button type="submit">ログイン</button>
+        <button type="submit"><span>ログイン</span></button>
       </form>
       <p id="login-error" class="error-msg"></p>
     </div>
@@ -105,22 +114,21 @@
         <p class="current-username">現在のユーザー名：<strong id="current-username-display">...</strong></p>
         <form id="username-form">
           <input type="text" id="new-username" placeholder="新しいユーザー名" required />
-          <button type="submit">ユーザー名を変更</button>
+          <button type="submit"><span>ユーザー名を変更</span></button>
         </form>
         <p id="username-error" class="error-msg"></p>
         <p id="username-success" class="success-msg"></p>
 
         <!-- ログアウト -->
-        <div style="margin-top: 1.5rem;">
-          <button id="logout-btn">ログアウト</button>
+        <div class="logout-wrap">
+          <button id="logout-btn"><span>ログアウト</span></button>
         </div>
 
         <!-- 危険ゾーン：アカウント削除 -->
         <div class="danger-zone">
           <h3>アカウントの削除</h3>
-          <p>この操作は取り消せません。提出履歴もすべて削除されます。</p>
-          <button class="btn-danger" id="delete-btn">アカウントを削除する</button>
-          <p id="delete-error" class="error-msg"></p>
+          <p>この操作は取り消せません。<br>提出履歴もすべて削除されます。</p>
+          <button class="btn-danger" id="delete-btn"><span>アカウントを削除する</span></button>
         </div>
       </div>
     </div>
@@ -143,13 +151,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isLogin){
       // ログイン表示中：ボタンは「新規登録へ」
-      title.textContent = "Hello Friend!";
-      desc.textContent  = "新規登録してスタートしよう";
+      title.textContent = "Welcome Back!";
+      desc.textContent   = "Not created an account yet?";
       btn.textContent   = "SIGN UP";
     } else {
       // 登録表示中：ボタンは「ログインへ」
-      title.textContent = "Welcome Back!";
-      desc.textContent  = "ログインしてコンテストに参加しよう";
+      title.textContent = "Join Us!";
+      desc.textContent   = "Already have an account?";
       btn.textContent   = "SIGN IN";
     }
   }
@@ -164,6 +172,44 @@ document.addEventListener("DOMContentLoaded", () => {
   if (params.get("mode") === "login") wrap.classList.add("is-login");
   render();
 });
+
+  // カスタムセレクト（学年）
+  (function () {
+    const wrap    = document.getElementById('grade-select');
+    if (!wrap) return;
+
+    const trigger = wrap.querySelector('.custom-select-trigger');
+    const label   = wrap.querySelector('.custom-select-label');
+    const options = wrap.querySelectorAll('.custom-select-option');
+    const hidden  = document.getElementById('grade');
+
+    // 開閉
+    trigger.addEventListener('click', () => {
+      const isOpen = wrap.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // 外クリックで閉じる
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('open');
+        trigger.setAttribute('aria-expanded', false);
+      }
+    });
+
+    // 選択
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        label.textContent = opt.textContent;
+        hidden.value = opt.dataset.value;
+        trigger.classList.add('has-value');
+        wrap.classList.remove('open');
+        trigger.setAttribute('aria-expanded', false);
+      });
+    });
+  })();
   </script>
 </body>
 </html>
