@@ -575,11 +575,6 @@ body.register-bg::before {
   transition: transform .12s ease, box-shadow .60s ease, background .12s ease;
 }
 
-.contest-info a:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
-}
-
 .contest-details {
   padding: 1.5rem;
   border: 1.5px dotted var(--black);
@@ -890,6 +885,14 @@ body.problem-bg{
   font-size: 0.95rem;
 }
 
+/* ボタン列を固定幅にして letter-spacing 変化でテーブル幅が変わらないようにする */
+.contest-table th:last-child,
+.contest-table td:last-child {
+  width: 10rem;
+  text-align: center;
+  overflow: hidden;
+}
+
 .btn-enter {
   display: inline-block;
   padding: 0.5rem 1.2rem;
@@ -897,23 +900,18 @@ body.problem-bg{
   border-radius: 4px;
   text-decoration: none;
   font-size: 0.9rem;
-  font-weight: 600;
-  transition: background 0.15s;
+  font-weight: 500;
   white-space: nowrap;
+  letter-spacing: 0em;
+  transition: letter-spacing 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .btn-enter:hover {
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .btn-enter.secondary {
-  background: #fff;
   color: #4f8ef7;
-  border: 1.5px solid #4f8ef7;
-}
-
-.btn-enter.secondary:hover {
-  background: #f0f5ff;
 }
 
 .btn-enter.disabled {
