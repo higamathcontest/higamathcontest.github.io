@@ -1040,13 +1040,13 @@ body.problem-bg{
   padding-left: 3.5rem;
 }
 
-.table-of-contents h3 a {
+.table-of-contents li a {
   position: relative;
   text-decoration: none;
   color: inherit;
 }
 
-.table-of-contents h3 a::after {
+.table-of-contents li a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -1059,6 +1059,6 @@ body.problem-bg{
   transition: transform 0.3s ease;
 }
 
-.table-of-contents h3 a:hover::after {
+.table-of-contents li a:hover::after {
   transform: scaleX(1);
 }
