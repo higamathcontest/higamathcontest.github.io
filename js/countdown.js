@@ -1,5 +1,5 @@
 // countdown.js
-import { supabase } from '/_js/supabase-client.js';
+import { supabase } from '/js/supabase-client.js';
 
 const el = document.getElementById('countdown');
 
