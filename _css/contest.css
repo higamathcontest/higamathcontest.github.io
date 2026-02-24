@@ -1,6 +1,93 @@
-/* countdown.css */
+.contest-info { margin: 2rem; }
 
-/* ── コンテナ ── */
+.contest-info a {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .12s ease, box-shadow .60s ease, background .12s ease;
+}
+
+.contest-info a:hover { transform: translateY(-1px); }
+
+.contest-details {
+  padding: 1.5rem;
+  border: 1.5px dotted var(--black);
+}
+
+.contest-details h3,
+.contest-details p { margin: 0.25rem 0; }
+
+.contest-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  table-layout: fixed;
+}
+
+.contest-table thead tr { border-bottom: 2px solid #ddd; }
+
+.contest-table th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  font-weight: 600;
+}
+
+.contest-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.contest-table .col-name { font-weight: 600; font-size: 1rem; width: 12rem; }
+.contest-table .col-time,
+.contest-table .col-duration { color: #555; font-size: 0.95rem; width: 9rem; }
+
+.contest-table th:last-child,
+.contest-table td:last-child {
+  text-align: left;
+  overflow: hidden;
+}
+
+.btn-enter {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  color: black;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: left;
+  overflow: hidden;
+}
+
+.btn-enter .char {
+  display: inline-block;
+  margin-right: 0;
+  transition: margin-right 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-enter:hover .char:not(:last-child) {
+  margin-right: 0.05em;
+}
+
+.btn-enter.secondary {
+  color: #4f8ef7;
+}
+
+.btn-enter.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.contest-subnav { text-decoration: none; }
+
 .countdown-container {
   display: flex;
   justify-content: center;
@@ -13,7 +100,6 @@
   font-family: 'Georgia', 'Times New Roman', serif;
 }
 
-/* ── ラベル (「開始まで」「終了まで」) ── */
 .countdown-label {
   font-size: 0.85rem;
   letter-spacing: 0.25em;
@@ -22,7 +108,6 @@
   margin-bottom: 0.6rem;
 }
 
-/* ── 桁コンテナ ── */
 .countdown-digits {
   display: flex;
   align-items: center;
@@ -30,15 +115,12 @@
   justify-content: center;
 }
 
-/* ── 個別の桁 ── */
 .countdown-digit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   width: 2.6rem;
   height: 3.6rem;
-
   background: #1a1a2e;
   color: #e8dfc8;
   border: 1px solid #2e2e4e;
@@ -46,7 +128,6 @@
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
-
   font-size: 2.2rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -55,7 +136,6 @@
   overflow: hidden;
 }
 
-/* 中央の横線 (時計風アクセント) */
 .countdown-digit::after {
   content: '';
   position: absolute;
@@ -67,13 +147,11 @@
   pointer-events: none;
 }
 
-/* ── 桁内テキスト ── */
 .digit-inner {
   display: block;
   transition: none;
 }
 
-/* フリップアニメーション */
 @keyframes digitFlip {
   0%   { opacity: 1;   transform: translateY(0)    scaleY(1); }
   40%  { opacity: 0;   transform: translateY(-30%) scaleY(0.5); }
@@ -85,14 +163,12 @@
   animation: digitFlip 0.35s ease;
 }
 
-/* ── コロン ── */
 .countdown-sep {
   font-size: 2rem;
   font-weight: 700;
   color: #5a5a7a;
   margin: 0 0.1rem;
   line-height: 1;
-  /* 点滅 */
   animation: sepBlink 1s step-end infinite;
 }
 
@@ -101,7 +177,6 @@
   50%       { opacity: 0.2; }
 }
 
-/* ── 終了表示 ── */
 .countdown-finished {
   font-size: 3rem;
   font-weight: 700;
@@ -116,7 +191,6 @@
   to   { text-shadow: 0 0 30px rgba(200, 169, 110, 0.7); }
 }
 
-/* ── ローディング・エラー ── */
 .countdown-loading,
 .countdown-error {
   color: #888;
@@ -129,7 +203,6 @@
   color: #c0392b;
 }
 
-/* ── レスポンシブ ── */
 @media (max-width: 480px) {
   .countdown-digit {
     width: 2rem;
@@ -137,12 +210,6 @@
     font-size: 1.6rem;
     border-radius: 4px;
   }
-
-  .countdown-sep {
-    font-size: 1.4rem;
-  }
-
-  .countdown-finished {
-    font-size: 2rem;
-  }
+  .countdown-sep { font-size: 1.4rem; }
+  .countdown-finished { font-size: 2rem; }
 }

@@ -1,0 +1,33 @@
+.landing-card h2 { font-size: 3rem; }
+
+.landing-card p {
+  line-height: 3rem;
+  letter-spacing: 0.1em;
+}
+
+.landing-card a {
+  position: relative;
+  text-decoration: none;
+  color: var(--text);
+  transition: letter-spacing 0.3s ease, color 0.3s ease;
+}
+
+.landing-card a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 1px;
+  background: var(--black);
+  transition: width 0.3s ease;
+}
+
+.landing-card a:hover {
+  letter-spacing: 0.15em;
+  color: var(--black);
+}
+
+.landing-card a:hover::after { width: 100%; }
+
+.lp-contest-date { font-size: 1.2rem; }
