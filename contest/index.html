@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <title>コンテスト | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/script.js" defer></script>
-  <!-- 読み込み順序: supabase-client → signup.js → contest.js -->
-  <script type="module" src="/supabase-client.js"></script>
-  <script type="module" src="/signup.js"></script>
-  <script type="module" src="contest.js"></script>
+  <link rel="stylesheet" href="/_css/common.css">
+  <link rel="stylesheet" href="/_css/contest.css">
+  <script src="/_js/hamburger-menu.js" defer></script>
+  <script type="module" src="/_js/supabase-client.js"></script>
+  <script type="module" src="/_js/signup.js"></script>
+  <script type="module" src="/_js/contest.js"></script>
+  <script type="module" src="/_js/countdown.js"></script>
 </head>
 
 <body class="contest-bg">
@@ -35,8 +36,12 @@
 
   <main>
     <div class="contest-info">
-      <div id="blocked-msg" style="display:none; text-align:center; margin: 2rem auto; max-width: 480px;" class="card">
+      <div id="blocked-msg" class="card">
       <p>まだ開始されていないため、アクセスできません。</p>
+    </div>
+
+    <div class="countdown-container">
+      <div id="countdown" class="countdown">カウントダウン</div>
     </div>
 
       <table class="contest-table">

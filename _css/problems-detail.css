@@ -1,0 +1,104 @@
+.problem-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.problem-wrap {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 16px 18px 24px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  grid-template-rows: auto auto;
+}
+
+.problem-wrap > my-calculator {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(6px);
+  padding: 14px;
+}
+
+.statement-panel { grid-column: 2; grid-row: 1; }
+.submit-panel    { grid-column: 2; grid-row: 2; }
+
+@media (max-width: 640px) {
+  .problem-wrap {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .problem-wrap > my-calculator,
+  .statement-panel,
+  .submit-panel {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  main { padding: 2rem 2rem 2rem; }
+}
+
+.back-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--black);
+  white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.back-btn::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.back-btn:hover::after { transform: scaleX(1); }
+
+.problem-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.problem-title { font-weight: 500; font-size: 0.78rem; }
+.problem-title .emphasize { font-weight: 800; }
+.problem-sub { font-weight: 500; font-size: 0.8rem; }
+.problem-sub .pts { font-weight: 800; }
+
+.panel {
+  border-radius: 18px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(6px);
+  padding: 14px;
+  border: none;
+}
+
+.panel h2 { margin: 0 0 12px; font-size: 1.05rem; }

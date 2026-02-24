@@ -1,0 +1,341 @@
+/* ======================================
+   common.css
+====================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Barlow:wght@400;600;700;800&display=swap');
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg:          #ffffff;
+  --bg-sub:      #f4f6f8;
+  --surface:     #ffffff;
+  --border:      #e2e6ea;
+  --cyan:        #00b8d9;
+  --cyan-light:  #e0f7fc;
+  --cyan-dark:   #0090aa;
+  --black:       #111418;
+  --text:        #1a1e24;
+  --text-muted:  #6b7280;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Avenir, 'Helvetica neue', Helvetica, '游ゴシック', YuGothic, 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  color: var(--black);
+  background-color: transparent;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+header a {
+  color: var(--black);
+  text-decoration: none;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 100;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: white;
+}
+
+nav {
+  margin-top: 0;
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  align-items: center;
+}
+
+nav a {
+  position: relative;
+  color: var(--black);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  margin: 0.2rem 0.3rem;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+nav a:hover::after,
+nav a.here::after {
+  transform: scaleX(1);
+}
+
+#nav-username { text-transform: none; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 2px;
+  background: var(--black);
+  transition: 0.3s;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 999;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 839px) {
+  .hamburger { display: flex; }
+
+  nav#nav {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    background: transparent;
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s ease;
+    z-index: 1000;
+  }
+
+  nav#nav.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  nav#nav a {
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  nav#nav.active a { animation: fadeDown 0.5s forwards; }
+  nav#nav.active a:nth-child(1) { animation-delay: 0.05s; }
+  nav#nav.active a:nth-child(2) { animation-delay: 0.10s; }
+  nav#nav.active a:nth-child(3) { animation-delay: 0.15s; }
+  nav#nav.active a:nth-child(4) { animation-delay: 0.20s; }
+  nav#nav.active a:nth-child(5) { animation-delay: 0.25s; }
+  nav#nav.active a:nth-child(6) { animation-delay: 0.30s; }
+  nav#nav.active a:nth-child(7) { animation-delay: 0.35s; }
+
+  @keyframes fadeDown {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  nav ul { display: none; }
+}
+
+main {
+  padding: 2rem 1.5rem;
+  flex: 1;
+}
+
+main a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  background: transparent;
+}
+
+footer a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+/* ====== Components ====== */
+.card {
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--black);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card p {
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+/* ====== Messages ====== */
+.error-msg {
+  margin-top: 10px;
+  text-align: center;
+  color: #e74c3c;
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+.success-msg {
+  color: #27ae60;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* ====== Animated Gradient Backgrounds ====== */
+body.landing,
+body.overview-bg,
+body.rules-bg,
+body.tool-bg,
+body.contest-bg,
+body.ranking-bg,
+body.register-bg,
+body.submission-bg,
+body.question-bg {
+  position: relative;
+  overflow-x: hidden;
+  background: #ffffff;
+}
+
+body.landing::before,
+body.overview-bg::before,
+body.rules-bg::before,
+body.tool-bg::before,
+body.contest-bg::before,
+body.ranking-bg::before,
+body.register-bg::before,
+body.submission-bg::before,
+body.question-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+body.landing::before {
+  background:
+    radial-gradient(circle at 30% 30%, #c8f3d4 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #cfe7ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #bfefff 0%, transparent 60%);
+}
+
+body.overview-bg::before {
+  background:
+    radial-gradient(circle at 30% 30%, #c2f1df 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #c7ddff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #b4e7ff 0%, transparent 60%);
+}
+
+body.rules-bg::before {
+  background:
+    radial-gradient(circle at 30% 30%, #d1eef1 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #d7d6ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #b8d8ff 0%, transparent 60%);
+}
+
+body.tool-bg::before {
+  background:
+    radial-gradient(circle at 30% 30%, #dbe6ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #e6d9ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #c9d6ff 0%, transparent 60%);
+}
+
+body.contest-bg::before {
+  background:
+    radial-gradient(circle at 30% 30%, #e2e8ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #efe6ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #f7d9e7 0%, transparent 60%);
+}
+
+body.ranking-bg::before {
+  background:
+    radial-gradient(circle at 30% 30%, #e9e3ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #f3edff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #fbe3ea 0%, transparent 60%);
+}
+
+body.register-bg::before {
+  background:
+    radial-gradient(circle at 30% 30%, #f7ecff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #fff0e3 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #ffe3ee 0%, transparent 60%);
+}
+
+body.submission-bg::before {
+  background: 
+    radial-gradient(circle at 30% 30%, #e6e6ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #f1eaff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #f9deea 0%, transparent 60%);
+}
+
+body.question-bg::before {
+  background: 
+    radial-gradient(circle at 30% 30%, #efe6ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #fff0f2 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #ffe3ec 0%, transparent 60%);
+}
+
+body.problem-bg { background: #ffffff; }
