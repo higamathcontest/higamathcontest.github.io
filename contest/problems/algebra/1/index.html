@@ -31,7 +31,7 @@
     <section class="panel statement-panel">
       <h2>問題</h2>
       <p>
-        問題をここに表示。supabaseから取得
+        問題をここに表示。Texで直書きをしようえへへ
       </p>
     </section>
 
@@ -39,10 +39,14 @@
     <section class="panel submit-panel">
       <h2>解答</h2>
       <form id="answer-form">
+        <div class="answer-row">
         <input type="text" name="answer" placeholder="ここに回答を入力" required>
-        <button type="submit">提出</button>
+        <button type="submit" ><a href="/contest/submissions/">提出</a></button>
+        </div>
+      </form>
+      <p>あとn回提出できます。</p>
+      <p>問題の指示に従って解答を非負整数で入力してください．<br>正しくないジャッジ結果となるのを防ぐため，解答に空白文字を含まないようにしてください．</p>
     </section>
-
   </main>
 
   <footer class="problem-footer">
