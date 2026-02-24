@@ -1,0 +1,148 @@
+/* countdown.css */
+
+/* ── コンテナ ── */
+.countdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.countdown {
+  text-align: center;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* ── ラベル (「開始まで」「終了まで」) ── */
+.countdown-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 0.6rem;
+}
+
+/* ── 桁コンテナ ── */
+.countdown-digits {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  justify-content: center;
+}
+
+/* ── 個別の桁 ── */
+.countdown-digit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.6rem;
+  height: 3.6rem;
+
+  background: #1a1a2e;
+  color: #e8dfc8;
+  border: 1px solid #2e2e4e;
+  border-radius: 6px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 中央の横線 (時計風アクセント) */
+.countdown-digit::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* ── 桁内テキスト ── */
+.digit-inner {
+  display: block;
+  transition: none;
+}
+
+/* フリップアニメーション */
+@keyframes digitFlip {
+  0%   { opacity: 1;   transform: translateY(0)    scaleY(1); }
+  40%  { opacity: 0;   transform: translateY(-30%) scaleY(0.5); }
+  60%  { opacity: 0;   transform: translateY(30%)  scaleY(0.5); }
+  100% { opacity: 1;   transform: translateY(0)    scaleY(1); }
+}
+
+.digit-inner.flip {
+  animation: digitFlip 0.35s ease;
+}
+
+/* ── コロン ── */
+.countdown-sep {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5a5a7a;
+  margin: 0 0.1rem;
+  line-height: 1;
+  /* 点滅 */
+  animation: sepBlink 1s step-end infinite;
+}
+
+@keyframes sepBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+/* ── 終了表示 ── */
+.countdown-finished {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #c8a96e;
+  text-shadow: 0 0 20px rgba(200, 169, 110, 0.4);
+  animation: finishedGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes finishedGlow {
+  from { text-shadow: 0 0 10px rgba(200, 169, 110, 0.3); }
+  to   { text-shadow: 0 0 30px rgba(200, 169, 110, 0.7); }
+}
+
+/* ── ローディング・エラー ── */
+.countdown-loading,
+.countdown-error {
+  color: #888;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  padding: 1rem;
+}
+
+.countdown-error {
+  color: #c0392b;
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 480px) {
+  .countdown-digit {
+    width: 2rem;
+    height: 2.8rem;
+    font-size: 1.6rem;
+    border-radius: 4px;
+  }
+
+  .countdown-sep {
+    font-size: 1.4rem;
+  }
+
+  .countdown-finished {
+    font-size: 2rem;
+  }
+}
