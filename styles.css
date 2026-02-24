@@ -1034,10 +1034,8 @@ body.problem-bg{
 }
 
 /* ====== Table of Contents ====== */
-
-.table-of-contents {
-  gap: 1.5rem;
-  padding-left: 3.5rem;
+.table-of-contents li {
+  margin: 1.5rem 0;
 }
 
 .table-of-contents li a {
