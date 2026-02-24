@@ -1,89 +1,66 @@
 // countdown.js
-// contest_settings テーブルから status / start_time / end_time を取得し、
-// #countdown にカウントダウン or "finished" を表示する。
-// supabase-client.js が window.supabase を export していることを前提とする。
-
-import { supabase } from '/supabase-client.js';
+import { supabase } from '/_js/supabase-client.js';
 
 const el = document.getElementById('countdown');
 
-/**
- * 残り秒数を HH:MM:SS 形式の文字列に変換する
- */
-function formatRemaining(ms) {
-  if (ms <= 0) return '00:00:00';
-  const totalSec = Math.floor(ms / 1000);
-  const h = Math.floor(totalSec / 3600);
-  const m = Math.floor((totalSec % 3600) / 60);
-  const s = totalSec % 60;
-  const pad = (n) => String(n).padStart(2, '0');
-  return `${pad(h)}:${pad(m)}:${pad(s)}`;
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function calcParts(ms) {
+  if (ms <= 0) return { h: '00', m: '00', s: '00' };
+  const total = Math.floor(ms / 1000);
+  return {
+    h: pad(Math.floor(total / 3600)),
+    m: pad(Math.floor((total % 3600) / 60)),
+    s: pad(total % 60),
+  };
 }
 
-/**
- * カウントダウンラベルをセットする
- */
-function setLabel(text) {
-  const label = el.querySelector('.countdown-label');
-  if (label) label.textContent = text;
-}
-
-/**
- * 各桁を個別の span に分解して DOM を初期化する
- */
-function buildDigitDom(timeStr) {
-  // "HH:MM:SS" → ["H","H",":","M","M",":","S","S"]
+function buildDom(parts, label) {
   el.innerHTML = `
-    <div class="countdown-label"></div>
+    <div class="countdown-label">${label}</div>
     <div class="countdown-digits">
-      ${[...timeStr]
-        .map((ch) =>
-          ch === ':'
-            ? `<span class="countdown-sep">:</span>`
-            : `<span class="countdown-digit"><span class="digit-inner">${ch}</span></span>`
-        )
-        .join('')}
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-h">${parts.h}</span>
+        <span class="countdown-unit-label">時間</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-m">${parts.m}</span>
+        <span class="countdown-unit-label">分</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-s">${parts.s}</span>
+        <span class="countdown-unit-label">秒</span>
+      </div>
     </div>
   `;
 }
 
-/**
- * カウントダウン文字列を更新し、変化した桁にアニメーションを付与する
- */
-function updateDigits(timeStr) {
-  const digits = el.querySelectorAll('.countdown-digit');
-  const chars = [...timeStr].filter((c) => c !== ':');
-  digits.forEach((span, i) => {
-    const inner = span.querySelector('.digit-inner');
-    const newChar = chars[i] ?? '0';
-    if (inner && inner.textContent !== newChar) {
-      inner.classList.remove('flip');
-      void inner.offsetWidth; // reflow
-      inner.classList.add('flip');
-      inner.textContent = newChar;
-    }
-  });
+function updateDom(parts) {
+  const h = document.getElementById('cd-h');
+  const m = document.getElementById('cd-m');
+  const s = document.getElementById('cd-s');
+  if (h) h.textContent = parts.h;
+  if (m) m.textContent = parts.m;
+  if (s) s.textContent = parts.s;
 }
 
 let intervalId = null;
 
 function startCountdown(targetTime, label) {
-  // 初回描画
-  const initial = formatRemaining(targetTime - Date.now());
-  buildDigitDom(initial);
-  setLabel(label);
+  const initial = calcParts(targetTime - Date.now());
+  buildDom(initial, label);
 
-  // 毎秒更新
   intervalId = setInterval(() => {
     const remaining = targetTime - Date.now();
     if (remaining <= 0) {
       clearInterval(intervalId);
-      updateDigits('00:00:00');
-      // 終了したらページをリロードして状態を再取得
+      updateDom({ h: '00', m: '00', s: '00' });
       setTimeout(() => location.reload(), 1500);
       return;
     }
-    updateDigits(formatRemaining(remaining));
+    updateDom(calcParts(remaining));
   }, 1000);
 }
 
@@ -115,16 +92,12 @@ async function init() {
   const { status, start_time, end_time } = data;
 
   if (status === 'before') {
-    const target = new Date(start_time).getTime();
-    startCountdown(target, '開始まで');
+    startCountdown(new Date(start_time).getTime(), '開始まで');
   } else if (status === 'running') {
-    const target = new Date(end_time).getTime();
-    startCountdown(target, '終了まで');
+    startCountdown(new Date(end_time).getTime(), '終了まで');
   } else {
-    // finished
     showFinished();
   }
 }
 
-// DOM 構築後に実行
 document.addEventListener('DOMContentLoaded', init);

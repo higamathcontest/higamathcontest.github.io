@@ -2,7 +2,7 @@
 // status === 'before' のとき、is_admin でない限り /contest へリダイレクト。
 // type="module" で読み込むこと。
 
-import { supabase } from '/supabase-client.js'
+import { supabase } from '/_js/supabase-client.js'
 
 document.body.style.visibility = 'hidden'
 
