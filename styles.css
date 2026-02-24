@@ -477,6 +477,7 @@ body.contest-bg,
 body.ranking-bg,
 body.submission-bg,
 body.question-bg,
+body.problem-bg,
 body.register-bg{
   position: relative;
   overflow-x: hidden;
@@ -589,6 +590,18 @@ body.question-bg::before {
     radial-gradient(circle at 30% 30%, #efe6ff 0%, transparent 60%),
     radial-gradient(circle at 70% 40%, #fff0f2 0%, transparent 60%),
     radial-gradient(circle at 50% 75%, #ffe3ec 0%, transparent 60%);
+}
+
+body.problem-bg::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -1;
+  opacity: 0.8;
+  background: 
+    radial-gradient(circle at 30% 30%, #e2e8ff 0%, transparent 60%),
+    radial-gradient(circle at 70% 40%, #efe6ff 0%, transparent 60%),
+    radial-gradient(circle at 50% 75%, #f7d9e7 0%, transparent 60%);
 }
 
 /* ====== ContestInfo ====== */
@@ -711,7 +724,6 @@ body.problem-bg{
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(0,0,0,0.08);
 }
@@ -820,7 +832,6 @@ body.problem-bg{
 .panel{
   border-radius: 18px;
   border: 1px solid rgba(0,0,0,0.10);
-  background: rgba(255,255,255,0.75);
   backdrop-filter: blur(6px);
   padding: 14px;
 }
@@ -835,7 +846,6 @@ body.problem-bg{
   grid-column: 1;
   grid-row: 1 / 3;
   border-radius: 18px;
-  background: rgba(255,255,255,0.75);
   backdrop-filter: blur(6px);
   padding: 14px;
 }
@@ -1031,4 +1041,79 @@ body.problem-bg{
 /* ====== contest-subnav ====== */
 .contest-subnav {
   text-decoration: none;
+}
+
+#answer-form input[type="text"] {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 0;
+  background: transparent;
+
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+#answer-form input[type="text"]:focus {
+  border-color: rgba(0,0,0,0.35);
+}
+
+#answer-form input::placeholder {
+  color: rgba(0,0,0,0.4);
+}
+
+/* 横並びコンテナ */
+.answer-row {
+  display: flex;
+  width: 100%;
+}
+
+/* 入力欄 */
+.answer-row input[type="text"] {
+  flex: 1;
+  height: 44px;
+  padding: 0 14px;
+
+  border: 1px solid rgba(0,0,0,0.15);
+  border-right: none;              /* ← ボタンと一体化 */
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+}
+
+/* フォーカス */
+.answer-row input[type="text"]:focus {
+  border-color: rgba(0,0,0,0.35);
+}
+
+/* ボタン */
+.answer-row button {
+  height: 44px;
+  padding: 0 18px;
+
+  border: 1px solid rgba(0,0,0,0.15);
+  background: transparent;
+  font-size: 14px;
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+/* ホバー（色は変えない・影なし） */
+.answer-row button:hover {
+  background: rgba(0,0,0,0.03);
+}
+
+.panel.submit-panel p{
+  font-size: .7rem;
+  margin: 4px;
+  opacity: .7;
+}
+
+.answer-row input:focus,
+.answer-row button:focus {
+  outline: none;
 }

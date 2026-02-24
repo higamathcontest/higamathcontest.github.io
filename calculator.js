@@ -34,6 +34,7 @@ class MyCalculator extends HTMLElement {
   text-align: right;
   font-variant-numeric: tabular-nums;
   outline: none;
+  background-color: transparent;
 }
 
 .calc-copy-btn {
@@ -287,34 +288,53 @@ class MyCalculator extends HTMLElement {
     });
 
     // ── keyboard (scoped to when this element is focused/in page) ─────────
-    this._keyHandler = e => {
-      const k = e.key;
-      if ((k >= "0" && k <= "9") || k === ".") {
-        e.preventDefault(); inputDigit(k);
-        const b = findBtn("data-num", k); if (b) setLastPressed(b); return;
-      }
-      if (["+","-","*","/"].includes(k)) {
-        e.preventDefault(); pressOp(k);
-        const b = findBtn("data-op", k); if (b) { setActiveOp(b); setLastPressed(b); } return;
-      }
-      if (k === "Enter" || k === "=") {
-        e.preventDefault(); pressEq();
-        const b = findBtn("data-act", "eq"); if (b) setLastPressed(b); return;
-      }
-      if (k === "Backspace") { e.preventDefault(); backspace(); return; }
-      if (k === "Escape")    {
-        e.preventDefault(); resetAll();
-        const b = findBtn("data-act", "ac"); if (b) setLastPressed(b); return;
-      }
-    };
-    window.addEventListener("keydown", this._keyHandler);
+    this.tabIndex = 0;
+    let active = false;
+    sr.addEventListener("pointerdown", () => {
+      active = true;
+      this.focus();
+});
+
+// フォーカス外れたら解除
+this.addEventListener("blur", () => { active = false; });
+
+this._keyHandler = (e) => {
+  if (!active) return; // ← 電卓がアクティブな時だけ反応
+
+  const k = e.key;
+  if ((k >= "0" && k <= "9") || k === ".") {
+    e.preventDefault(); inputDigit(k);
+    const b = findBtn("data-num", k); if (b) setLastPressed(b);
+    return;
+  }
+  if (["+","-","*","/"].includes(k)) {
+    e.preventDefault(); pressOp(k);
+    const b = findBtn("data-op", k);
+    if (b) { setActiveOp(b); setLastPressed(b); }
+    return;
+  }
+  if (k === "Enter" || k === "=") {
+    e.preventDefault(); pressEq();
+    const b = findBtn("data-act", "eq"); if (b) setLastPressed(b);
+    return;
+  }
+  if (k === "Backspace") { e.preventDefault(); backspace(); return; }
+  if (k === "Escape") {
+    e.preventDefault(); resetAll();
+    const b = findBtn("data-act", "ac"); if (b) setLastPressed(b);
+    return;
+  }
+};
+
+// capture:true で「先に止められる」問題を回避しやすい
+window.addEventListener("keydown", this._keyHandler, { capture: true });
 
     setDisp("0");
   }
 
   disconnectedCallback() {
-    if (this._keyHandler) window.removeEventListener("keydown", this._keyHandler);
-  }
+  if (this._keyHandler) window.removeEventListener("keydown", this._keyHandler, { capture: true });
+}
 }
 
 customElements.define("my-calculator", MyCalculator);
