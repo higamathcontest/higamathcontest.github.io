@@ -2,16 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>順位表 | HiGA Math Contest</title>
+  <title>提出 | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- 共通CSSを読み込む -->
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/submissions.css">
   <script type="module" src="/js/supabase-client.js"></script>
   <script type="module" src="/js/redirect.js"></script>
   <script src="/js/hamburger-menu.js" defer></script>
   <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/submissions.js"></script>
 </head>
 
 <body class="submission-bg">
@@ -19,9 +18,7 @@
     <h1><a href="/">HiGA Math Contest</a></h1>
 
     <button class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
 
     <nav id="nav">
@@ -42,18 +39,19 @@
       <a href="/contest/ranking">順位表</a>
       <a href="/contest/question">質問</a>
     </nav>
+
     <div class="card">
-      <h2>提出</h2>
-      <p>
-        提出解答と、時間、その結果を掲載（only user own）
-      </p>
+      <h2>提出履歴</h2>
+
+      <!-- submissions.js がここにテーブルを挿入する -->
+      <div id="submissions-container">
+        <p class="loading-msg">読み込み中...</p>
+      </div>
     </div>
   </main>
 
   <footer>
     © HiGA Math Contest
   </footer>
-
 </body>
-
 </html>
