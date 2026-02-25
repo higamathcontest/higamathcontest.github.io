@@ -3,7 +3,7 @@
  * /contest/problems/:category/:number  の問題ページで読み込む
  *
  * 依存: supabase-client.js が window.supabase にクライアントを export していること
- *       <html data-problem-id="UUID"> で問題IDを埋め込んでいること
+ *       <html data-problem-number="A1"> で問題番号を埋め込んでいること
  */
 
 import { supabase } from './supabase-client.js';
@@ -16,14 +16,24 @@ const CATEGORY_LABEL = {
   N: '整数 Number Theory',
 };
 
+// ── DOM 参照 ─────────────────────────────────────────────────────
+const form      = document.getElementById('answer-form');
+const input     = form?.querySelector('input[name="answer"]');
+const submitBtn = form?.querySelector('button[type="submit"]');
+const remainMsg = document.getElementById('remaining-count');
+
+// 問題番号は <html data-problem-number="A1"> から取得
+const PROBLEM_NUMBER = document.documentElement.dataset.problemNumber
+                    || document.querySelector('[data-problem-number]')?.dataset.problemNumber;
+
 // ── ヘッダーに問題情報を反映 ──────────────────────────────────────
 async function fetchProblemMeta() {
-  if (!PROBLEM_ID) return;
+  if (!PROBLEM_NUMBER) return;
 
   const { data, error } = await supabase
     .from('problems')
-    .select('problem_number, point')
-    .eq('id', PROBLEM_ID)
+    .select('point')
+    .eq('problem_number', PROBLEM_NUMBER)
     .single();
 
   if (error) {
@@ -31,8 +41,8 @@ async function fetchProblemMeta() {
     return;
   }
 
-  const letter        = data.problem_number[0].toUpperCase();
-  const number        = data.problem_number.slice(1);
+  const letter        = PROBLEM_NUMBER[0].toUpperCase();
+  const number        = PROBLEM_NUMBER.slice(1);
   const categoryLabel = CATEGORY_LABEL[letter] ?? letter;
 
   const titleEl = document.querySelector('.problem-title');
@@ -41,18 +51,8 @@ async function fetchProblemMeta() {
   const ptsEl = document.querySelector('.pts');
   if (ptsEl) ptsEl.textContent = data.point ?? '--';
 
-  document.title = `Problem ${data.problem_number} | HiGA Math Contest`;
+  document.title = `Problem ${PROBLEM_NUMBER} | HiGA Math Contest`;
 }
-
-// ── DOM 参照 ─────────────────────────────────────────────────────
-const form      = document.getElementById('answer-form');
-const input     = form?.querySelector('input[name="answer"]');
-const submitBtn = form?.querySelector('button[type="submit"]');
-const remainMsg = document.getElementById('remaining-count');
-
-// 問題IDは <html data-problem-id="..."> または <main data-problem-id="..."> から取得
-const PROBLEM_ID = document.documentElement.dataset.problemId
-                || document.querySelector('[data-problem-id]')?.dataset.problemId;
 
 // ── ユーティリティ ───────────────────────────────────────────────
 function setInputDisabled(reason) {
@@ -65,6 +65,7 @@ function setInputDisabled(reason) {
     already_solved:    'この問題はすでに正解しています。',
     limit_reached:     '提出回数の上限に達しました。',
     not_authenticated: 'ログインが必要です。',
+    problem_not_found: '問題が見つかりません。',
   };
 
   if (remainMsg) remainMsg.textContent = messages[reason] ?? '';
@@ -72,14 +73,13 @@ function setInputDisabled(reason) {
 
 // ── checkSubmittable：ページロード時に呼び出す ────────────────────
 async function checkSubmittable() {
-  if (!PROBLEM_ID) {
-    console.error('data-problem-id が設定されていません。');
+  if (!PROBLEM_NUMBER) {
+    console.error('data-problem-number が設定されていません。');
     return;
   }
 
-  // is_submittable RPC 1本で status と remaining を取得（サーバー側で完結）
   const { data, error } = await supabase.rpc('is_submittable', {
-    p_problem_id: PROBLEM_ID,
+    p_problem_number: PROBLEM_NUMBER,
   });
 
   if (error) {
@@ -101,15 +101,14 @@ async function handleSubmit(e) {
   e.preventDefault();
 
   const answer = input?.value?.trim();
-  if (!answer || !PROBLEM_ID) return;
+  if (!answer || !PROBLEM_NUMBER) return;
 
-  // 二重送信防止・UI を送信中状態に
   submitBtn.disabled = true;
   if (remainMsg) remainMsg.textContent = '判定中...';
 
   const { data: result, error } = await supabase.rpc('submit_and_check', {
-    p_problem_id: PROBLEM_ID,
-    p_answer:     answer,
+    p_problem_number: PROBLEM_NUMBER,
+    p_answer:         answer,
   });
 
   if (error) {
@@ -124,7 +123,6 @@ async function handleSubmit(e) {
     return;
   }
 
-  // 結果は /submissions で表示するため、ここでは即リダイレクト
   window.location.href = '/contest/submissions/';
 }
 
