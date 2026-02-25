@@ -1,0 +1,166 @@
+/* ======================================
+   submissions.css
+   /contest/submissions/ 専用スタイル
+====================================== */
+
+/* ── サブナビ ──────────────────────────────────────────────────── */
+
+/* ── カード ────────────────────────────────────────────────────── */
+#submissions-container .card,
+.submissions-page .card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ── メッセージ ─────────────────────────────────────────────────── */
+.loading-msg,
+.empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding: 2rem 0;
+}
+
+/* ── テーブル全体 ───────────────────────────────────────────────── */
+.submissions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* ── ヘッダー ──────────────────────────────────────────────────── */
+.submissions-table thead tr {
+  border-bottom: 2px solid var(--border);
+}
+
+.submissions-table th {
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.submissions-table th:first-child {
+  text-align: right;
+  width: 3rem;
+}
+
+/* ── ボディ行 ──────────────────────────────────────────────────── */
+.submissions-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s ease;
+}
+
+.submissions-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.submissions-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.025);
+}
+
+.submissions-table td {
+  padding: 0.75rem 0.9rem;
+  vertical-align: middle;
+  color: var(--text);
+}
+
+.submissions-table td:first-child {
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  width: 3rem;
+}
+
+/* ── 行の色 ─────────────────────────────────────────────────────── */
+.row-correct {
+  background: rgba(39, 174, 96, 0.04);
+}
+
+.row-wrong {
+  background: transparent;
+}
+
+/* ── 問題リンク ─────────────────────────────────────────────────── */
+.submissions-table td a {
+  color: var(--text);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.submissions-table td a:hover {
+  color: var(--cyan-dark);
+}
+
+/* ── 解答セル ──────────────────────────────────────────────────── */
+.answer-cell {
+  font-family: 'Barlow', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+/* ── 日時セル ──────────────────────────────────────────────────── */
+.date-cell {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── バッジ（AC / WA）──────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 0.2em 0.65em;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-ac {
+  background: #e6f9ef;
+  color: #1a9e55;
+  border: 1px solid #b2e6ca;
+}
+
+.badge-wa {
+  background: #fdf0f0;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+}
+
+/* ── レスポンシブ ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .submissions-table {
+    font-size: 0.82rem;
+  }
+
+  .submissions-table th,
+  .submissions-table td {
+    padding: 0.6rem 0.5rem;
+  }
+
+  /* 日時列を短縮 */
+  .date-cell {
+    font-size: 0.72rem;
+  }
+
+  /* 解答列は折り返し許可 */
+  .answer-cell {
+    word-break: break-all;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    padding: 0.18em 0.5em;
+  }
+}

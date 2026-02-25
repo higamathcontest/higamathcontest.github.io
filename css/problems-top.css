@@ -59,6 +59,20 @@
   white-space: nowrap;
 }
 
+/* AC 済みの問題 */
+.contest-links li.ac a {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.contest-links li.ac a::before {
+  content: "✓ ";
+}
+
+.contest-links li.ac .score {
+  color: #22c55e;
+}
+
 @media (max-width: 980px) {
   .contest-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
