@@ -8,6 +8,22 @@
 
 import { supabase } from './supabase-client.js';
 
+// ── 問題番号 → href 変換 ──────────────────────────────────────────
+const CATEGORY_MAP = {
+  A: 'algebra',
+  C: 'combinatorics',
+  G: 'geometry',
+  N: 'number-theory',
+};
+
+function problemNumberToHref(problemNumber) {
+  const letter   = problemNumber[0].toUpperCase();
+  const number   = problemNumber.slice(1);
+  const category = CATEGORY_MAP[letter];
+  if (!category) return '#';
+  return `/contest/problems/${category}/${number}/`;
+}
+
 // ── DOM 参照 ─────────────────────────────────────────────────────
 const container = document.getElementById('submissions-container');
 
@@ -65,7 +81,7 @@ async function loadSubmissions() {
     tr.innerHTML = `
       <td>${rows.length - idx}</td>
       <td>
-        <a href="/contest/problems/algebra/${row.problem_number}/">
+        <a href="${problemNumberToHref(row.problem_number)}">
           Problem ${row.problem_number}
         </a>
       </td>

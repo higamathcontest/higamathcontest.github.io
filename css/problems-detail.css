@@ -34,7 +34,7 @@
 .statement-panel { grid-column: 2; grid-row: 1; }
 .submit-panel    { grid-column: 2; grid-row: 2; }
 
-@media (max-width: 640px) {
+@media (max-width: 930px) {
   .problem-wrap {
     grid-template-columns: 1fr;
     grid-template-rows: none;
