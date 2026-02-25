@@ -65,10 +65,6 @@
   font-weight: bold;
 }
 
-.contest-links li.ac a::before {
-  content: "✓ ";
-}
-
 .contest-links li.ac .score {
   color: #22c55e;
 }
