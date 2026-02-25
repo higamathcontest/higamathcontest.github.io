@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
-  data-problem-id に problems.id（UUID）を埋め込む。
-  サーバーサイドレンダリング or ビルド時に各問題ページごとに差し替える。
-  例: data-problem-id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  **** 重要 ****
+  htmlタグのdata-problem-number に problems.problem_number（UUID）を埋め込む。
+  例: data-problem-number="A1"
 -->
 <html lang="ja" data-problem-number="A1">
 <head>
@@ -31,10 +31,8 @@
 
   <main class="problem-wrap">
 
-    <!-- Calculator -->
     <my-calculator></my-calculator>
 
-    <!-- Problems -->
     <section class="panel statement-panel">
       <h2>問題</h2>
       <p>
@@ -43,7 +41,6 @@
       <p>アインシュタインは \( E=mc^2 \) の公式を導きました。</p>
     </section>
 
-    <!-- Form -->
     <section class="panel submit-panel">
       <h2>解答</h2>
       <form id="answer-form">
@@ -56,11 +53,9 @@
             required
           >
           <button type="submit">提出</button>
-          <!-- ↑ <a> タグを外す。submit はフォームイベントで処理する -->
         </div>
       </form>
 
-      <!-- JS が残り回数を書き込む / 上限・正解済みの場合はメッセージを書き込む -->
       <p id="remaining-count" class="remaining-msg">読み込み中...</p>
 
       <p class="submit-note">
