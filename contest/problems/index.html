@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 共通CSSを読み込む -->
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/problems-top.css">
   <script type="module" src="/js/supabase-client.js"></script>
-  <script type="module" src="/js/redirect.js"></script> 
+  <script type="module" src="/js/redirect.js"></script>
   <script src="/js/hamburger-menu.js" defer></script>
   <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/problems-top.js"></script>
 </head>
 
 <body class="contest-bg">
@@ -22,7 +22,7 @@
       <span></span>
       <span></span>
     </button>
-    
+
     <nav id="nav">
       <a href="/">トップ</a>
       <a href="/detail">詳細</a>
@@ -36,86 +36,94 @@
 
   <main>
 
-  <nav class="contest-subnav">
-    <a class="here" href="/contest/problems">問題</a>
-    <a href="/contest/submissions">提出</a>
-    <a href="/contest/ranking">順位表</a>
-    <a href="/contest/question">質問</a>
-  </nav>
+    <nav class="contest-subnav">
+      <a class="here" href="/contest/problems">問題</a>
+      <a href="/contest/submissions">提出</a>
+      <a href="/contest/ranking">順位表</a>
+      <a href="/contest/question">質問</a>
+    </nav>
 
-  <div class="card">
-    <h2>問題</h2>
-    <div class="contest-grid">
-      <!-- Algebra -->
-      <section class="contest-col">
-        <h3>代数　Algebra</h3>
-        <ul class="contest-links">
-          <li><a href="/contest/problems/algebra/1/">Q1 確認ページ<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/2/">Q2<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/3/">Q3<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/4/">Q4<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/5/">Q5<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/6/">Q6<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/7/">Q7<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/8/">Q8<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/9/">Q9<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/algebra/10/">Q10<span class="score">100 pts</span></a></li>
-          
-        </ul>
-      </section>
+    <div class="card">
+      <h2>問題</h2>
 
-      <!-- Combinatorics -->
-      <section class="contest-col">
-        <h3>組み合わせ　Combinatorics</h3>
-        <ul class="contest-links">
-          <li><a href="/contest/problems/combinatorics/1/">Q1<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/2/">Q2<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/3/">Q3<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/4/">Q4<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/5/">Q5<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/6/">Q6<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/7/">Q7<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/8/">Q8<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/9/">Q9<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/combinatorics/10/">Q10<span class="score">100 pts</span></a></li>
-        </ul>
-      </section>
+      <!-- スコア・ペナルティ表示 -->
+      <div class="my-status">
+        <span class="my-status-item">スコア：<strong id="my-score">--</strong></span>
+        <span class="my-status-item">ペナルティ：<strong id="my-penalty">--</strong></span>
+      </div>
 
-      <!-- Geometry -->
-      <section class="contest-col">
-        <h3>幾何　Geometry</h3>
-        <ul class="contest-links">
-          <li><a href="/contest/problems/geometry/1/">Q1<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/2/">Q2<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/3/">Q3<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/4/">Q4<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/5/">Q5<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/6/">Q6<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/7/">Q7<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/8/">Q8<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/9/">Q9<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/geometry/10/">Q10<span class="score">100 pts</span></a></li>
-        </ul>
-      </section>
+      <div class="contest-grid">
 
-      <!-- Number Theory -->
-      <section class="contest-col">
-        <h3>整数　Number Theory</h3>
-        <ul class="contest-links">
-          <li><a href="/contest/problems/number-theory/1/">Q1<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/2/">Q2<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/3/">Q3<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/4/">Q4<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/5/">Q5<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/6/">Q6<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/7/">Q7<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/8/">Q8<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/9/">Q9<span class="score">100 pts</span></a></li>
-          <li><a href="/contest/problems/number-theory/10/">Q10<span class="score">100 pts</span></a></li>
-        </ul>
-      </section>
+        <!-- Algebra -->
+        <section class="contest-col">
+          <h3>代数　Algebra</h3>
+          <ul class="contest-links">
+            <li><a href="/contest/problems/algebra/1/">Q1 確認ページ<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/2/">Q2<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/3/">Q3<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/4/">Q4<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/5/">Q5<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/6/">Q6<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/7/">Q7<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/8/">Q8<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/9/">Q9<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/algebra/10/">Q10<span class="score">100 pts</span></a></li>
+          </ul>
+        </section>
+
+        <!-- Combinatorics -->
+        <section class="contest-col">
+          <h3>組み合わせ　Combinatorics</h3>
+          <ul class="contest-links">
+            <li><a href="/contest/problems/combinatorics/1/">Q1<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/2/">Q2<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/3/">Q3<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/4/">Q4<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/5/">Q5<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/6/">Q6<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/7/">Q7<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/8/">Q8<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/9/">Q9<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/combinatorics/10/">Q10<span class="score">100 pts</span></a></li>
+          </ul>
+        </section>
+
+        <!-- Geometry -->
+        <section class="contest-col">
+          <h3>幾何　Geometry</h3>
+          <ul class="contest-links">
+            <li><a href="/contest/problems/geometry/1/">Q1<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/2/">Q2<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/3/">Q3<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/4/">Q4<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/5/">Q5<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/6/">Q6<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/7/">Q7<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/8/">Q8<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/9/">Q9<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/geometry/10/">Q10<span class="score">100 pts</span></a></li>
+          </ul>
+        </section>
+
+        <!-- Number Theory -->
+        <section class="contest-col">
+          <h3>整数　Number Theory</h3>
+          <ul class="contest-links">
+            <li><a href="/contest/problems/number-theory/1/">Q1<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/2/">Q2<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/3/">Q3<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/4/">Q4<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/5/">Q5<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/6/">Q6<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/7/">Q7<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/8/">Q8<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/9/">Q9<span class="score">100 pts</span></a></li>
+            <li><a href="/contest/problems/number-theory/10/">Q10<span class="score">100 pts</span></a></li>
+          </ul>
+        </section>
+
+      </div>
     </div>
-  </div>
 
   </main>
 
