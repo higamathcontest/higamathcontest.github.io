@@ -253,6 +253,7 @@ body.contest-bg,
 body.ranking-bg,
 body.register-bg,
 body.submission-bg,
+body.problem-bg,
 body.question-bg {
   position: relative;
   overflow-x: hidden;
@@ -267,6 +268,7 @@ body.contest-bg::before,
 body.ranking-bg::before,
 body.register-bg::before,
 body.submission-bg::before,
+body.problem-bg::before,
 body.question-bg::before {
   content: "";
   position: fixed;
@@ -303,7 +305,8 @@ body.tool-bg::before {
     radial-gradient(circle at 50% 75%, #c9d6ff 0%, transparent 60%);
 }
 
-body.contest-bg::before {
+body.contest-bg::before,
+body.problem-bg::before {
   background:
     radial-gradient(circle at 30% 30%, #e2e8ff 0%, transparent 60%),
     radial-gradient(circle at 70% 40%, #efe6ff 0%, transparent 60%),
@@ -337,5 +340,3 @@ body.question-bg::before {
     radial-gradient(circle at 70% 40%, #fff0f2 0%, transparent 60%),
     radial-gradient(circle at 50% 75%, #ffe3ec 0%, transparent 60%);
 }
-
-body.problem-bg { background: #ffffff; }
