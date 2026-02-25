@@ -8,6 +8,42 @@
 
 import { supabase } from './supabase-client.js';
 
+// ── 問題番号 → カテゴリ表示名 ────────────────────────────────────
+const CATEGORY_LABEL = {
+  A: '代数 Algebra',
+  C: '組み合わせ Combinatorics',
+  G: '幾何 Geometry',
+  N: '整数 Number Theory',
+};
+
+// ── ヘッダーに問題情報を反映 ──────────────────────────────────────
+async function fetchProblemMeta() {
+  if (!PROBLEM_ID) return;
+
+  const { data, error } = await supabase
+    .from('problems')
+    .select('problem_number, point')
+    .eq('id', PROBLEM_ID)
+    .single();
+
+  if (error) {
+    console.error('問題情報の取得エラー:', error.message);
+    return;
+  }
+
+  const letter        = data.problem_number[0].toUpperCase();
+  const number        = data.problem_number.slice(1);
+  const categoryLabel = CATEGORY_LABEL[letter] ?? letter;
+
+  const titleEl = document.querySelector('.problem-title');
+  if (titleEl) titleEl.textContent = `${categoryLabel} - Problem ${number}`;
+
+  const ptsEl = document.querySelector('.pts');
+  if (ptsEl) ptsEl.textContent = data.point ?? '--';
+
+  document.title = `Problem ${data.problem_number} | HiGA Math Contest`;
+}
+
 // ── DOM 参照 ─────────────────────────────────────────────────────
 const form      = document.getElementById('answer-form');
 const input     = form?.querySelector('input[name="answer"]');
@@ -94,6 +130,7 @@ async function handleSubmit(e) {
 
 // ── 初期化 ───────────────────────────────────────────────────────
 if (form) {
+  fetchProblemMeta();
   checkSubmittable();
   form.addEventListener('submit', handleSubmit);
 } else {
