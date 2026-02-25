@@ -26,7 +26,7 @@ class MyCalculator extends HTMLElement {
 .calc-display {
   width: 100%;
   box-sizing: border-box;
-  height: 56px;
+  height: 64px;
   border-radius: 0;
   border: 1px solid rgba(0,0,0,.12);
   padding: 0 14px 0 36px;
@@ -37,9 +37,10 @@ class MyCalculator extends HTMLElement {
   background-color: transparent;
 }
 
-.calc-copy-btn {
+.calc-copy-btn,
+.calc-transfer-btn {
   position: absolute;
-  top: 6px; left: 6px;
+  left: 6px;
   border: none;
   background: transparent;
   padding: 4px;
@@ -48,12 +49,20 @@ class MyCalculator extends HTMLElement {
   opacity: .75;
   transition: all .15s ease;
 }
-.calc-copy-btn:hover  { opacity: 1; color: #111; transform: scale(1.08); }
-.calc-copy-btn:active { transform: scale(.95); }
+.calc-copy-btn     { top: 4px; }
+.calc-transfer-btn { top: 28px; }
+.calc-copy-btn:hover,
+.calc-transfer-btn:hover  { opacity: 1; color: #111; transform: scale(1.08); }
+.calc-copy-btn:active,
+.calc-transfer-btn:active { transform: scale(.95); }
 
 .icon-check { display: none; color: #16a34a; }
 .calc-copy-btn.is-copied .icon-copy  { display: none; }
 .calc-copy-btn.is-copied .icon-check { display: block; }
+
+.calc-transfer-btn.is-sent .icon-transfer { display: none; }
+.calc-transfer-btn.is-sent .icon-sent     { display: block; }
+.icon-sent { display: none; color: #2563eb; }
 
 /* --- grid --- */
 .calc-grid5 {
@@ -110,6 +119,16 @@ class MyCalculator extends HTMLElement {
           stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
+    <button class="calc-transfer-btn" aria-label="解答欄に転送">
+      <svg class="icon-transfer" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg class="icon-sent" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+        <polyline points="5 13 10 18 19 7" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
   </div>
 
   <div class="calc-grid5">
@@ -151,6 +170,7 @@ class MyCalculator extends HTMLElement {
     const sr = this.shadowRoot;
     const display  = sr.querySelector(".calc-display");
     const copyBtn  = sr.querySelector(".calc-copy-btn");
+    const transferBtn = sr.querySelector(".calc-transfer-btn");
     const grid     = sr.querySelector(".calc-grid5");
 
     // ── helpers ──────────────────────────────────────────────────────────
@@ -287,7 +307,15 @@ class MyCalculator extends HTMLElement {
       setTimeout(() => copyBtn.classList.remove("is-copied"), 900);
     });
 
-    // ── keyboard (scoped to when this element is focused/in page) ─────────
+    // ── transfer ──────────────────────────────────────────────────────────
+    transferBtn.addEventListener("click", () => {
+      const answerInput = document.querySelector('input[name="answer"]');
+      if (!answerInput || answerInput.disabled) return;
+      answerInput.value = display.value;
+      answerInput.focus();
+      transferBtn.classList.add("is-sent");
+      setTimeout(() => transferBtn.classList.remove("is-sent"), 900);
+    });
     this.tabIndex = 0;
     let active = false;
     sr.addEventListener("pointerdown", () => {
