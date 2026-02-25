@@ -26,7 +26,7 @@ class MyCalculator extends HTMLElement {
 .calc-display {
   width: 100%;
   box-sizing: border-box;
-  height: 64px;
+  height: 80px;
   border-radius: 0;
   border: 1px solid rgba(0,0,0,.12);
   padding: 0 14px 0 36px;
@@ -38,7 +38,8 @@ class MyCalculator extends HTMLElement {
 }
 
 .calc-copy-btn,
-.calc-transfer-btn {
+.calc-transfer-btn,
+.calc-paste-btn {
   position: absolute;
   left: 6px;
   border: none;
@@ -49,12 +50,15 @@ class MyCalculator extends HTMLElement {
   opacity: .75;
   transition: all .15s ease;
 }
-.calc-copy-btn     { top: 4px; }
-.calc-transfer-btn { top: 28px; }
+.calc-copy-btn     { top: 6px; }
+.calc-transfer-btn { top: 30px; }
+.calc-paste-btn    { top: 54px; }
 .calc-copy-btn:hover,
-.calc-transfer-btn:hover  { opacity: 1; color: #111; transform: scale(1.08); }
+.calc-transfer-btn:hover,
+.calc-paste-btn:hover  { opacity: 1; color: #111; transform: scale(1.08); }
 .calc-copy-btn:active,
-.calc-transfer-btn:active { transform: scale(.95); }
+.calc-transfer-btn:active,
+.calc-paste-btn:active { transform: scale(.95); }
 
 .icon-check { display: none; color: #16a34a; }
 .calc-copy-btn.is-copied .icon-copy  { display: none; }
@@ -63,6 +67,10 @@ class MyCalculator extends HTMLElement {
 .calc-transfer-btn.is-sent .icon-transfer { display: none; }
 .calc-transfer-btn.is-sent .icon-sent     { display: block; }
 .icon-sent { display: none; color: #2563eb; }
+
+.calc-paste-btn.is-pasted .icon-paste { display: none; }
+.calc-paste-btn.is-pasted .icon-pasted { display: block; }
+.icon-pasted { display: none; color: #16a34a; }
 
 /* --- grid --- */
 .calc-grid5 {
@@ -129,6 +137,18 @@ class MyCalculator extends HTMLElement {
           stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
+    <button class="calc-paste-btn" aria-label="クリップボードから貼り付け">
+      <svg class="icon-paste" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+        <path d="M9 2h6a1 1 0 0 1 1 1v1H8V3a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg class="icon-pasted" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+        <polyline points="5 13 10 18 19 7" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
   </div>
 
   <div class="calc-grid5">
@@ -171,6 +191,7 @@ class MyCalculator extends HTMLElement {
     const display  = sr.querySelector(".calc-display");
     const copyBtn  = sr.querySelector(".calc-copy-btn");
     const transferBtn = sr.querySelector(".calc-transfer-btn");
+    const pasteBtn = sr.querySelector(".calc-paste-btn");
     const grid     = sr.querySelector(".calc-grid5");
 
     // ── helpers ──────────────────────────────────────────────────────────
@@ -316,7 +337,18 @@ class MyCalculator extends HTMLElement {
       transferBtn.classList.add("is-sent");
       setTimeout(() => transferBtn.classList.remove("is-sent"), 900);
     });
-    this.tabIndex = 0;
+    // ── paste ──────────────────────────────────────────────────────────────
+    pasteBtn.addEventListener("click", async () => {
+      let text = "";
+      try { text = await navigator.clipboard.readText(); } catch {}
+      const num = Number(text.trim());
+      if (!isFinite(num) || text.trim() === "") return;
+      entry = fmt15(num);
+      justEvaluated = true;
+      setDisp(entry);
+      pasteBtn.classList.add("is-pasted");
+      setTimeout(() => pasteBtn.classList.remove("is-pasted"), 900);
+    });
     let active = false;
     sr.addEventListener("pointerdown", () => {
       active = true;
