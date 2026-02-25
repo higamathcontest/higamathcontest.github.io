@@ -136,64 +136,66 @@
       wrap.className = "qa-item";
 
       const answers = Array.isArray(q.question_answers) ? q.question_answers : [];
+      // 回答は1件のみ
+      const existingAnswer = answers[0] ?? null;
 
       wrap.innerHTML = `
-        <div class="qa-head">
-          <div class="qa-title">${escapeHtml(q.title)}</div>
-          <div class="qa-meta">by ${escapeHtml(q._username || "unknown")}</div>
-        </div>
-
+        <div class="qa-title">${escapeHtml(q.title)}</div>
         <div class="qa-body">${escapeHtml(q.body).replaceAll("\n", "<br>")}</div>
 
-        <div class="qa-answers">
-          ${answers.map(a => `
-            <div class="qa-answer">
-              <div class="qa-meta">運営回答</div>
-              <div>${escapeHtml(a.body).replaceAll("\n", "<br>")}</div>
-            </div>
-          `).join("")}
-        </div>
+        ${existingAnswer ? `
+          <div class="qa-answer">
+            <div class="qa-meta">運営回答</div>
+            <div>${escapeHtml(existingAnswer.body).replaceAll("\n", "<br>")}</div>
+          </div>
+        ` : ""}
 
         ${me.is_admin ? `
           <div class="qa-admin">
-            <textarea id="ans-${q.id}" class="qa-textarea" placeholder="回答を書く"></textarea>
+            <textarea id="ans-${q.id}" class="qa-textarea" placeholder="回答を書く">${existingAnswer ? escapeHtml(existingAnswer.body) : ""}</textarea>
             <div class="qa-admin-actions">
-              <button type="button" class="qa-btn" data-act="answer" data-id="${q.id}"><span>回答送信</span></button>
+              <button type="button" class="qa-btn" data-act="answer" data-id="${q.id}">
+                <span>${existingAnswer ? "回答を更新" : "回答送信"}</span>
+              </button>
               <button type="button" class="qa-btn danger" data-act="delete" data-id="${q.id}"><span>質問削除</span></button>
             </div>
             <p class="muted" id="adminmsg-${q.id}"></p>
           </div>
-        ` : ``}
+        ` : ""}
       `;
 
       if (me.is_admin) {
-        // 回答送信
+        // 回答送信 or 更新
         wrap.querySelector(`[data-act="answer"][data-id="${q.id}"]`)?.addEventListener("click", async () => {
-          const ta = wrap.querySelector(`#ans-${q.id}`);
+          const ta  = wrap.querySelector(`#ans-${q.id}`);
           const msg = wrap.querySelector(`#adminmsg-${q.id}`);
           const body = (ta?.value || "").trim();
 
-          if (!body) {
-            msg.textContent = "回答を入力してください。";
-            return;
-          }
+          if (!body) { msg.textContent = "回答を入力してください。"; return; }
 
           msg.textContent = "送信中…";
-          const { error } = await supabase
-            .from("question_answers")
-            .insert({
-              question_id: q.id,
-              admin_user_id: me.user_id,
-              body
-            });
+
+          let error;
+          if (existingAnswer) {
+            // 既存回答を UPDATE
+            ({ error } = await supabase
+              .from("question_answers")
+              .update({ body })
+              .eq("id", existingAnswer.id));
+          } else {
+            // 新規 INSERT
+            ({ error } = await supabase
+              .from("question_answers")
+              .insert({ question_id: q.id, admin_user_id: me.user_id, body }));
+          }
 
           if (error) {
-            console.error("[questionbox] insert answer error:", error);
-            msg.textContent = "回答送信に失敗しました。";
+            console.error("[questionbox] answer save error:", error);
+            msg.textContent = "保存に失敗しました。";
             return;
           }
 
-          msg.textContent = "送信しました。";
+          msg.textContent = "保存しました。";
           await loadQuestions();
         });
 
