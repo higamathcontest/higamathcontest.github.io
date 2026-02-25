@@ -31,10 +31,11 @@ async function init() {
 
   const userId = session.user.id;
 
-  // ① プロフィール（スコア・ペナルティ）と ② AC 済み提出の problem_id を並列取得
+  // ① プロフィール ② AC済み提出 ③ 全問題のpoint を並列取得
   const [
     { data: profile, error: profileErr },
     { data: solvedRows, error: solvedErr },
+    { data: allProblems, error: problemsErr },
   ] = await Promise.all([
     supabase
       .from('profiles')
@@ -46,10 +47,14 @@ async function init() {
       .select('problem_id')
       .eq('user_id', userId)
       .eq('is_correct', true),
+    supabase
+      .from('problems')
+      .select('problem_number, point'),
   ]);
 
-  if (profileErr) console.error('profiles 取得エラー:', profileErr.message);
-  if (solvedErr)  console.error('submissions 取得エラー:', solvedErr.message);
+  if (profileErr)  console.error('profiles 取得エラー:', profileErr.message);
+  if (solvedErr)   console.error('submissions 取得エラー:', solvedErr.message);
+  if (problemsErr) console.error('problems 取得エラー:', problemsErr.message);
 
   // ── スコア・ペナルティ表示 ────────────────────────────────────
   const scoreEl   = document.getElementById('my-score');
@@ -58,8 +63,20 @@ async function init() {
   if (scoreEl)   scoreEl.textContent   = `${profile?.score   ?? 0} pnt.`;
   if (penaltyEl) penaltyEl.textContent = `${profile?.penalty ?? 0} min.`;
 
+  // ── 各問題の point を表示 ────────────────────────────────────
+  // problem_number → point のマップを作成
+  const pointMap = Object.fromEntries(
+    (allProblems ?? []).map(p => [p.problem_number, p.point])
+  );
+
+  document.querySelectorAll('.contest-links li[data-problem-number]').forEach(li => {
+    const pn    = li.dataset.problemNumber;
+    const point = pointMap[pn];
+    const span  = li.querySelector('.score');
+    if (span && point != null) span.textContent = `${point} pts`;
+  });
+
   // ── AC 済み問題を緑色に ──────────────────────────────────────
-  // problem_id 一覧から problems テーブルの problem_number を取得
   const solvedIds = (solvedRows ?? []).map(r => r.problem_id);
   const { data: solvedProblems } = solvedIds.length > 0
     ? await supabase
