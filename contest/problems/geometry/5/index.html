@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+  **** 重要 ****
+  htmlタグのdata-problem-number に problems.problem_number（UUID）を埋め込む。
+  例: data-problem-number="A1"
+-->
+<html lang="ja" data-problem-number="G5">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problem | HiGA Math Contest</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/problems-detail.css">
+  <script type="module" src="/js/supabase-client.js"></script>
+  <script type="module" src="/js/redirect.js"></script>
+  <script src="/js/hamburger-menu.js" defer></script>
+  <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/calculator.js"></script>
+  <script type="module" src="/js/problems-detail.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body class="problem-bg">
+  <header class="problem-header">
+    <a class="back-btn" href="/contest/problems/">← 戻る</a>
+    <div class="problem-meta">
+      <div class="problem-title">読み込み中...</div>
+      <div class="problem-sub">Points: <span class="pts">--</span></div>
+    </div>
+  </header>
+
+  <main class="problem-wrap">
+
+    <my-calculator></my-calculator>
+
+    <section class="panel statement-panel">
+      <h2>問題</h2>
+      <p>
+        問題をここに表示。Texで直書きをしようえへへ
+      </p>
+      <p>アインシュタインは \( E=mc^2 \) の公式を導きました。</p>
+    </section>
+
+    <section class="panel submit-panel">
+      <h2>解答</h2>
+      <form id="answer-form">
+        <div class="answer-row">
+          <input
+            type="text"
+            name="answer"
+            placeholder="ここに回答を入力"
+            autocomplete="off"
+            required
+          >
+          <button type="submit">提出</button>
+        </div>
+      </form>
+
+      <p id="remaining-count" class="remaining-msg">読み込み中...</p>
+
+      <p class="submit-note">
+        問題の指示に従って解答を非負整数で入力してください。<br>
+        正しくないジャッジ結果となるのを防ぐため、解答に空白文字を含まないようにしてください。
+      </p>
+    </section>
+  </main>
+
+  <footer class="problem-footer">
+    © HiGA Math Contest
+  </footer>
+</body>
+</html>
