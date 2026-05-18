@@ -487,9 +487,10 @@
 }
 
 .custom-select.open .custom-select-dropdown {
-  max-height: 300px;
+  max-height: 380px;
   opacity: 1;
   transform: translateY(0);
+  overflow-y: auto;
 }
 
 .custom-select-label {
