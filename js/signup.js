@@ -8,6 +8,12 @@
   const usernameLink = document.getElementById("nav-username")
   if (!usernameLink) return
 
+  const isEnglishPage = location.pathname.startsWith("/en/")
+
+  const accountPath = isEnglishPage ? "/en/account.html" : "/account"
+  const loginPath = isEnglishPage ? "/en/account.html?mode=login" : "/account?mode=login"
+  const loginText = isEnglishPage ? "Login" : "ログイン"
+
   if (!window.supabase) {
     console.error("[signup.js] window.supabase が見つかりません。supabase-client.js が先に読み込まれているか確認してください。")
     return
@@ -19,8 +25,8 @@
     const { data: { session } } = await supabase.auth.getSession()
 
     if (!session) {
-      usernameLink.textContent = "ログイン"
-      usernameLink.href = "/account?tab=login"
+      usernameLink.textContent = loginText
+      usernameLink.href = loginPath
       return
     }
 
@@ -40,7 +46,7 @@
     if (profile) {
       usernameLink.textContent = profile.username
       usernameLink.style.textTransform = "none"
-      usernameLink.href = "/account"
+      usernameLink.href = accountPath
     }
 
   } catch (err) {
