@@ -45,41 +45,32 @@
             </div>
           </div>
 
-          <!-- Register -->
-          <div id="tab-register" class="auth-panel">
-            <div class="form-header">
-              <h2>Sign up</h2>
-              <p>アカウントを作成してコンテストに参加しよう</p>
-            </div>
-            <form id="register-form">
-              <input
-                type="text"
-                id="register-username"
-                placeholder="ユーザー名"
-                required
-              />
-
-              <div class="custom-select" id="grade-select">
-                <button
-                  type="button"
-                  class="custom-select-trigger"
-                  aria-haspopup="listbox"
-                  aria-expanded="false"
-                >
-                  <span class="custom-select-label">学年を選択</span>
-                  <span class="custom-select-arrow"></span>
-                </button>
-                <ul class="custom-select-dropdown" role="listbox">
-                  <li class="custom-select-option" data-value="G7">G7</li>
-                  <li class="custom-select-option" data-value="G8">G8</li>
-                  <li class="custom-select-option" data-value="G9">G9</li>
-                  <li class="custom-select-option" data-value="G10">G10</li>
-                  <li class="custom-select-option" data-value="G11">G11</li>
-                  <li class="custom-select-option" data-value="G12">G12</li>
-                </ul>
-                <!-- バリデーション用の隠しinput -->
-                <input type="hidden" id="grade" name="grade" required />
-              </div>
+    <!-- Register -->
+    <div id="tab-register" class="auth-panel">
+      <div class="form-header">
+        <h2>Sign up</h2>
+        <p>アカウントを作成してコンテストに参加しよう</p>
+      </div>
+      <form id="register-form">
+        <input type="text" id="register-username" placeholder="ユーザー名" required />
+        
+        <div class="custom-select" id="grade-select">
+          <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="custom-select-label">学年を選択</span>
+            <span class="custom-select-arrow"></span>
+          </button>
+          <ul class="custom-select-dropdown" role="listbox">
+            <li class="custom-select-option" data-value="G7">G7</li>
+            <li class="custom-select-option" data-value="G8">G8</li>
+            <li class="custom-select-option" data-value="G9">G9</li>
+            <li class="custom-select-option" data-value="G10">G10</li>
+            <li class="custom-select-option" data-value="G11">G11</li>
+            <li class="custom-select-option" data-value="G12">G12</li>
+            <li class="custom-select-option" data-value="teacher">Teacher</li>
+          </ul>
+          <!-- バリデーション用の隠しinput -->
+          <input type="hidden" id="grade" name="grade" required />
+        </div>
 
               <input
                 type="password"
