@@ -21,11 +21,124 @@
     })
   }
 
-  if (!window.supabase) {
-    showError("register-error", "初期化エラー: Supabaseが読み込まれていません")
-    return
-  }
+if (!window.supabase) {
+  showError("register-error", TEXT.initError)
+  return
+}
   const supabase = window.supabase
+
+  //en ver
+const isEnglishPage = location.pathname.startsWith("/en/")
+
+const PATHS = {
+  home: isEnglishPage ? "/en/" : "/",
+  contest: isEnglishPage ? "/en/contest.html" : "/contest",
+  account: isEnglishPage ? "/en/account.html" : "/account",
+  detail: isEnglishPage ? "/en/detail.html" : "/detail"
+}
+
+const TEXT = {
+  initError: isEnglishPage
+    ? "Initialization error: Supabase is not loaded."
+    : "初期化エラー: Supabaseが読み込まれていません",
+
+  agreeRequired: isEnglishPage
+    ? "Please agree to the terms."
+    : "規約に同意してください",
+
+  usernameRequired: isEnglishPage
+    ? "Please enter a username."
+    : "ユーザー名を入力してください",
+
+  gradeRequired: isEnglishPage
+    ? "Please select your grade."
+    : "学年を選択してください",
+
+  passwordLength: isEnglishPage
+    ? "Password must be at least 6 characters."
+    : "パスワードは6文字以上で入力してください",
+
+  passwordMismatch: isEnglishPage
+    ? "Passwords do not match."
+    : "パスワードが一致しません",
+
+  settingError: isEnglishPage
+    ? "Settings error: "
+    : "設定取得エラー: ",
+
+  unknown: isEnglishPage
+    ? "Unknown"
+    : "不明",
+
+  wrongHigaKey: isEnglishPage
+    ? "HiGA Key is incorrect."
+    : "HiGA Key が違います",
+
+  usernameTaken: isEnglishPage
+    ? "This username is already taken."
+    : "このユーザー名はすでに使われています",
+
+  registerError: isEnglishPage
+    ? "Registration error: "
+    : "登録エラー: ",
+
+  emailConfirmOff: isEnglishPage
+    ? "Please turn off Email Confirmations in Supabase."
+    : "Supabase の Email Confirmations をオフにしてください",
+
+  profileCreateError: isEnglishPage
+    ? "Profile creation error: "
+    : "プロフィール作成エラー: ",
+
+  registerSuccess: isEnglishPage
+    ? "Registration successful! Redirecting to the contest page."
+    : "登録成功！コンテストページへ移動します。",
+
+  unexpectedError: isEnglishPage
+    ? "Unexpected error: "
+    : "予期しないエラー: ",
+
+  loginRequired: isEnglishPage
+    ? "Please enter your username and password."
+    : "ユーザー名とパスワードを入力してください",
+
+  loginFailed: isEnglishPage
+    ? "Username or password is incorrect."
+    : "ユーザー名またはパスワードが違います",
+
+  profileLoadFailed: isEnglishPage
+    ? "Failed to load your profile."
+    : "プロフィールの取得に失敗しました",
+
+  newUsernameRequired: isEnglishPage
+    ? "Please enter a new username."
+    : "新しいユーザー名を入力してください",
+
+  sameUsername: isEnglishPage
+    ? "This is the same as your current username."
+    : "現在と同じユーザー名です",
+
+  updateError: isEnglishPage
+    ? "Update error: "
+    : "更新エラー: ",
+
+  usernameUpdated: isEnglishPage
+    ? "Username changed successfully."
+    : "ユーザー名を変更しました",
+
+  deleteConfirm: isEnglishPage
+    ? "Are you sure you want to delete your account?\nThis action cannot be undone. All submission history will also be deleted."
+    : "本当にアカウントを削除しますか？\nこの操作は取り消せません。提出履歴もすべて削除されます。",
+
+  deleteError: isEnglishPage
+    ? "Delete error: "
+    : "削除エラー: ",
+
+  deleteSuccess: isEnglishPage
+    ? "Your account has been deleted."
+    : "アカウントを削除しました。"
+}
+  //
 
   const authSection    = document.getElementById("auth-section")
   const accountSection = document.getElementById("account-section")
@@ -65,11 +178,11 @@
       const agree           = document.getElementById("agree").checked
 
       // ── バリデーション ──
-      if (!agree)     return showError("register-error", "規約に同意してください")
-      if (!username)  return showError("register-error", "ユーザー名を入力してください")
-      if (!grade)     return showError("register-error", "学年を選択してください")
-      if (password.length < 6) return showError("register-error", "パスワードは6文字以上で入力してください")
-      if (password !== passwordConfirm) return showError("register-error", "パスワードが一致しません")
+      if (!agree)     return showError("register-error", TEXT.agreeRequired)
+      if (!username)  return showError("register-error", TEXT.usernameRequired)
+      if (!grade)     return showError("register-error", TEXT.gradeRequired)
+      if (password.length < 6) return showError("register-error", TEXT.passwordLength)
+      if (password !== passwordConfirm) return showError("register-error", TEXT.passwordMismatch)
 
       try {
         // contest_settings を直接参照（pg_cron が毎分 status を更新している）
@@ -79,8 +192,12 @@
           .eq("id", 1)
           .single()
 
-        if (settingError || !setting) return showError("register-error", "設定取得エラー: " + (settingError?.message ?? "不明"))
-        if (setting.higa_key !== higaKey) return showError("register-error", "HiGA Key が違います")
+        if (settingError || !setting) {
+          return showError("register-error", TEXT.settingError + (settingError?.message ?? TEXT.unknown))
+        }
+        if (setting.higa_key !== higaKey) {
+          return showError("register-error", TEXT.wrongHigaKey)
+        }
 
         // Auth 登録
         const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -91,13 +208,13 @@
         if (authError) {
           return showError("register-error",
             authError.message.includes("already registered")
-              ? "このユーザー名はすでに使われています"
-              : "登録エラー: " + authError.message
+            ? TEXT.usernameTaken
+            : TEXT.registerError + authError.message
           )
         }
 
         const user = authData.user
-        if (!user) return showError("register-error", "Supabase の Email Confirmations をオフにしてください")
+        if (!user) return showError("register-error", TEXT.emailConfirmOff)
 
         // profiles INSERT
         const { error: profileError } = await supabase
@@ -107,13 +224,13 @@
         if (profileError) {
           return showError("register-error",
             profileError.code === "23505"
-              ? "このユーザー名はすでに使われています"
-              : "プロフィール作成エラー: " + profileError.message
+            ? TEXT.usernameTaken
+            : TEXT.profileCreateError + profileError.message
           )
         }
 
-        alert("登録成功！コンテストページへ移動します。")
-        window.location.href = "/contest"
+        alert(TEXT.registerSuccess)
+        window.location.href = PATHS.contest
 
       } catch (err) {
         showError("register-error", "予期しないエラー: " + err.message)
@@ -136,7 +253,7 @@
       const username = document.getElementById("login-username").value.trim()
       const password = document.getElementById("login-password").value
 
-      if (!username || !password) return showError("login-error", "ユーザー名とパスワードを入力してください")
+      if (!username || !password) return showError("login-error", TEXT.loginRequired)
 
       try {
         // username → Auth メールを DB 関数で解決する。
@@ -145,17 +262,17 @@
           .rpc("get_auth_email_by_username", { p_username: username })
 
         if (emailError || !email) {
-          return showError("login-error", "ユーザー名またはパスワードが違います")
+          return showError("login-error", TEXT.loginFailed)
         }
 
         const { error } = await supabase.auth.signInWithPassword({ email, password })
 
         if (error) {
           console.error("[login]", error.message)
-          return showError("login-error", "ユーザー名またはパスワードが違います")
+          return showError("login-error", TEXT.loginFailed)
         }
 
-        window.location.href = "/contest"
+        window.location.href = PATHS.contest
 
       } catch (err) {
         showError("login-error", "予期しないエラー: " + err.message)
@@ -175,7 +292,7 @@
       .single()
 
     if (error || !profile) {
-      showError("username-error", "プロフィールの取得に失敗しました")
+      showError("username-error", TEXT.profileLoadFailed)
       return
     }
 
@@ -199,8 +316,8 @@
 
       const newUsername = document.getElementById("new-username").value.trim()
 
-      if (!newUsername) return showError("username-error", "新しいユーザー名を入力してください")
-      if (newUsername === currentUsername) return showError("username-error", "現在と同じユーザー名です")
+      if (!newUsername) return showError("username-error", TEXT.newUsernameRequired)
+      if (newUsername === currentUsername) return showError("username-error", TEXT.sameUsername)
 
       try {
         // profiles を更新
@@ -212,8 +329,8 @@
         if (profileError) {
           return showError("username-error",
             profileError.code === "23505"
-              ? "このユーザー名はすでに使われています"
-              : "更新エラー: " + profileError.message
+            ? TEXT.usernameTaken
+            : TEXT.updateError + profileError.message
           )
         }
 
@@ -233,7 +350,7 @@
 
         // 次回ログインのために currentUsername を更新
         currentUsername = newUsername
-        showSuccess("username-success", "ユーザー名を変更しました")
+        showSuccess("username-success", TEXT.usernameUpdated)
 
       } catch (err) {
         showError("username-error", "予期しないエラー: " + err.message)
@@ -249,7 +366,7 @@
 
     btn.addEventListener("click", async () => {
       await supabase.auth.signOut()
-      window.location.href = "/contest"
+      window.location.href = PATHS.contest
     })
   }
 
@@ -259,9 +376,7 @@
     if (!btn) return
 
     btn.addEventListener("click", async () => {
-      const confirmed = window.confirm(
-        "本当にアカウントを削除しますか？\nこの操作は取り消せません。提出履歴もすべて削除されます。"
-      )
+      const confirmed = window.confirm(TEXT.deleteConfirm)
       if (!confirmed) return
 
       clearMsg("delete-error")
@@ -272,12 +387,12 @@
         const { error } = await supabase.rpc("delete_own_account")
 
         if (error) {
-          return showError("delete-error", "削除エラー: " + error.message)
+          return showError("delete-error", TEXT.deleteError + error.message)
         }
 
         await supabase.auth.signOut()
-        alert("アカウントを削除しました。")
-        window.location.href = "/"
+        alert(TEXT.deleteSuccess)
+        window.location.href = PATHS.home
 
       } catch (err) {
         showError("delete-error", "予期しないエラー: " + err.message)

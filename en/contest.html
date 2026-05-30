@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>コンテスト | HiGA Math Contest</title>
+  <title>Contest | HiGA Math Contest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/contest.css">
@@ -15,7 +15,7 @@
 
 <body class="contest-bg">
   <header>
-    <h1><a href="/">HiGA Math Contest</a></h1>
+    <h1><a href="/en/">HiGA Math Contest</a></h1>
 
     <button class="hamburger" id="hamburger">
       <span></span>
@@ -24,16 +24,18 @@
     </button>
 
     <nav id="nav">
-      <a href="/">トップ</a>
-      <a href="/detail">詳細</a>
-      <a href="/tools">ツール</a>
-      <a class="here" href="/contest">コンテスト</a>
+      <a href="/en/">Top</a>
+      <a href="/en/detail.html">Details</a>
+      <a href="/en/tools.html">Tools</a>
+      <a class="here" href="/en/contest.html">Contest</a>
+
       <div class="language-switch">
-        <a class="lang-active" href="/contest">ja</a>
-        <span>/</span>
         <a href="/en/contest.html">en</a>
+        <span>/</span>
+        <a class="lang-active" href="/contest">ja</a>
       </div>
-      <a href="/account" id="nav-username">...</a>
+
+      <a href="/en/account.html" id="nav-username">...</a>
     </nav>
 
     <div class="overlay" id="overlay"></div>
@@ -42,26 +44,26 @@
   <main>
     <div class="contest-info">
       <div id="blocked-msg" class="card">
-      <p>まだ開始されていないため、アクセスできません。</p>
-    </div>
+        <p>The contest has not started yet, so this page cannot be accessed.</p>
+      </div>
 
-    <div class="countdown-container">
-      <div id="countdown" class="countdown">カウントダウン</div>
-    </div>
+      <div class="countdown-container">
+        <div id="countdown" class="countdown">Countdown</div>
+      </div>
 
       <table class="contest-table">
         <thead>
           <tr>
-            <th>コンテスト名</th>
-            <th>開始時刻</th>
-            <th>コンテスト時間</th>
+            <th>Contest Name</th>
+            <th>Start Time</th>
+            <th>Duration</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="col-name">HiGA Math Contest</td>
-            <td class="col-time">2026/6/20 13:00</td>
+            <td class="col-time">June 20, 2026, 13:00</td>
             <td class="col-duration">24:00</td>
             <td>
               <a id="contest-btn" href="#" class="btn-enter" style="visibility: hidden;"></a>
