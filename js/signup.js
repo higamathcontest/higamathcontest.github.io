@@ -4,53 +4,56 @@
 // window.supabase は supabase-client.js で初期化済みであることを前提とする。
 
 (async () => {
+  const usernameLink = document.getElementById("nav-username");
+  if (!usernameLink) return;
 
-  const usernameLink = document.getElementById("nav-username")
-  if (!usernameLink) return
+  const isEnglishPage = location.pathname.startsWith("/en/");
 
-  const isEnglishPage = location.pathname.startsWith("/en/")
-
-  const accountPath = isEnglishPage ? "/en/account.html" : "/account"
-  const loginPath = isEnglishPage ? "/en/account.html?mode=login" : "/account?mode=login"
-  const loginText = isEnglishPage ? "Login" : "ログイン"
+  const accountPath = isEnglishPage ? "/en/account/" : "/account/";
+  const loginPath = isEnglishPage
+    ? "/en/account/?mode=login"
+    : "/account/?mode=login";
+  const loginText = isEnglishPage ? "Login" : "ログイン";
 
   if (!window.supabase) {
-    console.error("[signup.js] window.supabase が見つかりません。supabase-client.js が先に読み込まれているか確認してください。")
-    return
+    console.error(
+      "[signup.js] window.supabase が見つかりません。supabase-client.js が先に読み込まれているか確認してください。",
+    );
+    return;
   }
 
-  const supabase = window.supabase
+  const supabase = window.supabase;
 
   try {
-    const { data: { session } } = await supabase.auth.getSession()
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
     if (!session) {
-      usernameLink.textContent = loginText
-      usernameLink.href = loginPath
-      return
+      usernameLink.textContent = loginText;
+      usernameLink.href = loginPath;
+      return;
     }
 
-    const userId = session.user.id
+    const userId = session.user.id;
 
     const { data: profile, error } = await supabase
       .from("profiles")
       .select("username")
       .eq("user_id", userId)
-      .single()
+      .single();
 
     if (error) {
-      console.error("[signup.js] プロフィール取得エラー:", error.message)
-      return
+      console.error("[signup.js] プロフィール取得エラー:", error.message);
+      return;
     }
 
     if (profile) {
-      usernameLink.textContent = profile.username
-      usernameLink.style.textTransform = "none"
-      usernameLink.href = accountPath
+      usernameLink.textContent = profile.username;
+      usernameLink.style.textTransform = "none";
+      usernameLink.href = accountPath;
     }
-
   } catch (err) {
-    console.error("[signup.js] 予期しないエラー:", err)
+    console.error("[signup.js] 予期しないエラー:", err);
   }
-
-})()
+})();
