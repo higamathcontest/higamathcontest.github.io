@@ -1,66 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>Top| HiGA Math Contest</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/landing.css">
-  <script src="/js/hamburger-menu.js" defer></script>
-  <script type="module" src="/js/supabase-client.js"></script>
-  <script type="module" src="/js/signup.js"></script>
-  <link rel="icon" href="/favicon.ico">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Top| HiGA Math Contest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/landing.css" />
+    <script src="/js/hamburger-menu.js" defer></script>
+    <script type="module" src="/js/supabase-client.js"></script>
+    <script type="module" src="/js/signup.js"></script>
+    <link rel="icon" href="/favicon.ico" />
+  </head>
 
-<body class="landing">
-  <div class="bg-blob"></div>
+  <body class="landing">
+    <div class="bg-blob"></div>
 
-  <header>
-    <h1><a href="/">HiGA Math Contest</a></h1>
+    <header>
+      <h1><a href="/">HiGA Math Contest</a></h1>
 
-    <button class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-<nav id="nav">
-      <a class="here"  href="/en/">Top</a>
-      <a href="/en/detail.html">Details</a>
-      <a href="/en/tools.html">Tools</a>
-      <a href="/en/contest.html">Contest</a>
+      <nav id="nav">
+        <a class="here" href="/en/">Top</a>
+        <a href="/en/detail/">Details</a>
+        <a href="/en/tools/">Tools</a>
+        <a href="/en/contest/">Contest</a>
 
-      <div class="language-switch">
-        <a class="lang-active" href="/en/index.html">en</a>
-        <span>/</span>
-        <a href="/index.html">ja</a>
+        <div class="language-switch">
+          <a class="lang-active" href="/en/">en</a>
+          <span>/</span>
+          <a href="/">ja</a>
+        </div>
+
+        <a href="/account" id="nav-username">...</a>
+      </nav>
+
+      <div class="overlay" id="overlay"></div>
+    </header>
+
+    <main>
+      <div class="card landing-card">
+        <h2><i>Welcome to HiGA Math Contest !</i></h2>
+        <p>
+          HiGA Math Contest (HMC) is an online mathematics contest<br />
+          organized by volunteer high school students for HiGA students.<br />
+          For more information, please see the Details page.
+        </p>
+        <p>
+          <a href="/en/detail.html">Details are available here →</a>
+        </p>
+        <p class="lp-contest-date">
+          <b
+            >Contest Period: Saturday, July 4, 2026, 13:00 – Sunday, July 5,
+            2026, 13:00</b
+          >
+        </p>
       </div>
+    </main>
 
-      <a href="/account" id="nav-username">...</a>
-    </nav>
-
-    <div class="overlay" id="overlay"></div>
-  </header>
-
-  <main>
-    <div class="card landing-card">
-      <h2><i>Welcome to HiGA Math Contest !</i></h2>
-      <p>
-        HiGA Math Contest (HMC) is an online mathematics contest<br>
-        organized by volunteer high school students for HiGA students.<br>
-        For more information, please see the Details page.
-      </p>
-      <p>
-        <a href="/en/detail.html">Details are available here →</a>
-      </p>
-      <p class="lp-contest-date">
-        <b>Contest Period: Saturday, July 4, 2026, 13:00 – Sunday, July 5, 2026, 13:00</b>
-      </p>
-    </div>
-  </main>
-
-  <footer>
-    © HiGA Math Contest
-  </footer>
-</body>
+    <footer>© HiGA Math Contest</footer>
+  </body>
 </html>

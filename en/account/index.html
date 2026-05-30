@@ -1,241 +1,282 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Account | HiGA Math Contest</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/account.css">
-  <script src="/js/hamburger-menu.js" defer></script>
-  <script type="module" src="/js/supabase-client.js"></script>
-  <script type="module" src="/js/account.js"></script>
-  <script type="module" src="/js/signup.js"></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Account | HiGA Math Contest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/account.css" />
+    <script src="/js/hamburger-menu.js" defer></script>
+    <script type="module" src="/js/supabase-client.js"></script>
+    <script type="module" src="/js/account.js"></script>
+    <script type="module" src="/js/signup.js"></script>
+  </head>
 
-<body class="register-bg">
-  <header>
-    <h1><a href="/en/">HiGA Math Contest</a></h1>
+  <body class="register-bg">
+    <header>
+      <h1><a href="/en/">HiGA Math Contest</a></h1>
 
-    <button class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <nav id="nav">
-      <a href="/en/">Top</a>
-      <a href="/en/detail.html">Details</a>
-      <a href="/en/tools.html">Tools</a>
-      <a href="/en/contest.html">Contest</a>
+      <nav id="nav">
+        <a href="/en/">Top</a>
+        <a href="/en/detail/">Details</a>
+        <a href="/en/tools/">Tools</a>
+        <a href="/en/contest/">Contest</a>
 
-      <div class="language-switch">
-        <a href="/en/account.html">en</a>
-        <span>/</span>
-        <a class="lang-active" href="/account">ja</a>
-      </div>
-
-      <a class="here" href="/en/account.html" id="nav-username">...</a>
-    </nav>
-
-    <div class="overlay" id="overlay"></div>
-  </header>
-
-  <main>
-    
-    <!-- Not logged in: Sign up / Sign in -->
-    <div id="auth-section">
-      <div class="auth-wrap" id="auth-wrap">
-
-        <!-- Sliding switch panel -->
-        <div class="auth-switch">
-          <div class="auth-switch-inner">
-            <h2 id="switch-title">Welcome Back!</h2>
-            <p id="switch-desc">Sign in to join the contest</p>
-            <button type="button" id="switch-btn">SIGN IN</button>
-          </div>
+        <div class="language-switch">
+          <a href="/en/account/">en</a>
+          <span>/</span>
+          <a class="lang-active" href="/account">ja</a>
         </div>
 
-        <!-- Register -->
-        <div id="tab-register" class="auth-panel">
-          <div class="form-header">
-            <h2>Sign up</h2>
-            <p>Create an account to join the contest</p>
+        <a class="here" href="/en/account/" id="nav-username">...</a>
+      </nav>
+
+      <div class="overlay" id="overlay"></div>
+    </header>
+
+    <main>
+      <!-- Not logged in: Sign up / Sign in -->
+      <div id="auth-section">
+        <div class="auth-wrap" id="auth-wrap">
+          <!-- Sliding switch panel -->
+          <div class="auth-switch">
+            <div class="auth-switch-inner">
+              <h2 id="switch-title">Welcome Back!</h2>
+              <p id="switch-desc">Sign in to join the contest</p>
+              <button type="button" id="switch-btn">SIGN IN</button>
+            </div>
           </div>
 
-          <form id="register-form">
-            <input type="text" id="register-username" placeholder="Username" required />
-            
-            <div class="custom-select" id="grade-select">
-              <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
-                <span class="custom-select-label">Select your grade</span>
-                <span class="custom-select-arrow"></span>
-              </button>
-
-              <ul class="custom-select-dropdown" role="listbox">
-                <li class="custom-select-option" data-value="G7">G7</li>
-                <li class="custom-select-option" data-value="G8">G8</li>
-                <li class="custom-select-option" data-value="G9">G9</li>
-                <li class="custom-select-option" data-value="G10">G10</li>
-                <li class="custom-select-option" data-value="G11">G11</li>
-                <li class="custom-select-option" data-value="G12">G12</li>
-                <li class="custom-select-option" data-value="teacher">Teacher</li>
-              </ul>
-
-              <!-- Hidden input for validation -->
-              <input type="hidden" id="grade" name="grade" required />
+          <!-- Register -->
+          <div id="tab-register" class="auth-panel">
+            <div class="form-header">
+              <h2>Sign up</h2>
+              <p>Create an account to join the contest</p>
             </div>
 
-            <input type="password" id="password" placeholder="Password" required />
-            <input type="password" id="password-confirm" placeholder="Confirm password" required />
-            <input type="text" id="higa_key" placeholder="HiGA KEY" required />
+            <form id="register-form">
+              <input
+                type="text"
+                id="register-username"
+                placeholder="Username"
+                required
+              />
 
-            <label class="agree-row">
+              <div class="custom-select" id="grade-select">
+                <button
+                  type="button"
+                  class="custom-select-trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                >
+                  <span class="custom-select-label">Select your grade</span>
+                  <span class="custom-select-arrow"></span>
+                </button>
+
+                <ul class="custom-select-dropdown" role="listbox">
+                  <li class="custom-select-option" data-value="G7">G7</li>
+                  <li class="custom-select-option" data-value="G8">G8</li>
+                  <li class="custom-select-option" data-value="G9">G9</li>
+                  <li class="custom-select-option" data-value="G10">G10</li>
+                  <li class="custom-select-option" data-value="G11">G11</li>
+                  <li class="custom-select-option" data-value="G12">G12</li>
+                  <li class="custom-select-option" data-value="teacher">
+                    Teacher
+                  </li>
+                </ul>
+
+                <!-- Hidden input for validation -->
+                <input type="hidden" id="grade" name="grade" required />
+              </div>
+
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+              />
+              <input
+                type="password"
+                id="password-confirm"
+                placeholder="Confirm password"
+                required
+              />
+              <input
+                type="text"
+                id="higa_key"
+                placeholder="HiGA KEY"
+                required
+              />
+
+              <label class="agree-row">
                 <input type="checkbox" id="agree" required />
                 <span>
-                    I agree to the
-                    <a href="/en/detail.html#terms">Terms</a>
-                    and
-                    <a href="/en/detail.html#privacy-policy">Privacy Policy</a>.
+                  I agree to the
+                  <a href="/en/detail.html#terms">Terms</a>
+                  and
+                  <a href="/en/detail.html#privacy-policy">Privacy Policy</a>.
                 </span>
-            </label>
+              </label>
 
-            <button type="submit"><span>Sign up</span></button>
-          </form>
+              <button type="submit"><span>Sign up</span></button>
+            </form>
 
-          <p id="register-error" class="error-msg"></p>
-        </div>
-
-        <!-- Login -->
-        <div id="tab-login" class="auth-panel">
-          <div class="form-header">
-            <h2>Sign in</h2>
-            <p>Sign in to your existing account</p>
+            <p id="register-error" class="error-msg"></p>
           </div>
 
-          <form id="login-form">
-            <input type="text" id="login-username" placeholder="Username" required />
-            <input type="password" id="login-password" placeholder="Password" required />
-            <button type="submit"><span>Sign in</span></button>
+          <!-- Login -->
+          <div id="tab-login" class="auth-panel">
+            <div class="form-header">
+              <h2>Sign in</h2>
+              <p>Sign in to your existing account</p>
+            </div>
+
+            <form id="login-form">
+              <input
+                type="text"
+                id="login-username"
+                placeholder="Username"
+                required
+              />
+              <input
+                type="password"
+                id="login-password"
+                placeholder="Password"
+                required
+              />
+              <button type="submit"><span>Sign in</span></button>
+            </form>
+
+            <p id="login-error" class="error-msg"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logged in: Account settings -->
+      <div id="account-section">
+        <div class="card">
+          <h2>Account Settings</h2>
+
+          <!-- Change username -->
+          <p class="current-username">
+            Current username: <strong id="current-username-display">...</strong>
+          </p>
+
+          <form id="username-form">
+            <input
+              type="text"
+              id="new-username"
+              placeholder="New username"
+              required
+            />
+            <button type="submit"><span>Change Username</span></button>
           </form>
 
-          <p id="login-error" class="error-msg"></p>
-        </div>
+          <p id="username-error" class="error-msg"></p>
+          <p id="username-success" class="success-msg"></p>
 
-      </div>
-    </div>
+          <!-- Logout -->
+          <div class="logout-wrap">
+            <button id="logout-btn"><span>Log out</span></button>
+          </div>
 
-    <!-- Logged in: Account settings -->
-    <div id="account-section">
-      <div class="card">
-        <h2>Account Settings</h2>
-
-        <!-- Change username -->
-        <p class="current-username">
-          Current username: <strong id="current-username-display">...</strong>
-        </p>
-
-        <form id="username-form">
-          <input type="text" id="new-username" placeholder="New username" required />
-          <button type="submit"><span>Change Username</span></button>
-        </form>
-
-        <p id="username-error" class="error-msg"></p>
-        <p id="username-success" class="success-msg"></p>
-
-        <!-- Logout -->
-        <div class="logout-wrap">
-          <button id="logout-btn"><span>Log out</span></button>
-        </div>
-
-        <!-- Danger zone: Delete account -->
-        <div class="danger-zone">
-          <h3>Delete Account</h3>
-          <p>
-            This action cannot be undone.<br>
-            All of your submission history will also be deleted.
-          </p>
-          <button class="btn-danger" id="delete-btn"><span>Delete Account</span></button>
+          <!-- Danger zone: Delete account -->
+          <div class="danger-zone">
+            <h3>Delete Account</h3>
+            <p>
+              This action cannot be undone.<br />
+              All of your submission history will also be deleted.
+            </p>
+            <button class="btn-danger" id="delete-btn">
+              <span>Delete Account</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <footer>© HiGA Math Contest</footer>
+    <footer>© HiGA Math Contest</footer>
 
-  <script>
-    // CodePen-style sliding switch
-    document.addEventListener("DOMContentLoaded", () => {
-      const wrap = document.getElementById("auth-wrap");
-      const btn  = document.getElementById("switch-btn");
-      const title = document.getElementById("switch-title");
-      const desc  = document.getElementById("switch-desc");
+    <script>
+      // CodePen-style sliding switch
+      document.addEventListener("DOMContentLoaded", () => {
+        const wrap = document.getElementById("auth-wrap");
+        const btn = document.getElementById("switch-btn");
+        const title = document.getElementById("switch-title");
+        const desc = document.getElementById("switch-desc");
 
-      if (!wrap || !btn || !title || !desc) return;
+        if (!wrap || !btn || !title || !desc) return;
 
-      function render(){
-        const isLogin = wrap.classList.contains("is-login");
+        function render() {
+          const isLogin = wrap.classList.contains("is-login");
 
-        if (isLogin){
-          // Login view: button goes to sign up
-          title.textContent = "Welcome Back!";
-          desc.textContent  = "Do not have an account yet?";
-          btn.textContent   = "SIGN UP";
-        } else {
-          // Register view: button goes to sign in
-          title.textContent = "Join Us!";
-          desc.textContent  = "Already have an account?";
-          btn.textContent   = "SIGN IN";
+          if (isLogin) {
+            // Login view: button goes to sign up
+            title.textContent = "Welcome Back!";
+            desc.textContent = "Do not have an account yet?";
+            btn.textContent = "SIGN UP";
+          } else {
+            // Register view: button goes to sign in
+            title.textContent = "Join Us!";
+            desc.textContent = "Already have an account?";
+            btn.textContent = "SIGN IN";
+          }
         }
-      }
 
-      btn.addEventListener("click", () => {
-        wrap.classList.toggle("is-login");
+        btn.addEventListener("click", () => {
+          wrap.classList.toggle("is-login");
+          render();
+        });
+
+        // Initial state: use ?mode=login to start from the login page
+        const params = new URLSearchParams(location.search);
+        if (params.get("mode") === "login") wrap.classList.add("is-login");
         render();
       });
 
-      // Initial state: use ?mode=login to start from the login page
-      const params = new URLSearchParams(location.search);
-      if (params.get("mode") === "login") wrap.classList.add("is-login");
-      render();
-    });
+      // Custom select for grade
+      (function () {
+        const wrap = document.getElementById("grade-select");
+        if (!wrap) return;
 
-    // Custom select for grade
-    (function () {
-      const wrap = document.getElementById('grade-select');
-      if (!wrap) return;
+        const trigger = wrap.querySelector(".custom-select-trigger");
+        const label = wrap.querySelector(".custom-select-label");
+        const options = wrap.querySelectorAll(".custom-select-option");
+        const hidden = document.getElementById("grade");
 
-      const trigger = wrap.querySelector('.custom-select-trigger');
-      const label   = wrap.querySelector('.custom-select-label');
-      const options = wrap.querySelectorAll('.custom-select-option');
-      const hidden  = document.getElementById('grade');
-
-      // Open / close
-      trigger.addEventListener('click', () => {
-        const isOpen = wrap.classList.toggle('open');
-        trigger.setAttribute('aria-expanded', isOpen);
-      });
-
-      // Close when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!wrap.contains(e.target)) {
-          wrap.classList.remove('open');
-          trigger.setAttribute('aria-expanded', false);
-        }
-      });
-
-      // Select option
-      options.forEach(opt => {
-        opt.addEventListener('click', () => {
-          options.forEach(o => o.classList.remove('selected'));
-          opt.classList.add('selected');
-          label.textContent = opt.textContent;
-          hidden.value = opt.dataset.value;
-          trigger.classList.add('has-value');
-          wrap.classList.remove('open');
-          trigger.setAttribute('aria-expanded', false);
+        // Open / close
+        trigger.addEventListener("click", () => {
+          const isOpen = wrap.classList.toggle("open");
+          trigger.setAttribute("aria-expanded", isOpen);
         });
-      });
-    })();
-  </script>
-</body>
+
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!wrap.contains(e.target)) {
+            wrap.classList.remove("open");
+            trigger.setAttribute("aria-expanded", false);
+          }
+        });
+
+        // Select option
+        options.forEach((opt) => {
+          opt.addEventListener("click", () => {
+            options.forEach((o) => o.classList.remove("selected"));
+            opt.classList.add("selected");
+            label.textContent = opt.textContent;
+            hidden.value = opt.dataset.value;
+            trigger.classList.add("has-value");
+            wrap.classList.remove("open");
+            trigger.setAttribute("aria-expanded", false);
+          });
+        });
+      })();
+    </script>
+  </body>
 </html>

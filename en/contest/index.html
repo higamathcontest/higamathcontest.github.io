@@ -1,81 +1,86 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Contest | HiGA Math Contest</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/contest.css">
-  <script src="/js/hamburger-menu.js" defer></script>
-  <script type="module" src="/js/supabase-client.js"></script>
-  <script type="module" src="/js/signup.js"></script>
-  <script type="module" src="/js/contest.js"></script>
-  <script type="module" src="/js/countdown.js"></script>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contest | HiGA Math Contest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/contest.css" />
+    <script src="/js/hamburger-menu.js" defer></script>
+    <script type="module" src="/js/supabase-client.js"></script>
+    <script type="module" src="/js/signup.js"></script>
+    <script type="module" src="/js/contest.js"></script>
+    <script type="module" src="/js/countdown.js"></script>
+  </head>
 
-<body class="contest-bg">
-  <header>
-    <h1><a href="/en/">HiGA Math Contest</a></h1>
+  <body class="contest-bg">
+    <header>
+      <h1><a href="/en/">HiGA Math Contest</a></h1>
 
-    <button class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <nav id="nav">
-      <a href="/en/">Top</a>
-      <a href="/en/detail.html">Details</a>
-      <a href="/en/tools.html">Tools</a>
-      <a class="here" href="/en/contest.html">Contest</a>
+      <nav id="nav">
+        <a href="/en/">Top</a>
+        <a href="/en/detail/">Details</a>
+        <a href="/en/tools/">Tools</a>
+        <a class="here" href="/en/contest/">Contest</a>
 
-      <div class="language-switch">
-        <a href="/en/contest.html">en</a>
-        <span>/</span>
-        <a class="lang-active" href="/contest">ja</a>
+        <div class="language-switch">
+          <a href="/en/contest/">en</a>
+          <span>/</span>
+          <a class="lang-active" href="/contest">ja</a>
+        </div>
+
+        <a href="/en/account/" id="nav-username">...</a>
+      </nav>
+
+      <div class="overlay" id="overlay"></div>
+    </header>
+
+    <main>
+      <div class="contest-info">
+        <div id="blocked-msg" class="card">
+          <p>
+            The contest has not started yet, so this page cannot be accessed.
+          </p>
+        </div>
+
+        <div class="countdown-container">
+          <div id="countdown" class="countdown">Countdown</div>
+        </div>
+
+        <table class="contest-table">
+          <thead>
+            <tr>
+              <th>Contest Name</th>
+              <th>Start Time</th>
+              <th>Duration</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-name">HiGA Math Contest</td>
+              <td class="col-time">June 20, 2026, 13:00</td>
+              <td class="col-duration">24:00</td>
+              <td>
+                <a
+                  id="contest-btn"
+                  href="#"
+                  class="btn-enter"
+                  style="visibility: hidden"
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </main>
 
-      <a href="/en/account.html" id="nav-username">...</a>
-    </nav>
-
-    <div class="overlay" id="overlay"></div>
-  </header>
-
-  <main>
-    <div class="contest-info">
-      <div id="blocked-msg" class="card">
-        <p>The contest has not started yet, so this page cannot be accessed.</p>
-      </div>
-
-      <div class="countdown-container">
-        <div id="countdown" class="countdown">Countdown</div>
-      </div>
-
-      <table class="contest-table">
-        <thead>
-          <tr>
-            <th>Contest Name</th>
-            <th>Start Time</th>
-            <th>Duration</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="col-name">HiGA Math Contest</td>
-            <td class="col-time">June 20, 2026, 13:00</td>
-            <td class="col-duration">24:00</td>
-            <td>
-              <a id="contest-btn" href="#" class="btn-enter" style="visibility: hidden;"></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </main>
-
-  <footer>
-    © HiGA Math Contest
-  </footer>
-</body>
+    <footer>© HiGA Math Contest</footer>
+  </body>
 </html>
