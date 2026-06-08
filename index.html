@@ -1,41 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>トップ | HiGA Math Contest</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/landing.css">
-  <script src="/js/hamburger-menu.js" defer></script>
-  <script type="module" src="/js/supabase-client.js"></script>
-  <script type="module" src="/js/signup.js"></script>
-  <link rel="icon" href="/favicon.ico">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>トップ | HiGA Math Contest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/landing.css" />
+    <script src="/js/hamburger-menu.js" defer></script>
+    <script type="module" src="/js/supabase-client.js"></script>
+    <script type="module" src="/js/signup.js"></script>
+    <link rel="icon" href="/favicon.ico" />
+  </head>
 
-<body class="landing">
-  <div class="bg-blob"></div>
+  <body class="landing">
+    <div class="bg-blob"></div>
 
-  <header>
-    <h1><a href="/">HiGA Math Contest</a></h1>
+    <header>
+      <h1><a href="/">HiGA Math Contest</a></h1>
 
-    <button class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <nav id="nav">
-      <a class="here" href="/">トップ</a>
-      <a href="/detail">詳細</a>
-      <a href="/tools">ツール</a>
-      <a href="/contest">コンテスト</a>
-      <div class="language-switch">
-        <a class="lang-active" href="/">ja</a>
-        <span>/</span>
-        <a href="/en/index.html">en</a>
+      <nav id="nav">
+        <a class="here" href="/">トップ</a>
+        <a href="/detail">詳細</a>
+        <a href="/tools">ツール</a>
+        <a href="/contest">コンテスト</a>
+        <div class="language-switch">
+          <a class="lang-active" href="/">ja</a>
+          <span>/</span>
+          <a href="/en/">en</a>
+        </div>
+        <a href="/account" id="nav-username">...</a>
+      </nav>
+
+      <div class="overlay" id="overlay"></div>
+    </header>
+
+    <main>
+      <div class="card landing-card">
+        <h2><i>Welcome to HiGA Math Contest !</i></h2>
+        <p>
+          HiGA Math Contest ( HMC ) は、<br />
+          高校生有志主催のHiGA生向けオンライン数学コンテストです。<br />
+          詳しくは詳細をご覧ください。
+        </p>
+        <p>
+          <a href="/detail">詳細はこちらから→</a>
+        </p>
+        <p class="lp-contest-date">
+          <b>コンテスト日時：2026年7月4日(土) 13:00～2026年7月5日(日) 13:00</b>
+        </p>
       </div>
-      <a href="/account" id="nav-username">...</a>
-    </nav>
+    </main>
 
     <div class="overlay" id="overlay"></div>
   </header>

@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>ツール | HiGA Math Contest</title>
+    <title>Tools | HiGA Math Contest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- 共通CSSを読み込む -->
@@ -25,14 +25,14 @@
       </button>
 
       <nav id="nav">
-        <a href="/">トップ</a>
-        <a href="/detail">詳細</a>
-        <a class="here" href="/tools">ツール</a>
-        <a href="/contest">コンテスト</a>
+        <a href="/en/">Top</a>
+        <a href="/en/detail/">Detail</a>
+        <a class="here" href="/en/tools/">Tools</a>
+        <a href="/en/contest/">contest</a>
         <div class="language-switch">
-          <a class="lang-active" href="/tools">ja</a>
+          <a class="lang-active" href="/en/tools/">en</a>
           <span>/</span>
-          <a href="/en/tools">en</a>
+          <a href="/tools">ja</a>
         </div>
         <a href="/account" id="nav-username">...</a>
       </nav>
@@ -42,7 +42,7 @@
 
     <main>
       <div class="card tool-tabs-wrap">
-        <h2>ツール</h2>
+        <h2>Tools</h2>
         <!-- 見出し -->
         <div class="tool-tabs" role="tablist" aria-label="ツール切り替え">
           <button
@@ -51,7 +51,7 @@
             aria-selected="true"
             data-target="prime"
           >
-            素数表
+            Prime Number Table
           </button>
           <button
             class="tool-tab"
@@ -59,7 +59,7 @@
             aria-selected="false"
             data-target="power"
           >
-            累乗表
+            Power Table
           </button>
         </div>
 
@@ -1395,7 +1395,7 @@
                     <th scope="col" class="col-val">
                       <span id="power-head">a^n</span>
                     </th>
-                    <th scope="col" class="col-digits">桁数</th>
+                    <th scope="col" class="col-digits">Digits</th>
                   </thead>
                   <tbody id="power-body"></tbody>
                 </table>

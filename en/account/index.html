@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>アカウント | HiGA Math Contest</title>
+    <title>Account | HiGA Math Contest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/common.css" />
     <link rel="stylesheet" href="/css/account.css" />
@@ -14,74 +14,97 @@
 
   <body class="register-bg">
     <header>
-      <h1><a href="/">HiGA Math Contest</a></h1>
+      <h1><a href="/en/">HiGA Math Contest</a></h1>
+
       <button class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </button>
+
       <nav id="nav">
-        <a href="/">トップ</a>
-        <a href="/detail">詳細</a>
-        <a href="/tools">ツール</a>
-        <a href="/contest">コンテスト</a>
-        <a class="here" href="/account" id="nav-username">...</a>
+        <a href="/en/">Top</a>
+        <a href="/en/detail/">Details</a>
+        <a href="/en/tools/">Tools</a>
+        <a href="/en/contest/">Contest</a>
+
+        <div class="language-switch">
+          <a href="/en/account/">en</a>
+          <span>/</span>
+          <a class="lang-active" href="/account">ja</a>
+        </div>
+
+        <a class="here" href="/en/account/" id="nav-username">...</a>
       </nav>
+
       <div class="overlay" id="overlay"></div>
     </header>
 
     <main>
-      <!-- ════════════════════════════════
-         未ログイン：新規登録 / ログイン
-         ════════════════════════════════ -->
+      <!-- Not logged in: Sign up / Sign in -->
       <div id="auth-section">
         <div class="auth-wrap" id="auth-wrap">
-          <!-- 左右に動くスイッチ板 -->
+          <!-- Sliding switch panel -->
           <div class="auth-switch">
             <div class="auth-switch-inner">
               <h2 id="switch-title">Welcome Back!</h2>
-              <p id="switch-desc">ログインしてコンテストに参加しよう</p>
+              <p id="switch-desc">Sign in to join the contest</p>
               <button type="button" id="switch-btn">SIGN IN</button>
             </div>
           </div>
 
-    <!-- Register -->
-    <div id="tab-register" class="auth-panel">
-      <div class="form-header">
-        <h2>Sign up</h2>
-        <p>アカウントを作成してコンテストに参加しよう</p>
-      </div>
-      <form id="register-form">
-        <input type="text" id="register-username" placeholder="ユーザー名" required />
-        
-        <div class="custom-select" id="grade-select">
-          <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false">
-            <span class="custom-select-label">学年を選択</span>
-            <span class="custom-select-arrow"></span>
-          </button>
-          <ul class="custom-select-dropdown" role="listbox">
-            <li class="custom-select-option" data-value="G7">G7</li>
-            <li class="custom-select-option" data-value="G8">G8</li>
-            <li class="custom-select-option" data-value="G9">G9</li>
-            <li class="custom-select-option" data-value="G10">G10</li>
-            <li class="custom-select-option" data-value="G11">G11</li>
-            <li class="custom-select-option" data-value="G12">G12</li>
-            <li class="custom-select-option" data-value="teacher">Teacher</li>
-          </ul>
-          <!-- バリデーション用の隠しinput -->
-          <input type="hidden" id="grade" name="grade" required />
-        </div>
+          <!-- Register -->
+          <div id="tab-register" class="auth-panel">
+            <div class="form-header">
+              <h2>Sign up</h2>
+              <p>Create an account to join the contest</p>
+            </div>
+
+            <form id="register-form">
+              <input
+                type="text"
+                id="register-username"
+                placeholder="Username"
+                required
+              />
+
+              <div class="custom-select" id="grade-select">
+                <button
+                  type="button"
+                  class="custom-select-trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                >
+                  <span class="custom-select-label">Select your grade</span>
+                  <span class="custom-select-arrow"></span>
+                </button>
+
+                <ul class="custom-select-dropdown" role="listbox">
+                  <li class="custom-select-option" data-value="G7">G7</li>
+                  <li class="custom-select-option" data-value="G8">G8</li>
+                  <li class="custom-select-option" data-value="G9">G9</li>
+                  <li class="custom-select-option" data-value="G10">G10</li>
+                  <li class="custom-select-option" data-value="G11">G11</li>
+                  <li class="custom-select-option" data-value="G12">G12</li>
+                  <li class="custom-select-option" data-value="teacher">
+                    Teacher
+                  </li>
+                </ul>
+
+                <!-- Hidden input for validation -->
+                <input type="hidden" id="grade" name="grade" required />
+              </div>
 
               <input
                 type="password"
                 id="password"
-                placeholder="パスワード"
+                placeholder="Password"
                 required
               />
               <input
                 type="password"
                 id="password-confirm"
-                placeholder="パスワード（確認）"
+                placeholder="Confirm password"
                 required
               />
               <input
@@ -90,15 +113,20 @@
                 placeholder="HiGA KEY"
                 required
               />
+
               <label class="agree-row">
                 <input type="checkbox" id="agree" required />
-                <a href="/detail#terms">参加規約</a>と<a
-                  href="/detail#privacy-policy"
-                  >プライバシーポリシー</a
-                >に同意します
+                <span>
+                  I agree to the
+                  <a href="/en/detail/#terms">Terms</a>
+                  and
+                  <a href="/en/detail/#privacy-policy">Privacy Policy</a>.
+                </span>
               </label>
-              <button type="submit"><span>新規登録</span></button>
+
+              <button type="submit"><span>Sign up</span></button>
             </form>
+
             <p id="register-error" class="error-msg"></p>
           </div>
 
@@ -106,64 +134,67 @@
           <div id="tab-login" class="auth-panel">
             <div class="form-header">
               <h2>Sign in</h2>
-              <p>作成済みのアカウントにログインしよう</p>
+              <p>Sign in to your existing account</p>
             </div>
+
             <form id="login-form">
               <input
                 type="text"
                 id="login-username"
-                placeholder="ユーザー名"
+                placeholder="Username"
                 required
               />
               <input
                 type="password"
                 id="login-password"
-                placeholder="パスワード"
+                placeholder="Password"
                 required
               />
-              <button type="submit"><span>ログイン</span></button>
+              <button type="submit"><span>Sign in</span></button>
             </form>
+
             <p id="login-error" class="error-msg"></p>
           </div>
         </div>
       </div>
 
-      <!-- ════════════════════════════════
-         ログイン済み：アカウント設定
-         ════════════════════════════════ -->
+      <!-- Logged in: Account settings -->
       <div id="account-section">
         <div class="card">
-          <h2>アカウント設定</h2>
+          <h2>Account Settings</h2>
 
-          <!-- ユーザー名変更 -->
+          <!-- Change username -->
           <p class="current-username">
-            現在のユーザー名：<strong id="current-username-display">...</strong>
+            Current username: <strong id="current-username-display">...</strong>
           </p>
+
           <form id="username-form">
             <input
               type="text"
               id="new-username"
-              placeholder="新しいユーザー名"
+              placeholder="New username"
               required
             />
-            <button type="submit"><span>ユーザー名を変更</span></button>
+            <button type="submit"><span>Change Username</span></button>
           </form>
+
           <p id="username-error" class="error-msg"></p>
           <p id="username-success" class="success-msg"></p>
 
-          <!-- ログアウト -->
+          <!-- Logout -->
           <div class="logout-wrap">
-            <button id="logout-btn"><span>ログアウト</span></button>
+            <button id="logout-btn"><span>Log out</span></button>
           </div>
 
-          <!-- 危険ゾーン：アカウント削除 -->
+          <!-- Danger zone: Delete account -->
           <div class="danger-zone">
-            <h3>アカウントの削除</h3>
+            <h3>Delete Account</h3>
             <p>
-              この操作は取り消せません。<br />提出履歴もすべて削除されます。
+              This action cannot be undone.<br />
+              All of your submission history will also be deleted.
             </p>
             <button class="btn-danger" id="delete-btn">
-              <span>アカウントを削除する</span>
+              <span>Delete Account</span>
             </button>
           </div>
         </div>
@@ -173,7 +204,7 @@
     <footer>© HiGA Math Contest</footer>
 
     <script>
-      // CodePen風：左右スライド切替
+      // CodePen-style sliding switch
       document.addEventListener("DOMContentLoaded", () => {
         const wrap = document.getElementById("auth-wrap");
         const btn = document.getElementById("switch-btn");
@@ -186,12 +217,12 @@
           const isLogin = wrap.classList.contains("is-login");
 
           if (isLogin) {
-            // ログイン表示中：ボタンは「新規登録へ」
+            // Login view: button goes to sign up
             title.textContent = "Welcome Back!";
-            desc.textContent = "Not created an account yet?";
+            desc.textContent = "Do not have an account yet?";
             btn.textContent = "SIGN UP";
           } else {
-            // 登録表示中：ボタンは「ログインへ」
+            // Register view: button goes to sign in
             title.textContent = "Join Us!";
             desc.textContent = "Already have an account?";
             btn.textContent = "SIGN IN";
@@ -203,13 +234,13 @@
           render();
         });
 
-        // 初期状態（必要なら ?mode=login でログインから開始）
+        // Initial state: use ?mode=login to start from the login page
         const params = new URLSearchParams(location.search);
         if (params.get("mode") === "login") wrap.classList.add("is-login");
         render();
       });
 
-      // カスタムセレクト（学年）
+      // Custom select for grade
       (function () {
         const wrap = document.getElementById("grade-select");
         if (!wrap) return;
@@ -219,13 +250,13 @@
         const options = wrap.querySelectorAll(".custom-select-option");
         const hidden = document.getElementById("grade");
 
-        // 開閉
+        // Open / close
         trigger.addEventListener("click", () => {
           const isOpen = wrap.classList.toggle("open");
           trigger.setAttribute("aria-expanded", isOpen);
         });
 
-        // 外クリックで閉じる
+        // Close when clicking outside
         document.addEventListener("click", (e) => {
           if (!wrap.contains(e.target)) {
             wrap.classList.remove("open");
@@ -233,7 +264,7 @@
           }
         });
 
-        // 選択
+        // Select option
         options.forEach((opt) => {
           opt.addEventListener("click", () => {
             options.forEach((o) => o.classList.remove("selected"));
