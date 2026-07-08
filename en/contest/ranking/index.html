@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking | HiGA Math Contest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/ranking.css">
+  <link rel="stylesheet" href="/css/acount.css">
+
+  <script type="module" src="/js/supabase-client.js"></script>
+  <script type="module" src="/js/redirect.js"></script>
+  <script src="/js/hamburger-menu.js" defer></script>
+  <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/ranking.js"></script>
+</head>
+
+<body class="ranking-bg">
+  <header>
+    <h1><a href="/en/">HiGA Math Contest</a></h1>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <a href="/en/">Top</a>
+      <a href="/en/detail/">Details</a>
+      <a href="/en/tools/">Tools</a>
+      <a class="here" href="/en/contest/">Contest</a>
+
+      <div class="language-switch">
+        <a class="lang-active" href="/en/contest/ranking/">en</a>
+        <span>/</span>
+        <a href="/contest/ranking/">ja</a>
+      </div>
+
+      <a href="/en/account/" id="nav-username">...</a>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+  </header>
+
+  <main>
+    <nav class="contest-subnav">
+      <a href="/en/contest/problems/">Problems</a>
+      <a href="/en/contest/submissions/">Submissions</a>
+      <a class="here" href="/en/contest/ranking/">Ranking</a>
+      <a href="/en/contest/questions/">Questions</a>
+    </nav>
+
+    <div class="card">
+      <h2>Ranking</h2>
+
+      <div class="controls">
+        <label for="gradeSelectTrigger">Filter by grade:</label>
+
+        <div class="custom-select" id="gradeSelect">
+          <button
+            type="button"
+            class="custom-select-trigger"
+            id="gradeSelectTrigger"
+          >
+            <span
+              class="custom-select-label"
+              id="gradeSelectLabel"
+              data-value=""
+            >
+              All
+            </span>
+
+            <span class="custom-select-arrow"></span>
+          </button>
+
+          <ul
+            class="custom-select-dropdown"
+            id="gradeSelectDropdown"
+          ></ul>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="rankingTable">
+          <thead>
+            <tr>
+              <th style="text-align: center;">Rank</th>
+              <th>Username</th>
+              <th>Grade</th>
+              <th>Total Score</th>
+              <th>Problems Solved</th>
+            </tr>
+          </thead>
+
+          <tbody id="rankingBody">
+            <tr>
+              <td colspan="5" class="loading">
+                <span class="spinner"></span>
+                Loading...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © HiGA Math Contest
+  </footer>
+</body>
+</html>

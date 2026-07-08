@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   **** 重要 ****
-  htmlタグのdata-problem-number に problems.problem_number（UUID）を埋め込む。
+  htmlタグのdata-problem-number に problems.problem_number を埋め込む。
   例: data-problem-number="A1"
 -->
 <html lang="ja" data-problem-number="N9">
@@ -11,12 +11,14 @@
   <title>Problem | HiGA Math Contest</title>
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/problems-detail.css">
+  <link rel="stylesheet" href="/css/problem-solution.css">
   <script type="module" src="/js/supabase-client.js"></script>
   <script type="module" src="/js/redirect.js"></script>
   <script src="/js/hamburger-menu.js" defer></script>
   <script type="module" src="/js/signup.js"></script>
   <script type="module" src="/js/calculator.js"></script>
   <script type="module" src="/js/problems-detail.js"></script>
+  <script type="module" src="/js/problem-solution.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
@@ -34,11 +36,32 @@
     <my-calculator></my-calculator>
 
     <section class="panel statement-panel">
-      <h2>問題</h2>
+      <div class="statement-heading">
+        <h2>問題</h2>
+
+        <button
+          class="solution-open-btn"
+          id="solution-open-btn"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="solution-modal"
+          aria-expanded="false"
+          hidden
+        >
+          解答・解説を見る
+        </button>
+      </div>
+      <p>HiGAくんは黒板に正の整数 \(N\) を書いた。</p>
+      <p>その後、1回の操作につき、次の条件を満たす数を1つ書く。</p>
+      <ul>
+        <li>\(N\) より小さい</li>
+        <li>\(N\) と互いに素</li>
+        <li>まだ黒板に書かれていない</li>
+      </ul>
       <p>
-        問題をここに表示。Texで直書きをしようえへへ
+        8回の操作を行ったとき、条件を満たす数をすべて書き終えた。
+        また、黒板に書かれた数すべての和は75になった。\(N\) を求めよ。
       </p>
-      <p>アインシュタインは \( E=mc^2 \) の公式を導きました。</p>
     </section>
 
     <section class="panel submit-panel">
@@ -64,6 +87,37 @@
       </p>
     </section>
   </main>
+
+  <dialog
+    class="solution-modal"
+    id="solution-modal"
+    aria-labelledby="solution-modal-title"
+  >
+    <div class="solution-modal-inner">
+      <div class="solution-modal-head">
+        <h2 id="solution-modal-title">解答・解説</h2>
+
+        <button
+          class="solution-close-btn"
+          id="solution-close-btn"
+          type="button"
+          aria-label="解答・解説を閉じる"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="solution-modal-body">
+        <p class="solution-answer">
+          <strong>答え：</strong>
+          <span id="solution-answer"></span>
+        </p>
+
+        <div id="solution-explanation"></div>
+      </div>
+    </div>
+  </dialog>
+
 
   <footer class="problem-footer">
     © HiGA Math Contest

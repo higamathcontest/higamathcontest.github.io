@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Questions | HiGA Math Contest</title>
+
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/questions.css">
+
+  <script type="module" src="/js/supabase-client.js"></script>
+  <script src="/js/hamburger-menu.js" defer></script>
+  <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/question-box.js"></script>
+</head>
+
+<body class="question-bg">
+  <header>
+    <h1><a href="/en/">HiGA Math Contest</a></h1>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <a href="/en/">Top</a>
+      <a href="/en/detail/">Details</a>
+      <a href="/en/tools/">Tools</a>
+      <a class="here" href="/en/contest/">Contest</a>
+
+      <div class="language-switch">
+        <a class="lang-active" href="/en/contest/questions/">en</a>
+        <span>/</span>
+        <a href="/contest/questions/">ja</a>
+      </div>
+
+      <a href="/en/account/" id="nav-username">...</a>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+  </header>
+
+  <main>
+    <nav class="contest-subnav">
+      <a href="/en/contest/problems/">Problems</a>
+      <a href="/en/contest/submissions/">Submissions</a>
+      <a href="/en/contest/ranking/">Ranking</a>
+      <a class="here" href="/en/contest/questions/">Questions</a>
+    </nav>
+
+    <div class="qa-split">
+      <section class="qa-left">
+        <div class="card">
+          <h2>Question Box</h2>
+
+          <label class="qa-label" for="q-title">Title</label>
+          <input
+            id="q-title"
+            placeholder="Briefly summarize your question"
+          >
+
+          <label class="qa-label" for="q-body">Question</label>
+          <textarea
+            id="q-body"
+            placeholder="Describe your question in detail"
+          ></textarea>
+
+          <div class="qa-actions">
+            <button id="post-question" type="button" class="qa-btn">
+              <span>Submit</span>
+            </button>
+
+            <span id="q-msg" class="muted"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="qa-right">
+        <div class="card">
+          <h3>Questions</h3>
+
+          <div id="question-list" class="qa-list">
+            <p class="muted">Loading...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © HiGA Math Contest
+  </footer>
+</body>
+</html>

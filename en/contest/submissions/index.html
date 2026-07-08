@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submissions | HiGA Math Contest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/submissions.css">
+
+  <script type="module" src="/js/supabase-client.js"></script>
+  <script type="module" src="/js/redirect.js"></script>
+  <script src="/js/hamburger-menu.js" defer></script>
+  <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/submissions.js"></script>
+</head>
+
+<body class="submission-bg">
+  <header>
+    <h1><a href="/en/">HiGA Math Contest</a></h1>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav">
+      <a href="/en/">Top</a>
+      <a href="/en/detail/">Details</a>
+      <a href="/en/tools/">Tools</a>
+      <a class="here" href="/en/contest/">Contest</a>
+
+      <div class="language-switch">
+        <a class="lang-active" href="/en/contest/submissions/">en</a>
+        <span>/</span>
+        <a href="/contest/submissions/">ja</a>
+      </div>
+
+      <a href="/en/account/" id="nav-username">...</a>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+  </header>
+
+  <main>
+    <nav class="contest-subnav">
+      <a href="/en/contest/problems/">Problems</a>
+      <a class="here" href="/en/contest/submissions/">Submissions</a>
+      <a href="/en/contest/ranking/">Ranking</a>
+      <a href="/en/contest/questions/">Questions</a>
+    </nav>
+
+    <div class="card">
+      <h2>Submission History</h2>
+
+      <!-- submissions.js inserts the submission table here -->
+      <div id="submissions-container">
+        <p class="loading-msg">Loading...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © HiGA Math Contest
+  </footer>
+</body>
+</html>

@@ -2,55 +2,107 @@
  * ranking.js
  *
  * 前提:
- *   - window.supabase に初期化済みの Supabase クライアントが存在する
- *   - HTML 側に #rankingBody, #gradeSelect 一式が存在する
- *   - contest_settings テーブルに end_time カラムが存在する
+ * - window.supabase に初期化済みのSupabaseクライアントが存在する
+ * - HTML側に #rankingBody, #gradeSelect 一式が存在する
+ * - contest_settings テーブルに end_time カラムが存在する
  */
 
 (async () => {
+  // ─────────────────────────────────────────────
+  // 順位表から除外するユーザー名
+  // 大文字・小文字の違いと、前後の空白は無視する
+  // ─────────────────────────────────────────────
+  const EXCLUDED_USERNAMES = new Set([
+    'nosuke1729',
+    'user.nosuke1729',
+    'niit',
+    'test-user',
+    'test_user2',
+  ]);
+
+  function isExcludedUsername(username) {
+    const normalized = String(username ?? '')
+      .trim()
+      .toLowerCase();
+
+    return EXCLUDED_USERNAMES.has(normalized);
+  }
 
   // =========================
   // 1) contest_settings から end_time を取得
   // =========================
-  const { data: contestSettings, error: contestError } = await supabase
+  const {
+    data: contestSettings,
+    error: contestError,
+  } = await supabase
     .from('contest_settings')
     .select('end_time')
     .single();
 
   if (contestError) {
-    showError('コンテスト設定の取得に失敗しました: ' + contestError.message);
+    showError(
+      'コンテスト設定の取得に失敗しました: ' +
+      contestError.message
+    );
     return;
   }
 
-  const endTime = contestSettings?.end_time ?? null;
+  const endTime =
+    contestSettings?.end_time ?? null;
 
   // =========================
   // 2) profiles 取得
   // =========================
-  const { data: profiles, error: profilesError } = await supabase
+  const {
+    data: profiles,
+    error: profilesError,
+  } = await supabase
     .from('profiles')
-    .select('user_id, username, grade, score, penalty');
+    .select(
+      'user_id, username, grade, score, penalty'
+    );
 
   if (profilesError) {
-    showError('プロフィールの取得に失敗しました: ' + profilesError.message);
+    showError(
+      'プロフィールの取得に失敗しました: ' +
+      profilesError.message
+    );
     return;
   }
 
+  // 除外対象を順位計算の前に取り除く
+  const visibleProfiles = (profiles ?? []).filter(
+    (profile) =>
+      !isExcludedUsername(profile.username)
+  );
+
   // =========================
-  // 3) submissions 取得（end_time 以前のみ）
+  // 3) submissions 取得
+  // end_time以前の提出のみ
   // =========================
   let subQuery = supabase
     .from('submissions')
-    .select('user_id, problem_id, is_correct, submitted_at');
+    .select(
+      'user_id, problem_id, is_correct, submitted_at'
+    );
 
   if (endTime) {
-    subQuery = subQuery.lte('submitted_at', endTime);
+    subQuery = subQuery.lte(
+      'submitted_at',
+      endTime
+    );
   }
 
-  const { data: submissions, error: subError } = await subQuery;
+  const {
+    data: submissions,
+    error: subError,
+  } = await subQuery;
 
   if (subError) {
-    showError('提出データの取得に失敗しました: ' + subError.message);
+    showError(
+      '提出データの取得に失敗しました: ' +
+      subError.message
+    );
     return;
   }
 
@@ -59,171 +111,350 @@
   // =========================
   const userMap = new Map();
 
-  for (const sub of submissions) {
+  for (const sub of submissions ?? []) {
     const key = sub.user_id;
-    if (!userMap.has(key)) {
-      userMap.set(key, { solvedSet: new Set(), attemptMap: new Map(), lastCorrectAt: null });
-    }
-    const u = userMap.get(key);
 
-    const pid = sub.problem_id;
-    u.attemptMap.set(pid, (u.attemptMap.get(pid) || 0) + 1);
+    if (!userMap.has(key)) {
+      userMap.set(key, {
+        solvedSet: new Set(),
+        attemptMap: new Map(),
+        lastCorrectAt: null,
+      });
+    }
+
+    const userData = userMap.get(key);
+    const problemId = sub.problem_id;
+
+    userData.attemptMap.set(
+      problemId,
+      (
+        userData.attemptMap.get(problemId) || 0
+      ) + 1
+    );
 
     if (sub.is_correct) {
-      u.solvedSet.add(pid);
-      const t = new Date(sub.submitted_at);
-      if (!u.lastCorrectAt || t > u.lastCorrectAt) {
-        u.lastCorrectAt = t;
+      userData.solvedSet.add(problemId);
+
+      const submittedAt =
+        new Date(sub.submitted_at);
+
+      if (
+        !userData.lastCorrectAt ||
+        submittedAt > userData.lastCorrectAt
+      ) {
+        userData.lastCorrectAt =
+          submittedAt;
       }
     }
   }
 
   // 試行10回到達も「解いた問題」に含める
-  for (const [, u] of userMap) {
-    for (const [pid, cnt] of u.attemptMap) {
-      if (cnt >= 10) u.solvedSet.add(pid);
+  for (const [, userData] of userMap) {
+    for (
+      const [problemId, attemptCount]
+      of userData.attemptMap
+    ) {
+      if (attemptCount >= 10) {
+        userData.solvedSet.add(problemId);
+      }
     }
   }
 
   // =========================
   // 5) rankingData 作成
   // =========================
-  const rankingData = profiles.map(p => {
-    const u = userMap.get(p.user_id);
-    const solvedCount = u ? u.solvedSet.size : 0;
-    const lastCorrectAt = u ? u.lastCorrectAt : null;
+  const rankingData = visibleProfiles.map(
+    (profile) => {
+      const userData =
+        userMap.get(profile.user_id);
 
-    const penaltyMs = (p.penalty || 0) * 60 * 1000;
-    const tiebreak = lastCorrectAt
-      ? lastCorrectAt.getTime() + penaltyMs
-      : Infinity;
+      const solvedCount = userData
+        ? userData.solvedSet.size
+        : 0;
 
-    return {
-      user_id: p.user_id,
-      username: p.username || '(名前なし)',
-      grade: p.grade ?? '',
-      score: p.score || 0,
-      solvedCount,
-      tiebreak,
-    };
-  });
+      const lastCorrectAt = userData
+        ? userData.lastCorrectAt
+        : null;
 
-  // score 降順 → tiebreak 昇順
+      const penaltyMs =
+        (profile.penalty || 0) *
+        60 *
+        1000;
+
+      const tiebreak = lastCorrectAt
+        ? lastCorrectAt.getTime() +
+          penaltyMs
+        : Infinity;
+
+      return {
+        user_id: profile.user_id,
+        username:
+          profile.username || '(名前なし)',
+        grade: profile.grade ?? '',
+        score: profile.score || 0,
+        solvedCount,
+        tiebreak,
+      };
+    }
+  );
+
+  // スコア降順 → タイブレーク昇順
   rankingData.sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+
     return a.tiebreak - b.tiebreak;
   });
 
   // 同点同順位
-  for (let i = 0; i < rankingData.length; i++) {
-    if (i === 0) {
-      rankingData[i].rank = 1;
+  for (
+    let index = 0;
+    index < rankingData.length;
+    index++
+  ) {
+    if (index === 0) {
+      rankingData[index].rank = 1;
     } else if (
-      rankingData[i].score === rankingData[i - 1].score &&
-      rankingData[i].tiebreak === rankingData[i - 1].tiebreak
+      rankingData[index].score ===
+        rankingData[index - 1].score &&
+      rankingData[index].tiebreak ===
+        rankingData[index - 1].tiebreak
     ) {
-      rankingData[i].rank = rankingData[i - 1].rank;
+      rankingData[index].rank =
+        rankingData[index - 1].rank;
     } else {
-      rankingData[i].rank = i + 1;
+      rankingData[index].rank =
+        index + 1;
     }
   }
 
   // =========================
-  // 6) 学年フィルター（カスタムセレクト）
+  // 6) 学年フィルター
   // =========================
-  const grades = [...new Set(profiles.map(p => p.grade).filter(g => g != null && g !== ''))].sort();
+  const grades = [
+    ...new Set(
+      visibleProfiles
+        .map((profile) => profile.grade)
+        .filter(
+          (grade) =>
+            grade != null &&
+            grade !== ''
+        )
+    ),
+  ].sort();
 
-  const selectWrap = document.getElementById('gradeSelect');
-  const trigger    = document.getElementById('gradeSelectTrigger');
-  const labelEl    = document.getElementById('gradeSelectLabel');
-  const dropdown   = document.getElementById('gradeSelectDropdown');
+  const selectWrap =
+    document.getElementById(
+      'gradeSelect'
+    );
+
+  const trigger =
+    document.getElementById(
+      'gradeSelectTrigger'
+    );
+
+  const labelElement =
+    document.getElementById(
+      'gradeSelectLabel'
+    );
+
+  const dropdown =
+    document.getElementById(
+      'gradeSelectDropdown'
+    );
+
   let currentValue = '';
 
   // 「すべて」を先頭に追加
-  const allLi = document.createElement('li');
-  allLi.className = 'custom-select-option selected';
-  allLi.dataset.value = '';
-  allLi.textContent = 'すべて';
-  dropdown.appendChild(allLi);
+  const allOption =
+    document.createElement('li');
 
-  for (const g of grades) {
-    const li = document.createElement('li');
-    li.className = 'custom-select-option';
-    li.dataset.value = g;
-    li.textContent = g;
-    dropdown.appendChild(li);
+  allOption.className =
+    'custom-select-option selected';
+
+  allOption.dataset.value = '';
+  allOption.textContent = 'すべて';
+
+  dropdown.appendChild(allOption);
+
+  for (const grade of grades) {
+    const option =
+      document.createElement('li');
+
+    option.className =
+      'custom-select-option';
+
+    option.dataset.value = grade;
+    option.textContent = grade;
+
+    dropdown.appendChild(option);
   }
 
-  trigger.addEventListener('click', () => {
-    selectWrap.classList.toggle('open');
-  });
+  trigger.addEventListener(
+    'click',
+    () => {
+      selectWrap.classList.toggle('open');
+    }
+  );
 
-  document.addEventListener('click', (e) => {
-    if (!selectWrap.contains(e.target)) selectWrap.classList.remove('open');
-  });
+  document.addEventListener(
+    'click',
+    (event) => {
+      if (
+        !selectWrap.contains(event.target)
+      ) {
+        selectWrap.classList.remove(
+          'open'
+        );
+      }
+    }
+  );
 
-  dropdown.addEventListener('click', (e) => {
-    const li = e.target.closest('.custom-select-option');
-    if (!li) return;
+  dropdown.addEventListener(
+    'click',
+    (event) => {
+      const option = event.target.closest(
+        '.custom-select-option'
+      );
 
-    currentValue = li.dataset.value;
-    labelEl.textContent = currentValue === '' ? 'すべて' : currentValue;
+      if (!option) return;
 
-    if (currentValue) trigger.classList.add('has-value');
-    else trigger.classList.remove('has-value');
+      currentValue =
+        option.dataset.value;
 
-    dropdown.querySelectorAll('.custom-select-option').forEach(opt => {
-      opt.classList.toggle('selected', opt.dataset.value === currentValue);
-    });
+      labelElement.textContent =
+        currentValue === ''
+          ? 'すべて'
+          : currentValue;
 
-    selectWrap.classList.remove('open');
-    renderTable(currentValue);
-  });
+      if (currentValue) {
+        trigger.classList.add(
+          'has-value'
+        );
+      } else {
+        trigger.classList.remove(
+          'has-value'
+        );
+      }
+
+      dropdown
+        .querySelectorAll(
+          '.custom-select-option'
+        )
+        .forEach((item) => {
+          item.classList.toggle(
+            'selected',
+            item.dataset.value ===
+              currentValue
+          );
+        });
+
+      selectWrap.classList.remove('open');
+
+      renderTable(currentValue);
+    }
+  );
 
   // =========================
   // 7) テーブル描画
   // =========================
   function renderTable(filterGrade) {
-    const tbody = document.getElementById('rankingBody');
+    const tbody =
+      document.getElementById(
+        'rankingBody'
+      );
+
     const filtered = filterGrade
-      ? rankingData.filter(r => String(r.grade) === String(filterGrade))
+      ? rankingData.filter(
+          (row) =>
+            String(row.grade) ===
+            String(filterGrade)
+        )
       : rankingData;
 
     if (filtered.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">データがありません。</td></tr>';
+      tbody.innerHTML = `
+        <tr>
+          <td
+            colspan="5"
+            class="empty-msg"
+          >
+            データがありません。
+          </td>
+        </tr>
+      `;
+
       return;
     }
 
     let rows;
+
     if (filterGrade) {
       rows = [];
-      for (let i = 0; i < filtered.length; i++) {
+
+      for (
+        let index = 0;
+        index < filtered.length;
+        index++
+      ) {
         let rank;
-        if (i === 0) {
+
+        if (index === 0) {
           rank = 1;
         } else if (
-          filtered[i].score === filtered[i - 1].score &&
-          filtered[i].tiebreak === filtered[i - 1].tiebreak
+          filtered[index].score ===
+            filtered[index - 1].score &&
+          filtered[index].tiebreak ===
+            filtered[index - 1].tiebreak
         ) {
-          rank = rows[i - 1]._filteredRank;
+          rank =
+            rows[index - 1]._filteredRank;
         } else {
-          rank = i + 1;
+          rank = index + 1;
         }
-        rows.push({ ...filtered[i], _filteredRank: rank });
+
+        rows.push({
+          ...filtered[index],
+          _filteredRank: rank,
+        });
       }
     } else {
-      rows = filtered.map(r => ({ ...r, _filteredRank: r.rank }));
+      rows = filtered.map((row) => ({
+        ...row,
+        _filteredRank: row.rank,
+      }));
     }
 
-    tbody.innerHTML = rows.map(r => `
-      <tr>
-        <td class="rank-cell">${r._filteredRank}</td>
-        <td>${escHtml(r.username)}</td>
-        <td>${escHtml(String(r.grade))}</td>
-        <td class="score-cell">${r.score.toLocaleString()}</td>
-        <td>${r.solvedCount}</td>
-      </tr>`
-    ).join('');
+    tbody.innerHTML = rows
+      .map(
+        (row) => `
+          <tr>
+            <td class="rank-cell">
+              ${row._filteredRank}
+            </td>
+
+            <td>
+              ${escapeHtml(row.username)}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                String(row.grade)
+              )}
+            </td>
+
+            <td class="score-cell">
+              ${row.score.toLocaleString()}
+            </td>
+
+            <td>
+              ${row.solvedCount}
+            </td>
+          </tr>
+        `
+      )
+      .join('');
   }
 
   // =========================
@@ -234,15 +465,32 @@
   // =========================
   // Utils
   // =========================
-  function escHtml(str) {
-    return str.replace(/[&<>"']/g, c => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
+  function escapeHtml(value) {
+    return String(value).replace(
+      /[&<>"']/g,
+      (character) =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        })[character]
+    );
   }
 
-  function showError(msg) {
-    document.getElementById('rankingBody').innerHTML =
-      `<tr><td colspan="5" class="error-msg">⚠️ ${msg}</td></tr>`;
+  function showError(message) {
+    document.getElementById(
+      'rankingBody'
+    ).innerHTML = `
+      <tr>
+        <td
+          colspan="5"
+          class="error-msg"
+        >
+          ⚠️ ${message}
+        </td>
+      </tr>
+    `;
   }
-
 })();
