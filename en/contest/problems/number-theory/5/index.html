@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-problem-number="N5">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Problem N5 | HiGA Math Contest</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/problems-detail.css">
+  <link rel="stylesheet" href="/css/problem-solution.css">
+  <script type="module" src="/js/supabase-client.js"></script>
+  <script type="module" src="/js/redirect.js"></script>
+  <script src="/js/hamburger-menu.js" defer></script>
+  <script type="module" src="/js/signup.js"></script>
+  <script type="module" src="/js/calculator.js"></script>
+  <script type="module" src="/js/calculator-en.js"></script>
+  <script type="module" src="/js/problems-detail.js"></script>
+  <script type="module" src="/js/problem-solution-en.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body class="problem-bg">
+  <header class="problem-header">
+    <a class="back-btn" href="/en/contest/problems/">← Back</a>
+    <div class="problem-meta">
+      <div class="problem-title">Loading...</div>
+      <div class="problem-sub">Points: <span class="pts">--</span></div>
+    </div>
+  </header>
+
+  <main class="problem-wrap">
+
+    <my-calculator></my-calculator>
+
+    <section class="panel statement-panel">
+      <div class="statement-heading">
+        <h2>Problem</h2>
+
+        <button
+          class="solution-open-btn"
+          id="solution-open-btn"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="solution-modal"
+          aria-expanded="false"
+          hidden
+        >
+          View solution
+        </button>
+      </div>
+      <p>
+        Find the remainder when \(2^{2026}\) is divided by \(17\).
+      </p>
+    </section>
+
+    <section class="panel submit-panel">
+      <h2>Answer</h2>
+      <form id="answer-form">
+        <div class="answer-row">
+          <input
+            type="text"
+            name="answer"
+            placeholder="Enter your answer"
+            autocomplete="off"
+            required
+          >
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+
+      <p id="remaining-count" class="remaining-msg">Loading...</p>
+
+      <p class="submit-note">
+        Enter your answer as a non-negative integer, following the instructions in the problem.<br>
+        Do not include spaces in your answer, as they may cause an incorrect judging result.
+      </p>
+    </section>
+  </main>
+
+  <dialog
+    class="solution-modal"
+    id="solution-modal"
+    aria-labelledby="solution-modal-title"
+  >
+    <div class="solution-modal-inner">
+      <div class="solution-modal-head">
+        <h2 id="solution-modal-title">Solution</h2>
+
+        <button
+          class="solution-close-btn"
+          id="solution-close-btn"
+          type="button"
+          aria-label="Close solution"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="solution-modal-body">
+        <p class="solution-answer">
+          <strong>Answer: </strong>
+          <span id="solution-answer"></span>
+        </p>
+
+        <div id="solution-explanation"></div>
+      </div>
+    </div>
+  </dialog>
+
+
+  <footer class="problem-footer">
+    © HiGA Math Contest
+  </footer>
+</body>
+</html>
